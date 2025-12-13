@@ -1,0 +1,43 @@
+<main class="main-content">
+  <div class="page-header">
+    <h2 class="page-title">PATIENT</h2>
+    <button class="add-patient-btn" onclick="openPatientModal('add')">+ Add Patient</button>
+  </div>
+
+  <div class="patient-section">
+    <div class="patient-header">
+      <h3 class="patient-records-title">Patient Records</h3>
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search patients...">
+      </div>
+    </div>
+
+    <table class="patient-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Last Visit</th>
+          <th>Prescription</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rechelle P. Aldea</td>
+          <td>Catubig</td>
+          <td>07-05-2024</td>
+          <td>
+            +2.25 | -0.50 | 90<br>
+            +2.25 | -0.50 | 90
+          </td>
+          <td><span class="status active">Active</span></td>
+          <td>
+            <button class="action-btn">⋮</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

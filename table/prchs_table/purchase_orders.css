@@ -1,0 +1,110 @@
+.purchase-orders {
+  font-family: Arial, sans-serif;
+  padding: 1rem;
+}
+
+/* Header */
+.purchase-orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.purchase-orders-header h1 {
+  margin: 0;
+}
+
+.purchase-orders-header p {
+  margin: 0.25rem 0 0 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.new-order-btn {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Filters */
+.purchase-orders-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.search-orders,
+.filter-status,
+.filter-priority {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Table */
+.purchase-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.purchase-orders-table th,
+.purchase-orders-table td {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+/* Priority colors */
+.priority.high {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+.priority.medium {
+  background-color: #fef9c3;
+  color: #92400e;
+}
+.priority.low {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* Status colors */
+.status.pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.status.shipped {
+  background-color: #dbeafe;
+  color: #1e3a8a;
+}
+.status.delivered {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* Actions */
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.25rem;
+  font-size: 1rem;
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagares Clinic</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-background"></div>
+  <div class="header-container">
+    <div class="logo-section">
+      <div class="logo">
+        <img src="../../common/picture/logo.jpg" alt="Logo">
+      </div>
+      <span class="clinic-name">Bagares Optical Clinic</span>
+    </div>
+    <nav class="navigation">
+      <div class="nav-dropdown">
+        <a href="#" class="nav-link" onclick="toggleDropdown(event)">
+          Inventory
+          <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </a>
+        <ul class="nav-dropdown-menu" id="inventory-dropdown">
+          <li><a href="#" class="dropdown-item" onclick="changePage('inventory', event)">Inventory</a></li>
+          <li><a href="../manager/purchase_orders/purchase_order.html" class="dropdown-item" onclick="changePage('purchase-orders', event)">Purchase Orders</a></li>
+          <li><a href="../manager/suppliers/suppliers.html" class="dropdown-item" onclick="changePage('suppliers', event)">Suppliers</a></li>
+        </ul>
+      </div>
+      <a href="#" class="nav-link" onclick="changePage('sales-billing', event)">Sales & Billing</a>
+    </nav>
+    <div class="icons-section">
+      <button class="icon-button" onclick="handleNotification()">
+        <img src="https://cdn.iconsax.io/icons/free/rounded/notifications/twotone/notification_alert-message-update-reminder-bell-temp.webp" alt="Notification Icon" class="icon-img">
+        <span class="notification-badge"></span>
+      </button>
+      <button class="icon-button" onclick="handleProfile()">
+        <img src="https://cdn.iconsax.io/icons/free/rounded/users/bold/user-square_user-profile-person-account-square-individual-identity-temp.webp" alt="Profile Icon" class="icon-img">
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="page-content">
+  <div class="sales-billing-header">
+    <h1>Sales & Billing</h1>
+    <div class="controls">
+      <input type="text" id="customerSearch" placeholder="Search customer...">
+      <button class="btn-primary" onclick="openNewSaleModal()">New Sale</button>
+    </div>
+  </div>
+  <div class="sales-summary">
+    <div class="summary-card">
+      <h3>Total Sales Today</h3>
+      <p id="totalSalesToday">$0.00</p>
+    </div>
+    <div class="summary-card">
+      <h3>Pending Payments</h3>
+      <p id="pendingPayments">$0.00</p>
+    </div>
+    <div class="summary-card">
+      <h3>Revenue This Month</h3>
+      <p id="monthlyRevenue">$0.00</p>
+    </div>
+  </div>
+  <div class="sales-table-container">
+    <table id="salesTable">
+      <thead>
+        <tr>
+          <th>Invoice #</th>
+          <th>Customer</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="salesTableBody"></tbody>
+    </table>
+  </div>
+  <div id="newSaleModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>New Sale</h2>
+      <div class="form-group">
+        <label for="customerName">Customer Name</label>
+        <input type="text" id="customerName" placeholder="Enter customer name">
+      </div>
+      <div class="form-group">
+        <label for="productSelect">Product</label>
+        <select id="productSelect">
+          <option value="">Select Product</option>
+          <option value="lenses">Lenses</option>
+          <option value="frames">Frames</option>
+          <option value="accessories">Accessories</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" min="1" value="1">
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" step="0.01" placeholder="0.00">
+      </div>
+      <button class="btn-primary" onclick="addToCart()">Add to Cart</button>
+      <div id="cartItems"></div>
+      <button class="btn-primary" onclick="processSale()">Process Sale</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

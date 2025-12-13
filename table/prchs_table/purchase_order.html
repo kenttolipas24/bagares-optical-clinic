@@ -1,0 +1,103 @@
+<div class="purchase-orders">
+  <div class="purchase-orders-header">
+    <div>
+      <h1>Purchase Orders</h1>
+      <p>Track and manage purchase orders with enhanced details</p>
+    </div>
+    <button class="new-order-btn">+ New Order</button>
+  </div>
+
+  <div class="purchase-orders-filters">
+    <input type="text" placeholder="Search orders..." class="search-orders">
+    <select class="filter-status">
+      <option>All Status</option>
+      <option>Pending</option>
+      <option>Shipped</option>
+      <option>Delivered</option>
+    </select>
+    <select class="filter-priority">
+      <option>Priority</option>
+      <option>High</option>
+      <option>Medium</option>
+      <option>Low</option>
+    </select>
+  </div>
+
+  <table class="purchase-orders-table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Supplier</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Priority</th>
+        <th>Order Date</th>
+        <th>Expected</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>PO-2024-001</td>
+        <td>Luxottica</td>
+        <td>15 items</td>
+        <td>₱3,750</td>
+        <td><span class="badge priority high">high</span></td>
+        <td>2024-06-30</td>
+        <td>2024-07-05</td>
+        <td><span class="badge status pending">Pending</span></td>
+        <td>
+          <button class="action-btn">👁️</button>
+          <button class="action-btn">✏️</button>
+          <button class="action-btn">📄</button>
+        </td>
+      </tr>
+      <tr>
+        <td>PO-2024-002</td>
+        <td>Carl Zeiss</td>
+        <td>25 items</td>
+        <td>₱2,250</td>
+        <td><span class="badge priority medium">medium</span></td>
+        <td>2024-06-28</td>
+        <td>2024-07-03</td>
+        <td><span class="badge status shipped">Shipped</span></td>
+        <td>
+          <button class="action-btn">👁️</button>
+          <button class="action-btn">✏️</button>
+          <button class="action-btn">📄</button>
+        </td>
+      </tr>
+      <tr>
+        <td>PO-2024-003</td>
+        <td>Essilor</td>
+        <td>10 items</td>
+        <td>₱1,700</td>
+        <td><span class="badge priority low">low</span></td>
+        <td>2024-06-25</td>
+        <td>2024-06-30</td>
+        <td><span class="badge status delivered">Delivered</span></td>
+        <td>
+          <button class="action-btn">👁️</button>
+          <button class="action-btn">✏️</button>
+          <button class="action-btn">📄</button>
+        </td>
+      </tr>
+      <tr>
+        <td>PO-2024-004</td>
+        <td>Hoya Vision</td>
+        <td>20 items</td>
+        <td>₱1,300</td>
+        <td><span class="badge priority medium">medium</span></td>
+        <td>2024-07-01</td>
+        <td>2024-07-08</td>
+        <td><span class="badge status pending">Pending</span></td>
+        <td>
+          <button class="action-btn">👁️</button>
+          <button class="action-btn">✏️</button>
+          <button class="action-btn">📄</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
