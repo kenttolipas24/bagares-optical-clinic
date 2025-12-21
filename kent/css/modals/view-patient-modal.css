@@ -1,0 +1,243 @@
+/* View Patient Modal Styles - Scoped to .view-patient-modal only */
+
+/* Base modal container */
+.view-patient-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+}
+
+.view-patient-modal.show {
+  display: block;
+}
+
+.view-patient-modal .modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.view-patient-modal .modal-content {
+  position: relative;
+  background: white;
+  max-width: 800px;
+  margin: 2rem auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 4rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.view-patient-modal .modal-body {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.view-patient-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.view-patient-modal .modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.view-patient-modal .modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #6b7280;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+}
+
+.view-patient-modal .modal-close:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* Unique sections - no need to prefix these further */
+.view-patient-modal .patient-header-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.view-patient-modal .patient-info-left h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.view-patient-modal .patient-detail-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.view-patient-modal .patient-detail-label {
+  color: #6b7280;
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.view-patient-modal .patient-detail-value {
+  color: #111827;
+  font-weight: 400;
+}
+
+.view-patient-modal .patient-status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #22c55e;
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.view-patient-modal .medical-info-section {
+  padding: 1.5rem;
+}
+
+.view-patient-modal .medical-info-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.view-patient-modal .medical-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.view-patient-modal .medical-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.view-patient-modal .medical-info-item label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.view-patient-modal .medical-info-item span {
+  font-size: 1rem;
+  color: #111827;
+  font-weight: 500;
+}
+
+.view-patient-modal .prescription-section {
+  margin-top: 2rem;
+}
+
+.view-patient-modal .prescription-section h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.view-patient-modal .prescription-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.view-patient-modal .prescription-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.view-patient-modal .prescription-card h5 {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.view-patient-modal .prescription-card p {
+  font-size: 1.125rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+.view-patient-modal .modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+}
+
+.view-patient-modal .btn-submit {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-patient-modal .btn-submit:hover {
+  background: #1f2937;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .view-patient-modal .modal-content {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+
+  .view-patient-modal .patient-header-section {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .view-patient-modal .medical-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .view-patient-modal .prescription-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,20 +1,21 @@
-// Load the patient table HTML content into the placeholder
+// Load the action dropdown HTML content
 fetch('../components/modals/action-modal.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('action-dropdown-placeholder').innerHTML = data;
     
-    // Initialize table after loading
-    initializePatientTable();
+    // Initialize table and dropdown listeners after loading
+    initializePatientTable();        // assuming this function exists elsewhere
+    setupDropdownListeners();
   })
   .catch(error => {
-    console.error('Error loading patient table:', error);
+    console.error('Error loading action dropdown:', error);
   });
 
-// Store current patient ID
+// Store current patient ID globally
 let currentPatientId = null;
 
-// Toggle action dropdown
+// Toggle action dropdown (three dots menu)
 window.toggleActionDropdown = function(event, patientId) {
   event.stopPropagation();
   
@@ -23,7 +24,7 @@ window.toggleActionDropdown = function(event, patientId) {
   const button = event.currentTarget;
   const isOpen = dropdown.classList.contains('show');
   
-  // Close if already open
+  // If clicking the same button that's already open → close it
   if (isOpen && currentPatientId === patientId) {
     closeAllDropdowns();
     return;
@@ -32,14 +33,14 @@ window.toggleActionDropdown = function(event, patientId) {
   // Close any open dropdown first
   closeAllDropdowns();
   
-  // Store current patient ID
+  // Set the current patient ID
   currentPatientId = patientId;
   
-  // Position dropdown relative to button
+  // Position dropdown near the button
   const rect = button.getBoundingClientRect();
   dropdown.style.position = 'fixed';
   dropdown.style.top = `${rect.bottom + 5}px`;
-  dropdown.style.left = `${rect.left - 150}px`; // Align to the right of button
+  dropdown.style.left = `${rect.left - 150}px`; // adjust as needed for alignment
   
   // Show dropdown and overlay
   dropdown.classList.add('show');
@@ -53,37 +54,41 @@ window.closeAllDropdowns = function() {
   
   if (dropdown) dropdown.classList.remove('show');
   if (overlay) overlay.classList.remove('show');
-  currentPatientId = null;
+  
+  // Optional: clear ID when closing (safer)
+  // currentPatientId = null;
 }
 
 // View patient
 window.viewPatient = function() {
-  console.log('View patient:', currentPatientId);
+  console.log('View patient ID:', currentPatientId);
   
-  // Get patient data
   let patients = JSON.parse(localStorage.getItem('patients')) || [];
   const patient = patients.find(p => p.id === currentPatientId);
   
   if (patient) {
-    // Call your existing view patient modal function
-    // window.openViewPatientModal(patient);
-    alert(`Viewing patient: ${patient.firstName} ${patient.lastName}\n\nImplement your view patient modal here.`);
+    // CRITICAL FIX: Ensure currentPatientId is set so the "Edit" button inside view modal works
+    currentPatientId = patient.id;
+    
+    // Open the view patient modal
+    openViewPatientModal(patient);
+  } else {
+    alert('Patient not found. Please refresh the page.');
+    console.error('Patient not found for ID:', currentPatientId);
   }
   
   closeAllDropdowns();
 }
 
-// Edit patient
+// Edit patient (directly from dropdown)
 window.editPatient = function() {
-  console.log('Edit patient:', currentPatientId);
+  console.log('Edit patient ID:', currentPatientId);
   
-  // Get patient data
   let patients = JSON.parse(localStorage.getItem('patients')) || [];
   const patient = patients.find(p => p.id === currentPatientId);
   
   if (patient) {
-    // Call your existing edit patient modal function
-    window.openPatientModal('edit', patient);
+    openPatientModal('edit', patient);  // This function is defined in patient-modal.js
   }
   
   closeAllDropdowns();
@@ -91,22 +96,25 @@ window.editPatient = function() {
 
 // Remove patient
 window.removePatient = function() {
-  console.log('Remove patient:', currentPatientId);
+  console.log('Remove patient ID:', currentPatientId);
   
-  // Get patient data
   let patients = JSON.parse(localStorage.getItem('patients')) || [];
   const patient = patients.find(p => p.id === currentPatientId);
   
   if (patient) {
     if (confirm(`Are you sure you want to remove ${patient.firstName} ${patient.lastName}?`)) {
-      // Remove patient from array
+      // Remove from array
       patients = patients.filter(p => p.id !== currentPatientId);
       
-      // Update localStorage
+      // Save back to localStorage
       localStorage.setItem('patients', JSON.stringify(patients));
       
-      // Refresh table
-      updatePatientTable();
+      // Refresh the patient table
+      if (typeof updatePatientTable === 'function') {
+        updatePatientTable();
+      } else if (typeof initializePatientTable === 'function') {
+        initializePatientTable();
+      }
       
       alert('Patient removed successfully.');
     }
@@ -115,22 +123,22 @@ window.removePatient = function() {
   closeAllDropdowns();
 }
 
-// Setup dropdown listeners
+// Setup global listeners for closing dropdown
 function setupDropdownListeners() {
-  // Close dropdown when clicking outside
+  // Close when clicking outside
   document.addEventListener('click', (event) => {
     const dropdown = document.getElementById('actionDropdown');
     if (!dropdown) return;
     
     const isClickInside = dropdown.contains(event.target) || 
-                         event.target.classList.contains('action-btn');
+                          event.target.classList.contains('action-btn');
     
     if (!isClickInside) {
       closeAllDropdowns();
     }
   });
 
-  // Close dropdown on escape key
+  // Close on Escape key
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeAllDropdowns();

@@ -1,0 +1,86 @@
+<!-- View Patient Modal -->
+<div id="viewPatientModal" class="modal view-patient-modal">
+  <div class="modal-overlay" onclick="closeViewPatientModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Patient Details</h2>
+      <button class="modal-close" onclick="closeViewPatientModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="patient-header-section">
+        <div class="patient-info-left">
+          <h2 id="viewPatientName">Patient Name</h2>
+          <div class="patient-detail-row">
+            <span class="patient-detail-label">Address:</span>
+            <span class="patient-detail-value" id="viewPatientAddress">-</span>
+          </div>
+          <div class="patient-detail-row">
+            <span class="patient-detail-label">Email:</span>
+            <span class="patient-detail-value" id="viewPatientEmail">-</span>
+          </div>
+          <div class="patient-detail-row">
+            <span class="patient-detail-label">Age:</span>
+            <span class="patient-detail-value" id="viewPatientAge">-</span>
+          </div>
+          <div class="patient-detail-row">
+            <span class="patient-detail-label">Birthdate:</span>
+            <span class="patient-detail-value" id="viewPatientBirthdate">-</span>
+          </div>
+          <div class="patient-detail-row">
+            <span class="patient-detail-label">Sex:</span>
+            <span class="patient-detail-value" id="viewPatientSex">-</span>
+          </div>
+        </div>
+        <div class="patient-info-right">
+          <span class="patient-status-badge" id="viewPatientStatus">Active</span>
+        </div>
+      </div>
+
+      <div class="medical-info-section">
+        <h3>Medical Information</h3>
+        
+        <div class="medical-grid">
+          <div class="medical-info-item">
+            <label>Last Visit:</label>
+            <span id="viewLastVisit">-</span>
+          </div>
+          <div class="medical-info-item">
+            <label>Frame:</label>
+            <span id="viewFrame">Face to face</span>
+          </div>
+          <div class="medical-info-item">
+            <label>Lens:</label>
+            <span id="viewLens">kk clear</span>
+          </div>
+        </div>
+
+        <div class="prescription-section">
+          <h4>Current Prescription</h4>
+          <div class="prescription-grid">
+            <div class="prescription-card">
+              <h5>Sphere (Right)</h5>
+              <p id="viewSphereRight">+2.25</p>
+            </div>
+            <div class="prescription-card">
+              <h5>OD (Left Eye)</h5>
+              <p id="viewODLeft">+2.25 | -0.50 | 90</p>
+            </div>
+            <div class="prescription-card">
+              <h5>Add (Right)</h5>
+              <p id="viewAddRight">2.25</p>
+            </div>
+            <div class="prescription-card">
+              <h5>PD (Left)</h5>
+              <p id="viewPDLeft">kk</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-submit" onclick="editPatientFromView()">Edit Patient</button>
+    </div>
+  </div>
+</div>
