@@ -2,7 +2,7 @@
   <div class="appointment-container">
     <div class="appointment-header">
       <h1>Appointment</h1>
-      <button class="btn-add" id="appmnt-btn">+ Add Appointment</button>
+      <button class="btn-add"  onclick="openAddAppointmentModal()">+ Add Appointment</button>
     </div>
 
     <div class="appointment-content">
@@ -30,7 +30,7 @@
                 <td>01/01/2025<br>10:00 AM</td>
                 <td>Consultation</td>
                 <td><span class="status-badge">Pending</span></td>
-                <td><button class="actions-btn">⋮</button></td>
+                <td><button class="actions-btn" onclick="openAppointmentActionModal(event, 'appt-001')">⋮</button></td>
               </tr>
             </tbody>
           </table>

@@ -122,7 +122,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="picture/logo.jpg" alt="Logo">
+            <img src="../kent/assets/picture/logo.jpg" alt="Logo">
         </div>
         <h2>Bagares Optical Clinic</h2>
         <p>Management System</p>
@@ -139,7 +139,7 @@
                 <label><input type="checkbox"> Remember me</label>
                 <a href="#">Forgot password?</a>
             </div>
-            <button onclick="login()">Sign In</button>
+            <button onclick="login()">Log in</button>
             <div class="signup-link">
                 <p>Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
             </div>
@@ -187,12 +187,12 @@
 
             // Hardcoded test login accounts
             if (username === "receptionist" && password === "1234") {
-                window.location.href = "receptionist.html"; 
+                window.location.href = "../kent/pages/receptionist.html"; 
                 return;
             } 
 
             if (username === "manager" && password === "1234") {
-                window.location.href = "manager.html";
+                window.location.href = "../kent/pages/manager.html";
                 return;
             } 
 

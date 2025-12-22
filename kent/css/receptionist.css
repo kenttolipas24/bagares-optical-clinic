@@ -4,3 +4,15 @@
   margin: auto;
   padding: 40px;
 }
+
+/* APPOINTMENT SECTION */
+#appointment-section {
+  display: none; 
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.appointment-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
