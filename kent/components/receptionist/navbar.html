@@ -1,48 +1,34 @@
-<!--<nav class="navbar">
-  <div class="brand-box">
-    <img src="picture/logo.jpg" alt="Logo" class="logo">
-    <span class="brand-name">Bagares Optical Clinic</span>
-  </div>
-
-  <ul class="navbar-links">
-    <li><a href="#">Patients</a></li>
-    <li><a href="#">Appointments</a></li>
-  </ul>
-
-  <div class="navbar-right">
-    <button class="icon-btn">🔔</button>
-    <button class="icon-btn">⚫</button>
-  </div>
-</nav>-->
 <header class="header">
   <div class="header-background"></div>
   <div class="header-container">
     <div class="logo-section">
-    <div class="logo">
-      <img src="../assets/picture/logo.jpg" alt="Logo">
+      <div class="logo">
+        <img src="../assets/picture/logo.jpg" alt="Logo">
+      </div>
+      <span class="clinic-name">Bagares Optical Clinic</span>
     </div>
-    <span class="clinic-name">Bagares Optical Clinic</span>
-    </div>
+    
     <nav class="navigation">
-    <a href="#patient" class="nav-link">Patient</a>
-    <a href="#appointment" class="nav-link" onclick="showAppointmentSection(event)">Appointment</a>
-    <a href="#Sales&Billing" class="nav-link">Sales & Billing</a>
+      <a href="#patient" class="nav-link">Patient</a>
+      <a href="#appointment" class="nav-link">Appointment</a>
+      <a href="#Sales&Billing" class="nav-link">Sales & Billing</a>
     </nav>
+    
     <div class="icons-section">
-    <button class="icon-button" onclick="handleNotification()">
-      <img 
-        src="https://cdn.iconsax.io/icons/free/rounded/notifications/twotone/notification_alert-message-update-reminder-bell-temp.webp" 
-        alt="Notification Icon" 
-        class="icon-img">
-      <span class="notification-badge"></span>
-    </button>
-    <button class="icon-button" onclick="toggleProfileDropdown()">
-      <img 
-        src="https://cdn.iconsax.io/icons/free/rounded/users/bold/user-square_user-profile-person-account-square-individual-identity-temp.webp" 
-        alt="Profile Icon" 
-        class="icon-img">
-    </button>
+      <button class="icon-button" onclick="handleNotification()">
+        <svg class="icon-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="notification-badge"></span>
+      </button>
+      
+      <button class="icon-button" onclick="toggleProfileDropdown(event)">
+        <svg class="icon-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </button>
     </div>
   </div>
 </header>
-
