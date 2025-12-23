@@ -1,119 +1,130 @@
-// Load profile dropdown modal HTML
-fetch('../components/modals/profile-dropdown.html')
-  .then(res => res.text())
+// profile-dropdown.js - Fixed & Valid Version
+
+// Detect user role based on current page path
+function getUserRole() {
+  const path = window.location.pathname;
+  if (path.includes('/manager/') || path.includes('manager.html')) {
+    return 'manager';
+  } else if (path.includes('/receptionist/') || path.includes('receptionist.html')) {
+    return 'receptionist';
+  } else if (path.includes('/optometrist/') || path.includes('optometrist.html')) {
+    return 'optometrist';
+  }
+  return 'receptionist';
+}
+
+// Load the correct profile dropdown HTML based on role
+const role = getUserRole();
+
+let htmlPath;
+if (role === 'manager') {
+  htmlPath = '../components/modals/manager/profile-dropdown.html';
+} else if (role === 'optometrist') {
+  htmlPath = '../components/modals/optometrist/profile-dropdown.html';
+} else {
+  htmlPath = '../components/modals/profile-dropdown.html';
+}
+
+console.log(`Loading profile dropdown for role: ${role}`);
+console.log(`From path: ${htmlPath}`);
+
+fetch(htmlPath)
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`Failed to load ${htmlPath} - Status: ${res.status}`);
+    }
+    return res.text();
+  })
   .then(data => {
     document.getElementById('profile-dropdown-placeholder').innerHTML = data;
-    
-    // Setup listeners after the modal is loaded
-    setupPatientDropdownListeners();
+
+    setupProfileDropdownListeners();
   })
   .catch(error => {
-    console.error('Error loading profile dropdown modal:', error);
+    console.error('Error loading profile dropdown:', error);
+    // Optional: load a safe default if manager version missing
+    if (role === 'manager') {
+      console.warn('Manager dropdown failed, falling back to default');
+      fetch('../components/modals/profile-dropdown.html')
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('profile-dropdown-placeholder').innerHTML = data;
+          setupProfileDropdownListeners();
+        });
+    }
   });
 
-// Setup profile dropdown listeners
-function setupPatientDropdownListeners() {
-    // Wait a bit to ensure DOM is fully loaded
-    setTimeout(() => {
-        const profileModal = document.getElementById('profileModal');
-        
-        if (!profileModal) {
-            console.error('Profile modal not found');
-            return;
-        }
+// Correct function name + improved listener setup
+function setupProfileDropdownListeners() {
+  const profileModal = document.getElementById('profileModal');
 
-        // Handle menu item clicks
-        const menuItems = profileModal.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                const menuText = item.querySelector('.menu-text').textContent;
-                
-                // Handle logout separately
-                if (item.classList.contains('logout')) {
-                    console.log('Logging out...');
-                        
-                        window.location.href = '../login page.html';
-                } else {
-                    console.log(`Navigating to: ${menuText}`);
-                    // Add navigation logic here
-                    handleMenuNavigation(menuText);
-                }
-                
-                // Close modal after click
-                profileModal.classList.remove('active');
-            });
-        });
+  if (!profileModal) {
+    console.error('Profile modal (#profileModal) not found in loaded HTML');
+    return;
+  }
 
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && profileModal.classList.contains('active')) {
-                profileModal.classList.remove('active');
-            }
-        });
-    }, 100);
+  // Menu item clicks
+  const menuItems = profileModal.querySelectorAll('.menu-item');
+  menuItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const text = item.querySelector('.menu-text')?.textContent.trim();
+
+      if (item.classList.contains('logout')) {
+        console.log('Logging out...');
+        window.location.href = '../login page.html';
+      } else {
+        console.log(`Selected: ${text}`);
+        handleMenuNavigation(text);
+      }
+
+      // Close modal
+      profileModal.classList.remove('active');
+    });
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && profileModal.classList.contains('active')) {
+      profileModal.classList.remove('active');
+    }
+  });
 }
 
-// Function called from onclick in navbar
+// Toggle dropdown from navbar button
 function toggleProfileDropdown(event) {
-    if (event) {
-        event.stopPropagation();
-    }
-    
-    const profileModal = document.getElementById('profileModal');
-    if (profileModal) {
-        profileModal.classList.toggle('active');
-    }
+  if (event) event.stopPropagation();
+
+  const profileModal = document.getElementById('profileModal');
+  if (profileModal) {
+    profileModal.classList.toggle('active');
+  }
 }
 
-// Close modal when clicking outside
+// Close when clicking outside
 document.addEventListener('click', (e) => {
-    const profileModal = document.getElementById('profileModal');
-    const profileBtn = document.querySelector('.icon-button:last-child');
-    
-    if (profileModal && profileBtn) {
-        if (!profileModal.contains(e.target) && !profileBtn.contains(e.target)) {
-            profileModal.classList.remove('active');
-        }
+  const profileModal = document.getElementById('profileModal');
+  const profileButton = document.querySelector('.icon-button:last-child');
+
+  if (profileModal && profileButton) {
+    if (!profileModal.contains(e.target) && !profileButton.contains(e.target)) {
+      profileModal.classList.remove('active');
     }
+  }
 });
 
-// Handle menu navigation
+// Menu navigation handler
 function handleMenuNavigation(menuText) {
-    switch(menuText) {
-        case 'Basic Information':
-            console.log('Navigate to Basic Information');
-            // window.location.href = 'basic-info.html';
-            break;
-        case 'My Profile':
-            console.log('Navigate to My Profile');
-            // window.location.href = 'profile.html';
-            break;
-        case 'Settings':
-            console.log('Navigate to Settings');
-            // window.location.href = 'settings.html';
-            break;
-        case 'Notifications':
-            console.log('Navigate to Notifications');
-            // window.location.href = 'notifications.html';
-            break;
-        case 'Privacy & Security':
-            console.log('Navigate to Privacy & Security');
-            // window.location.href = 'privacy.html';
-            break;
-        case 'Help & Support':
-            console.log('Navigate to Help & Support');
-            // window.location.href = 'help.html';
-            break;
-        default:
-            console.log('Unknown menu item');
-    }
-}
+  const map = {
+    'Basic Information': () => console.log('Go to Basic Info'),
+    'My Profile': () => console.log('Go to My Profile'),
+    'Settings': () => console.log('Go to Settings'),
+    'Notifications': () => console.log('Go to Notifications'),
+    'Privacy & Security': () => console.log('Go to Privacy'),
+    'Help & Support': () => console.log('Go to Help'),
+  };
 
-// Handle notification button (called from onclick in navbar)
-function handleNotification() {
-    console.log('Notification clicked');
-    // Add your notification logic here
-    alert('You have no new notifications');
+  if (map[menuText]) {
+    map[menuText]();
+  }
 }

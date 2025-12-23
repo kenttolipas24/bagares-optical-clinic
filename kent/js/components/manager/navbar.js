@@ -1,5 +1,5 @@
 // Load the navbar.html content into the placeholder (if needed)
-fetch('navbar/manager-nav/navbar.html')
+fetch('../components/manager/navbar.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('navbar-placeholder').innerHTML = data;
