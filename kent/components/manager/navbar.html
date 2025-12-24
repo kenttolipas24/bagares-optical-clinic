@@ -16,14 +16,14 @@
     <nav class="navigation">
       <div class="nav-dropdown">
         <button class="nav-button" onclick="toggleDropdown('inventory')">
-          Inventory
+          <span id="inventoryDropdownText">Inventory</span>
           <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </button>
         <div class="dropdown-menu" id="inventory-dropdown">
           <a href="#" class="dropdown-item" onclick="changePage('inventory', event)">Inventory</a>
-          <a href="" class="dropdown-item" onclick="changePage('purchase-orders', event)">Purchase Orders</a>
+          <a href="#" class="dropdown-item" onclick="changePage('purchase-orders', event)">Purchase Orders</a>
           <a href="#" class="dropdown-item" onclick="changePage('suppliers', event)">Suppliers</a>
         </div>
       </div>
