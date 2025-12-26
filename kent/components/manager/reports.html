@@ -1,0 +1,673 @@
+<div class="reports-container">
+  <div class="reports-header">
+    <h1>Reports</h1>
+    <div class="header-actions">
+      <button class="generate-btn" onclick="generateCustomReport()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        Generate Custom Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Report Type Selection -->
+  <div class="report-tabs">
+    <button class="report-tab active" onclick="switchReportTab('inventory')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
+        <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
+      </svg>
+      Inventory Report
+    </button>
+    <button class="report-tab" onclick="switchReportTab('purchases')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M16 3h5v5"></path>
+        <path d="M8 3H3v5"></path>
+        <path d="M12 22v-8"></path>
+        <path d="m15 10-3-3-3 3"></path>
+      </svg>
+      Purchases Report
+    </button>
+    <button class="report-tab" onclick="switchReportTab('sales')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="1" x2="12" y2="23"></line>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+      </svg>
+      Sales Report
+    </button>
+    <button class="report-tab" onclick="switchReportTab('stock-movement')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+        <polyline points="17 6 23 6 23 12"></polyline>
+      </svg>
+      Stock Movement
+    </button>
+  </div>
+
+  <!-- Inventory Report -->
+  <div class="report-content active" id="inventory-report">
+    <div class="report-card">
+      <div class="report-filters">
+        <h3>Inventory Report</h3>
+        <div class="filter-group">
+          <select class="filter-select" id="inventoryCategory">
+            <option value="all">All Categories</option>
+            <option value="frames">Frames</option>
+            <option value="lenses">Lenses</option>
+          </select>
+          
+          <select class="filter-select" id="inventoryStock">
+            <option value="all">All Stock Levels</option>
+            <option value="in-stock">In Stock</option>
+            <option value="low-stock">Low Stock</option>
+            <option value="out-of-stock">Out of Stock</option>
+          </select>
+
+          <input type="date" class="filter-input" id="inventoryDate" placeholder="As of Date">
+          
+          <button class="filter-btn" onclick="applyInventoryFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Apply
+          </button>
+          
+          <button class="export-btn" onclick="exportInventoryReport()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Items</p>
+            <h3 class="summary-value">156</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">In Stock</p>
+            <h3 class="summary-value">132</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon yellow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Low Stock</p>
+            <h3 class="summary-value">18</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon red">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Out of Stock</p>
+            <h3 class="summary-value">6</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Value</p>
+            <h3 class="summary-value">₱892,450</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>SKU</th>
+              <th>Category</th>
+              <th>Current Stock</th>
+              <th>Unit Price</th>
+              <th>Total Value</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ray-Ban Aviator</td>
+              <td>RB-AV-001</td>
+              <td><span class="category-badge frames">Frames</span></td>
+              <td>20</td>
+              <td>₱4,000.00</td>
+              <td><strong>₱80,000.00</strong></td>
+              <td><span class="status-badge in-stock">In Stock</span></td>
+            </tr>
+            <tr>
+              <td>Essilor Progressive</td>
+              <td>ES-PG-002</td>
+              <td><span class="category-badge lenses">Lenses</span></td>
+              <td>15</td>
+              <td>₱2,500.00</td>
+              <td><strong>₱37,500.00</strong></td>
+              <td><span class="status-badge in-stock">In Stock</span></td>
+            </tr>
+            <tr>
+              <td>Oakley Holbrook</td>
+              <td>OK-HB-003</td>
+              <td><span class="category-badge frames">Frames</span></td>
+              <td>5</td>
+              <td>₱5,500.00</td>
+              <td><strong>₱27,500.00</strong></td>
+              <td><span class="status-badge low-stock">Low Stock</span></td>
+            </tr>
+            <tr>
+              <td>Zeiss Single Vision</td>
+              <td>ZE-SV-004</td>
+              <td><span class="category-badge lenses">Lenses</span></td>
+              <td>30</td>
+              <td>₱1,800.00</td>
+              <td><strong>₱54,000.00</strong></td>
+              <td><span class="status-badge in-stock">In Stock</span></td>
+            </tr>
+            <tr>
+              <td>Gucci Fashion Frame</td>
+              <td>GU-FF-005</td>
+              <td><span class="category-badge frames">Frames</span></td>
+              <td>0</td>
+              <td>₱3,200.00</td>
+              <td><strong>₱0.00</strong></td>
+              <td><span class="status-badge out-of-stock">Out of Stock</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Purchases Report -->
+  <div class="report-content" id="purchases-report">
+    <div class="report-card">
+      <div class="report-filters">
+        <h3>Purchases Report</h3>
+        <div class="filter-group">
+          <input type="date" class="filter-input" id="purchaseDateFrom" placeholder="From Date">
+          <input type="date" class="filter-input" id="purchaseDateTo" placeholder="To Date">
+          
+          <select class="filter-select" id="purchaseSupplier">
+            <option value="all">All Suppliers</option>
+            <option value="supplier1">Optical Warehouse Inc.</option>
+            <option value="supplier2">Lens Masters Co.</option>
+            <option value="supplier3">Frame Direct Ltd.</option>
+          </select>
+
+          <select class="filter-select" id="purchaseStatus">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="received">Received</option>
+          </select>
+          
+          <button class="filter-btn" onclick="applyPurchaseFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Apply
+          </button>
+          
+          <button class="export-btn" onclick="exportPurchaseReport()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Orders</p>
+            <h3 class="summary-value">45</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon yellow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Pending</p>
+            <h3 class="summary-value">8</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Received</p>
+            <h3 class="summary-value">25</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Amount</p>
+            <h3 class="summary-value">₱1,245,800</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>PO Number</th>
+              <th>Date</th>
+              <th>Supplier</th>
+              <th>Items</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Expected Delivery</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PO-2024-001</strong></td>
+              <td>Dec 20, 2024</td>
+              <td>Optical Warehouse Inc.</td>
+              <td>15 items</td>
+              <td><strong>₱125,000.00</strong></td>
+              <td><span class="status-badge pending">Pending</span></td>
+              <td>Dec 27, 2024</td>
+            </tr>
+            <tr>
+              <td><strong>PO-2024-002</strong></td>
+              <td>Dec 18, 2024</td>
+              <td>Lens Masters Co.</td>
+              <td>8 items</td>
+              <td><strong>₱45,500.00</strong></td>
+              <td><span class="status-badge approved">Approved</span></td>
+              <td>Dec 25, 2024</td>
+            </tr>
+            <tr>
+              <td><strong>PO-2024-003</strong></td>
+              <td>Dec 15, 2024</td>
+              <td>Frame Direct Ltd.</td>
+              <td>20 items</td>
+              <td><strong>₱89,200.00</strong></td>
+              <td><span class="status-badge received">Received</span></td>
+              <td>Dec 22, 2024</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sales Report -->
+  <div class="report-content" id="sales-report">
+    <div class="report-card">
+      <div class="report-filters">
+        <h3>Sales Report</h3>
+        <div class="filter-group">
+          <input type="date" class="filter-input" id="salesDateFrom">
+          <input type="date" class="filter-input" id="salesDateTo">
+          
+          <select class="filter-select" id="salesCategory">
+            <option value="all">All Categories</option>
+            <option value="frames">Frames</option>
+            <option value="lenses">Lenses</option>
+          </select>
+          
+          <button class="filter-btn" onclick="applySalesFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Apply
+          </button>
+          
+          <button class="export-btn" onclick="exportSalesReport()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Transactions</p>
+            <h3 class="summary-value">234</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Revenue</p>
+            <h3 class="summary-value">₱1,456,780</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Average Sale</p>
+            <h3 class="summary-value">₱6,226</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon yellow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Top Product</p>
+            <h3 class="summary-value" style="font-size: 0.9rem;">Ray-Ban Aviator</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Invoice No.</th>
+              <th>Date</th>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+              <th>Payment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>INV-2024-125</strong></td>
+              <td>Dec 23, 2024</td>
+              <td>John Doe</td>
+              <td>Ray-Ban Aviator</td>
+              <td>2</td>
+              <td><strong>₱8,000.00</strong></td>
+              <td><span class="status-badge received">Paid</span></td>
+            </tr>
+            <tr>
+              <td><strong>INV-2024-124</strong></td>
+              <td>Dec 23, 2024</td>
+              <td>Maria Santos</td>
+              <td>Progressive Lenses</td>
+              <td>1</td>
+              <td><strong>₱2,500.00</strong></td>
+              <td><span class="status-badge received">Paid</span></td>
+            </tr>
+            <tr>
+              <td><strong>INV-2024-123</strong></td>
+              <td>Dec 22, 2024</td>
+              <td>Robert Chen</td>
+              <td>Oakley Holbrook</td>
+              <td>1</td>
+              <td><strong>₱5,500.00</strong></td>
+              <td><span class="status-badge pending">Pending</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stock Movement Report -->
+  <div class="report-content" id="stock-movement-report">
+    <div class="report-card">
+      <div class="report-filters">
+        <h3>Stock Movement Report</h3>
+        <div class="filter-group">
+          <input type="date" class="filter-input" id="movementDateFrom">
+          <input type="date" class="filter-input" id="movementDateTo">
+          
+          <select class="filter-select" id="movementType">
+            <option value="all">All Movements</option>
+            <option value="in">Stock In</option>
+            <option value="out">Stock Out</option>
+            <option value="adjustment">Adjustment</option>
+          </select>
+
+          <input type="text" class="filter-input" placeholder="Search product..." id="movementSearch">
+          
+          <button class="filter-btn" onclick="applyMovementFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Apply
+          </button>
+          
+          <button class="export-btn" onclick="exportMovementReport()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Stock In</p>
+            <h3 class="summary-value">1,245</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon red">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="19" x2="12" y2="5"></line>
+              <polyline points="5 12 12 5 19 12"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Total Stock Out</p>
+            <h3 class="summary-value">876</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Net Movement</p>
+            <h3 class="summary-value">+369</h3>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon yellow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <div class="summary-content">
+            <p class="summary-label">Adjustments</p>
+            <h3 class="summary-value">12</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Product</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Reference</th>
+              <th>Before</th>
+              <th>After</th>
+              <th>User</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dec 23, 2024</td>
+              <td>Ray-Ban Aviator</td>
+              <td><span class="movement-badge in">Stock In</span></td>
+              <td><strong>+15</strong></td>
+              <td>PO-2024-003</td>
+              <td>20</td>
+              <td>35</td>
+              <td>Manager</td>
+            </tr>
+            <tr>
+              <td>Dec 23, 2024</td>
+              <td>Progressive Lenses</td>
+              <td><span class="movement-badge out">Stock Out</span></td>
+              <td><strong>-2</strong></td>
+              <td>INV-2024-125</td>
+              <td>10</td>
+              <td>8</td>
+              <td>Cashier</td>
+            </tr>
+            <tr>
+              <td>Dec 22, 2024</td>
+              <td>Oakley Holbrook</td>
+              <td><span class="movement-badge in">Stock In</span></td>
+              <td><strong>+10</strong></td>
+              <td>PO-2024-002</td>
+              <td>5</td>
+              <td>15</td>
+              <td>Manager</td>
+            </tr>
+            <tr>
+              <td>Dec 22, 2024</td>
+              <td>Zeiss Single Vision</td>
+              <td><span class="movement-badge out">Stock Out</span></td>
+              <td><strong>-5</strong></td>
+              <td>INV-2024-124</td>
+              <td>30</td>
+              <td>25</td>
+              <td>Cashier</td>
+            </tr>
+            <tr>
+              <td>Dec 21, 2024</td>
+              <td>Gucci Fashion Frame</td>
+              <td><span class="movement-badge adjustment">Adjustment</span></td>
+              <td><strong>-2</strong></td>
+              <td>ADJ-2024-005</td>
+              <td>2</td>
+              <td>0</td>
+              <td>Manager</td>
+            </tr>
+            <tr>
+              <td>Dec 20, 2024</td>
+              <td>Ray-Ban Aviator</td>
+              <td><span class="movement-badge out">Stock Out</span></td>
+              <td><strong>-3</strong></td>
+              <td>INV-2024-120</td>
+              <td>23</td>
+              <td>20</td>
+              <td>Cashier</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
