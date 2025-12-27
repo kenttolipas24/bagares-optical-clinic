@@ -7,111 +7,288 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="header">
-  <div class="header-background"></div>
-  <div class="header-container">
-    <div class="logo-section">
-      <div class="logo">
-        <img src="../../common/picture/logo.jpg" alt="Logo">
-      </div>
-      <span class="clinic-name">Bagares Optical Clinic</span>
-    </div>
-    <nav class="navigation">
-      <div class="nav-dropdown">
-        <a href="#" class="nav-link" onclick="toggleDropdown(event)">
-          Inventory
-          <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </a>
-        <ul class="nav-dropdown-menu" id="inventory-dropdown">
-          <li><a href="#" class="dropdown-item" onclick="changePage('inventory', event)">Inventory</a></li>
-          <li><a href="../manager/purchase_orders/purchase_order.html" class="dropdown-item" onclick="changePage('purchase-orders', event)">Purchase Orders</a></li>
-          <li><a href="../manager/suppliers/suppliers.html" class="dropdown-item" onclick="changePage('suppliers', event)">Suppliers</a></li>
-        </ul>
-      </div>
-      <a href="#" class="nav-link" onclick="changePage('sales-billing', event)">Sales & Billing</a>
-    </nav>
-    <div class="icons-section">
-      <button class="icon-button" onclick="handleNotification()">
-        <img src="https://cdn.iconsax.io/icons/free/rounded/notifications/twotone/notification_alert-message-update-reminder-bell-temp.webp" alt="Notification Icon" class="icon-img">
-        <span class="notification-badge"></span>
-      </button>
-      <button class="icon-button" onclick="handleProfile()">
-        <img src="https://cdn.iconsax.io/icons/free/rounded/users/bold/user-square_user-profile-person-account-square-individual-identity-temp.webp" alt="Profile Icon" class="icon-img">
-      </button>
-    </div>
-  </div>
-</header>
 
-<div class="page-content">
-  <div class="sales-billing-header">
-    <h1>Sales & Billing</h1>
-    <div class="controls">
-      <input type="text" id="customerSearch" placeholder="Search customer...">
-      <button class="btn-primary" onclick="openNewSaleModal()">New Sale</button>
+
+<!-- Dashboard View -->
+  <div id="dashboard-view" class="page-container">
+    <header class="navbar">
+      <div class="logo-container">
+        <img src="../assets/picture/logo.jpg" alt="Logo" class="logo-img">
+        <span class="clinic-name">Bagares Optical Clinic</span>
+      </div>
+      <nav class="navbar-center">
+        <a class="nav-link active" onclick="showView('dashboard')">Appointment</a>
+        <a class="nav-link" onclick="showView('prescription')">Prescription</a>
+        <a class="nav-link" onclick="showView('patients')">Patient Records</a>
+        <a class="nav-link" onclick="showView('reports')">Reports (Owner)</a>
+      </nav>
+      <div class="navbar-right">
+        <button class="icon-button"><span class="notification-badge">1</span>🔔</button>
+        <button class="icon-button">👤</button>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <h1 class="page-heading">Appointment</h1>
+      <div class="main-layout">
+        <div class="panel-card">
+          <div class="card-title-bar">
+            <h2 class="card-title">Appointment Records</h2>
+            <input type="text" id="searchAppointments" placeholder="🔍 Search patients..." class="search-field">
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Name</th><th>Date</th><th>Time</th><th>Service</th><th>Status</th></tr>
+            </thead>
+            <tbody id="appointmentsTable">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <span class="calendar-year">2025</span>
+            <span class="calendar-month">December</span>
+          </div>
+          <div class="calendar-nav">
+            <button class="calendar-nav-btn">‹</button>
+            <span class="current-month">December 2025</span>
+            <button class="calendar-nav-btn">›</button>
+          </div>
+          <div class="calendar-weekdays">
+            <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+          </div>
+          <div class="calendar-days" id="calendarDays">
+            <!-- Populated by JS -->
+          </div>
+          <div class="appointment-detail">
+            <div class="detail-date" id="detailDate">27</div>
+            <div class="detail-info">
+              <div class="detail-name" id="detailName">Select an appointment</div>
+              <div class="detail-time" id="detailTime">--:--</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button onclick="showView('prescription')" class="btn-start-exam">Start Examination →</button>
     </div>
   </div>
-  <div class="sales-summary">
-    <div class="summary-card">
-      <h3>Total Sales Today</h3>
-      <p id="totalSalesToday">$0.00</p>
-    </div>
-    <div class="summary-card">
-      <h3>Pending Payments</h3>
-      <p id="pendingPayments">$0.00</p>
-    </div>
-    <div class="summary-card">
-      <h3>Revenue This Month</h3>
-      <p id="monthlyRevenue">$0.00</p>
-    </div>
-  </div>
-  <div class="sales-table-container">
-    <table id="salesTable">
-      <thead>
-        <tr>
-          <th>Invoice #</th>
-          <th>Customer</th>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="salesTableBody"></tbody>
-    </table>
-  </div>
-  <div id="newSaleModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>New Sale</h2>
-      <div class="form-group">
-        <label for="customerName">Customer Name</label>
-        <input type="text" id="customerName" placeholder="Enter customer name">
+
+  <!-- Patient Records View -->
+  <div id="patients-view" class="page-container" style="display: none;">
+    <header class="navbar">
+      <div class="logo-container">
+        <img src="../assets/picture/logo.jpg" alt="Logo" class="logo-img">
+        <span class="clinic-name">Bagares Optical Clinic</span>
       </div>
-      <div class="form-group">
-        <label for="productSelect">Product</label>
-        <select id="productSelect">
-          <option value="">Select Product</option>
-          <option value="lenses">Lenses</option>
-          <option value="frames">Frames</option>
-          <option value="accessories">Accessories</option>
-        </select>
+      <nav class="navbar-center">
+        <a class="nav-link" onclick="showView('dashboard')">Appointment</a>
+        <a class="nav-link" onclick="showView('prescription')">Prescription</a>
+        <a class="nav-link active">Patient Records</a>
+        <a class="nav-link" onclick="showView('reports')">Reports (Owner)</a>
+      </nav>
+      <div class="navbar-right">
+        <button class="icon-button"><span class="notification-badge">1</span>🔔</button>
+        <button class="icon-button">👤</button>
       </div>
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" min="1" value="1">
+    </header>
+
+    <div class="content-wrapper">
+      <h1 class="page-heading">Patient Records</h1>
+      <div class="full-width-card">
+        <div class="card-title-bar">
+          <h2 class="card-title">All Patients</h2>
+          <input type="text" id="searchPatients" placeholder="🔍 Search patients..." class="search-field">
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Patient ID</th><th>Name</th><th>Age</th><th>Contact</th><th>Last Visit</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="patientsTable">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
       </div>
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" id="price" step="0.01" placeholder="0.00">
-      </div>
-      <button class="btn-primary" onclick="addToCart()">Add to Cart</button>
-      <div id="cartItems"></div>
-      <button class="btn-primary" onclick="processSale()">Process Sale</button>
     </div>
   </div>
-</div>
+
+  <!-- Prescription View -->
+  <div id="prescription-view" class="page-container" style="display: none;">
+    <header class="navbar">
+      <div class="logo-container">
+        <img src="../assets/picture/logo.jpg" alt="Logo" class="logo-img">
+        <span class="clinic-name">Bagares Optical Clinic</span>
+      </div>
+      <nav class="navbar-center">
+        <a class="nav-link" onclick="showView('dashboard')">Appointment</a>
+        <a class="nav-link active">Prescription</a>
+        <a class="nav-link" onclick="showView('patients')">Patient Records</a>
+        <a class="nav-link" onclick="showView('reports')">Reports (Owner)</a>
+      </nav>
+      <div class="navbar-right">
+        <button class="icon-button"><span class="notification-badge">1</span>🔔</button>
+        <button class="icon-button">👤</button>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="prescription-header">
+        <h1 class="page-heading">Eye Examination & Prescription</h1>
+        <div class="prescription-actions">
+          <button class="btn-outline" onclick="showHistory()">🕐 History</button>
+          <button class="btn-primary" onclick="saveExam()">💾 Save Record</button>
+        </div>
+      </div>
+
+      <div class="prescription-card">
+        <h3 class="section-heading">Patient Information</h3>
+        <div class="info-grid">
+          <div class="info-field"><label>Patient Name</label><input id="patientName" readonly></div>
+          <div class="info-field"><label>Age</label><input id="patientAge" readonly></div>
+          <div class="info-field"><label>Contact Number</label><input id="patientContact" readonly></div>
+          <div class="info-field"><label>Date of Exam</label><input type="date" id="examDate"></div>
+        </div>
+      </div>
+
+      <div class="prescription-layout">
+        <div>
+          <div class="prescription-card">
+            <h3 class="section-heading">Refraction</h3>
+            <table class="refraction-table">
+              <thead><tr><th>Eye</th><th>Sphere</th><th>Cylinder</th><th>Axis</th><th>Add</th><th>PD</th></tr></thead>
+              <tbody>
+                <tr><td class="eye-cell">OD</td><td><input id="od_sphere" value="+0.00"></td><td><input id="od_cylinder" value="-0.00"></td><td><input id="od_axis" value="000"></td><td><input id="od_add" value="+0.00"></td><td rowspan="2"><input id="pd" value="63"></td></tr>
+                <tr><td class="eye-cell">OS</td><td><input id="os_sphere" value="+0.00"></td><td><input id="os_cylinder" value="-0.00"></td><td><input id="os_axis" value="000"></td><td><input id="os_add" value="+0.00"></td></tr>
+              </tbody>
+            </table>
+            <div class="visual-acuity-grid">
+              <div class="va-group"><label>Visual Acuity (Distance)</label><div class="va-inputs"><input id="va_distance_od" placeholder="OD" value="20/20"><input id="va_distance_os" placeholder="OS" value="20/20"></div></div>
+              <div class="va-group"><label>Visual Acuity (Near)</label><div class="va-inputs"><input id="va_near_od" placeholder="OD" value="J1"><input id="va_near_os" placeholder="OS" value="J1"></div></div>
+            </div>
+          </div>
+          <div class="prescription-card">
+            <h3 class="section-heading">Clinical Findings</h3>
+            <textarea id="clinicalFindings" placeholder="Record observations..."></textarea>
+          </div>
+        </div>
+        <div>
+          <div class="prescription-card">
+            <h3 class="section-heading">Lens Recommendation</h3>
+            <div class="lens-field"><label>Lens Type</label><select id="lensType"><option>Select type</option><option>Single Vision</option><option>Progressive</option><option>Bifocal</option></select></div>
+            <div class="lens-field"><label>Material</label><select id="material"><option>Select material</option><option>CR-39</option><option>Polycarbonate</option><option>High-Index 1.67</option></select></div>
+            <div class="lens-field"><label>Coatings</label><div class="coating-options"><label class="coating-checkbox"><input type="checkbox" id="coating_ar"><span>Anti-Reflective</span></label><label class="coating-checkbox"><input type="checkbox" id="coating_blue"><span>Blue Light Filter</span></label><label class="coating-checkbox"><input type="checkbox" id="coating_photo"><span>Photochromic</span></label></div></div>
+            <button class="btn-generate" onclick="generateReport()">📥 Generate Report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reports View -->
+  <div id="reports-view" class="page-container" style="display: none;">
+    <header class="navbar">
+      <div class="logo-container">
+        <img src="../assets/picture/logo.jpg" alt="Logo" class="logo-img">
+        <span class="clinic-name">Bagares Optical Clinic</span>
+      </div>
+      <nav class="navbar-center">
+        <a class="nav-link" onclick="showView('dashboard')">Appointment</a>
+        <a class="nav-link" onclick="showView('prescription')">Prescription</a>
+        <a class="nav-link" onclick="showView('patients')">Patient Records</a>
+        <a class="nav-link active">Reports (Owner)</a>
+      </nav>
+      <div class="navbar-right">
+        <button class="icon-button"><span class="notification-badge">1</span>🔔</button>
+        <button class="icon-button">👤</button>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <h1 class="page-heading">Reports</h1>
+
+      <div class="report-tabs">
+        <button class="report-tab active" onclick="switchReportTab('patient', this)">Patient Reports</button>
+        <button class="report-tab" onclick="switchReportTab('examination', this)">Examination Reports</button>
+        <button class="report-tab" onclick="switchReportTab('appointment', this)">Appointment Reports</button>
+      </div>
+
+      <div class="full-width-card">
+        <div class="report-filters">
+          <div class="filter-group"><label>From:</label><input type="date" id="filterDateFrom"></div>
+          <div class="filter-group"><label>To:</label><input type="date" id="filterDateTo"></div>
+          <div class="filter-group"><label>Category:</label><select id="filterCategory"><option>All</option><option>Myopia</option><option>Hyperopia</option><option>Astigmatism</option></select></div>
+          <button class="btn-primary" onclick="applyFilters()">Apply Filters</button>
+          <button class="btn-outline" onclick="exportReport()">📥 Export PDF</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-label">Total Patients</div><div class="stat-number">127</div></div>
+          <div class="stat-box"><div class="stat-label">Examinations</div><div class="stat-number">89</div></div>
+          <div class="stat-box"><div class="stat-label">This Month</div><div class="stat-number">24</div></div>
+          <div class="stat-box"><div class="stat-label">Pending</div><div class="stat-number">5</div></div>
+        </div>
+
+        <div id="reportContent">
+          <h3 class="section-heading">Patient Reports</h3>
+          <table class="data-table" id="reportsTable">
+            <thead>
+              <tr><th>Date</th><th>Patient</th><th>Diagnosis</th><th>Prescription</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Detail Modal -->
+  <div id="patientDetailModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header"><h3>Patient Details</h3><button class="modal-close" onclick="closePatientDetail()">×</button></div>
+      <div class="modal-content">
+        <div class="patient-info-section">
+          <div class="info-box"><div class="info-label">Patient ID</div><div class="info-value" id="modalPatientId">P-001</div></div>
+          <div class="info-box"><div class="info-label">Full Name</div><div class="info-value" id="modalPatientName">Rechelle P. Aldea</div></div>
+          <div class="info-box"><div class="info-label">Age</div><div class="info-value" id="modalPatientAge">28 years old</div></div>
+        </div>
+        <div style="background: #f7fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
+            <div><strong>Contact:</strong> <span id="modalPatientContact">0912 345 6789</span></div>
+            <div><strong>Last Visit:</strong> <span id="modalPatientLastVisit">12/20/2025</span></div>
+          </div>
+        </div>
+        <h3 style="font-size: 1rem; font-weight: 600; margin: 1.5rem 0 1rem; color: #2d3748;">Examination History</h3>
+        <div class="history-record">
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">2024-06-15</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.875rem;">
+            <div><strong>OD:</strong> +0.50 -0.25 x 180</div>
+            <div><strong>OS:</strong> +0.75 -0.50 x 175</div>
+          </div>
+          <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0; font-size: 0.875rem; color: #718096;">Mild myopia, prescribed reading glasses</div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+          <button class="btn-outline" onclick="closePatientDetail()">Close</button>
+          <button class="btn-primary" onclick="closePatientDetail(); showView('prescription')">Start Examination</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div id="historyModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header"><h3>Examination History</h3><button class="modal-close" onclick="closeHistory()">×</button></div>
+      <div class="modal-content">
+        <p style="font-weight: 600; margin-bottom: 1rem;">Patient: <span id="historyPatientName">Rechelle P. Aldea</span></p>
+        <div id="historyRecords">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
 
 
     <script src="script.js"></script>

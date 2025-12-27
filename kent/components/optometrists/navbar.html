@@ -1,0 +1,37 @@
+<header class="header">
+  <!-- Background overlay -->
+  <div class="header-background"></div>
+
+  <!-- Main header container -->
+  <div class="header-container">
+    <!-- Logo + Clinic name -->
+    <div class="logo-section">
+      <div class="logo">
+        <img src="../assets/picture/logo.jpg" alt="Logo">
+      </div>
+      <span class="clinic-name">Bagares Optical Clinic</span>
+    </div>
+
+    <!-- Navigation links -->
+    <nav class="navigation">
+      <button class="nav-button" onclick="changePageAppointment('appointment', event)">Appointment</button>
+      <button class="nav-button" onclick="changePagePrescreption('prescreption', event)">Prescreption</button>
+      <button class="nav-button" onclick="changePagePatientrecord('patient record', event)">Patient record</button>
+      <button class="nav-button" onclick="changePageReports('reports', event)">Reports</button>
+    </nav>
+
+    <!-- Icons: Notification + Profile -->
+    <div class="icons-section">
+      <!-- Notification button -->
+      <button class="icon-button" onclick="handleNotification()">
+        <img src="https://cdn.iconsax.io/icons/free/rounded/notifications/twotone/notification_alert-message-update-reminder-bell-temp.webp" alt="Notification Icon" class="icon-img">
+        <span class="notification-badge"></span>
+      </button>
+
+      <!-- Profile button -->
+      <button class="icon-button" onclick="toggleProfileDropdown(event)">
+        <img src="https://cdn.iconsax.io/icons/free/rounded/users/bold/user-square_user-profile-person-account-square-individual-identity-temp.webp" alt="Profile Icon" class="icon-img">
+      </button>
+    </div>
+  </div>
+</header>
