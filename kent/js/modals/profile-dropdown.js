@@ -101,16 +101,33 @@ function toggleProfileDropdown(event) {
   }
 }
 
-// Close when clicking outside
-document.addEventListener('click', (e) => {
-  const profileModal = document.getElementById('profileModal');
-  const profileButton = document.querySelector('.icon-button:last-child');
+document.addEventListener('DOMContentLoaded', () => {
+    const profileModal = document.getElementById('profileModal');
+    const profileButton = document.querySelector('.icon-button.profile');
 
-  if (profileModal && profileButton) {
-    if (!profileModal.contains(e.target) && !profileButton.contains(e.target)) {
-      profileModal.classList.remove('active');
-    }
-  }
+    if (!profileModal || !profileButton) return;
+
+    // Toggle dropdown when clicking the profile button
+    profileButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileModal.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking anywhere outside
+    document.addEventListener('click', (e) => {
+        if (profileModal.classList.contains('active')) {
+            if (!profileModal.contains(e.target) && !profileButton.contains(e.target)) {
+                profileModal.classList.remove('active');
+            }
+        }
+    });
+
+    // Optional: Close with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && profileModal.classList.contains('active')) {
+            profileModal.classList.remove('active');
+        }
+    });
 });
 
 // Menu navigation handler

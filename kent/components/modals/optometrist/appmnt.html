@@ -1,0 +1,71 @@
+<section id="appointment-section">
+  <div class="appointment-container">
+    <div class="appointment-header">
+      <h1>Appointment</h1>
+      <button class="btn-add"  onclick="openAddAppointmentModal()">+ Add Appointment</button>
+    </div>
+
+    <div class="appointment-content">
+      <div class="appointment-left">
+        <div class="card">
+          <div class="card-header">Appointment Records</div>
+          
+          <div class="search-box">
+            <input type="text" placeholder="Search patients..." id="searchInput">
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date & Time</th>
+                <th>Service</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentTable">
+              <tr>
+                <td>Rechelle P. Aldea</td>
+                <td>01/01/2025<br>10:00 AM</td>
+                <td>Consultation</td>
+                <td><span class="status-badge">Pending</span></td>
+                <td><button class="actions-btn" onclick="openAppointmentActionModal(event, 'appt-001')">⋮</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="appointment-right">
+        <div class="card calendar">
+          <div class="calendar-header">
+            <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+            <div id="calendarTitle">2025 July</div>
+            <button class="calendar-nav" onclick="changeMonth(1)">›</button>
+          </div>
+          
+          <div class="calendar-weekdays">
+            <div class="calendar-weekday">Sun</div>
+            <div class="calendar-weekday">Mon</div>
+            <div class="calendar-weekday">Tue</div>
+            <div class="calendar-weekday">Wed</div>
+            <div class="calendar-weekday">Thu</div>
+            <div class="calendar-weekday">Fri</div>
+            <div class="calendar-weekday">Sat</div>
+          </div>
+          
+          <div class="calendar-grid" id="calendarGrid">
+            <!-- Calendar days will be generated here -->
+          </div>
+
+          <div class="appointment-detail" id="appointmentDetail">
+            <div class="appointment-detail-header">
+              <span>Select a date to view appointments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
