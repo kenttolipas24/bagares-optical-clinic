@@ -1,58 +1,58 @@
-// Load navbar
+// navbar.js - FIXED to work with your actual HTML
+
 fetch('../components/optometrists/navbar.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('navbar-placeholder').innerHTML = data;
-    
-    setupNavigation();
-  })
-  .catch(error => {
-    console.error('Error loading navbar:', error);
-  });
 
-// Function to show the selected section and hide others
-function showSection(sectionId) {
-  const sections = ['appointment', 'prescreption', 'patient', 'reports'];
-    sections.forEach(id => {
-        const section = document.getElementById(id);
-        if (section) {
-            section.style.display = (id === sectionId) ? 'block' : 'none';
+    // After navbar is loaded, attach click events to buttons
+    const buttons = document.querySelectorAll('.nav-button');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Extract pageId from onclick attribute - FIX THE REGEX
+        const onclickAttr = this.getAttribute('onclick');
+        const match = onclickAttr.match(/changePage\('([^']+)'/);
+        
+        if (match) {
+          const pageId = match[1];
+          
+          changePage(pageId);
+          
+          // Update active state
+          buttons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
         }
+      });
     });
-}
 
-// Setup navigation links
-function setupNavigation() {
-  const appointmentLink     = document.querySelector('a[href="#appointment"]');
-  const prescreptionLink    = document.querySelector('a[href="#prescreption"]');
-  const patientLink         = document.querySelector('a[href="#patient record"]');
-  const reportsLink         = document.querySelector('a[href="#reports"]');
+    // Show Appointment by default on page load
+    changePage('appointment');
+    // Mark Appointment button as active
+    const appointmentBtn = document.querySelector('.nav-button[onclick*="appointment"]');
+    if (appointmentBtn) appointmentBtn.classList.add('active');
+  })
+  .catch(error => console.error('Error loading navbar:', error));
 
-    if (appointmentLink) {
-        appointmentLink.addEventListener('click', function(e) {
-         e.preventDefault();
-         showSection('appointment');
-        });
-    }
+// Single function to switch pages
+// Single function to switch pages
+function changePage(pageId, event) {
+  console.log('Switching to:', pageId);
 
-    if (prescreptionLink) {
-        prescreptionLink.addEventListener('click', function(e) {
-         e.preventDefault();
-         showSection('prescreption');
-        });
-    }
+  // Hide all placeholders
+  document.getElementById('Cal&Det-placeholder').style.display = 'none';
+  document.getElementById('patient-record-placeholder').style.display = 'none';
+  document.getElementById('reports-placeholder').style.display = 'none';
 
-    if (patientLink) {
-        patientLink.addEventListener('click', function(e) {
-         e.preventDefault();
-         showSection('patient');
-        });
-    }
-
-    if (reportsLink) {
-        reportsLink.addEventListener('click', function(e) {
-         e.preventDefault();
-         showSection('reports');
-        });
-    }
+  // Show the correct one
+  if (pageId === 'appointment') {
+    document.getElementById('Cal&Det-placeholder').style.display = 'block';
+  } else if (pageId === 'patient-record') {
+    document.getElementById('patient-record-placeholder').style.display = 'block';
+  } else if (pageId === 'reports') {
+    document.getElementById('reports-placeholder').style.display = 'block';
+    console.log('Reports section should be visible now'); // ADD THIS LINE
+  }
 }

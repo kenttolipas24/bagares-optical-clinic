@@ -8,6 +8,7 @@
 html, body {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
 }
 
 /* APPOINTMENT SECTION */ 
@@ -15,10 +16,43 @@ html, body {
   display: none; 
   padding: 40px;
   min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .appointment-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 40px 40px 0px 40px;
+}
+
+/* PATIENT RECORD SECTION */
+.patient-record-section {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for all sections */
+.appointment-section::-webkit-scrollbar,
+.patient-record-section::-webkit-scrollbar {
+    width: 10px;
+}
+
+.appointment-section::-webkit-scrollbar-track,
+.patient-record-section::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.appointment-section::-webkit-scrollbar-thumb,
+.patient-record-section::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 5px;
+}
+
+.appointment-section::-webkit-scrollbar-thumb:hover,
+.patient-record-section::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }

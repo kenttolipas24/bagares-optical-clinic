@@ -1,0 +1,29 @@
+<div class="patient-records-card">
+  <div class="pr-header">
+    <h1 class="pr-title">Patient Records</h1>
+    <div class="pr-search">
+      <input type="text" id="searchPatient" placeholder="Search patient..." class="search-input">
+    </div>
+  </div>
+
+  <div class="pr-table-container">
+    <table class="pr-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Date</th>
+          <th>OD (Sph/Cyl/Axis)</th>
+          <th>OS (Sph/Cyl/Axis)</th>
+          <th>Add (OU)</th>
+          <th>PD</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="patientTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal overlay & modal -->
+<div class="modal-overlay" id="overlay"></div>
+<div class="modal" id="modal"></div>
