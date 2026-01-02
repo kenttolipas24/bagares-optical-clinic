@@ -35,21 +35,47 @@ html, body {
   overflow-y: auto;
 }
 
-/* Custom scrollbar for all sections */
+/* Auto-hide scrollbar for all sections */
+.appointment-section,
+.patient-record-section {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.3s ease;
+}
+
+.appointment-section:hover,
+.appointment-section:active,
+.patient-record-section:hover,
+.patient-record-section:active {
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
 .appointment-section::-webkit-scrollbar,
 .patient-record-section::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 .appointment-section::-webkit-scrollbar-track,
 .patient-record-section::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: transparent;
+    transition: background 0.3s ease;
 }
 
 .appointment-section::-webkit-scrollbar-thumb,
 .patient-record-section::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.appointment-section:hover::-webkit-scrollbar-track,
+.patient-record-section:hover::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.appointment-section:hover::-webkit-scrollbar-thumb,
+.patient-record-section:hover::-webkit-scrollbar-thumb {
     background: #cbd5e1;
-    border-radius: 5px;
 }
 
 .appointment-section::-webkit-scrollbar-thumb:hover,
