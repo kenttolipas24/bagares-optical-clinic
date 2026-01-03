@@ -4,7 +4,7 @@
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
   min-height: calc(100vh - 80px);
-  max-height: calc(100vh - 80px);
+   max-height: calc(100vh - 80px);
   overflow-y: auto;
 }
 
@@ -44,135 +44,7 @@
   box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
 }
 
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.stat-card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.stat-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stat-icon.pending {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.stat-icon.approved {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.stat-icon.received {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-.stat-icon.total {
-  background: #e0e7ff;
-  color: #3730a3;
-}
-
-.stat-content h3 {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0 0 0.25rem 0;
-  font-weight: 500;
-}
-
-.stat-number {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0;
-}
-
-/* PO Cell */
-.po-cell {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.po-number {
-  font-weight: 600;
-  color: #3b82f6;
-}
-
-/* Status Badges - Additional for Purchase Orders */
-.status-badge.approved {
-  background-color: #dbeafe;
-  color: #1e40af;
-}
-
-.status-badge.pending {
-  background-color: #fef3c7;
-  color: #92400e;
-}
-
-.status-badge.received {
-  background-color: #d1fae5;
-  color: #065f46;
-}
-
-.status-badge.cancelled {
-  background-color: #fee2e2;
-  color: #991b1b;
-}
-
-/* Action Buttons - Additional for Purchase Orders */
-.action-btn.approve:hover {
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-}
-
-.action-btn.approve:hover svg {
-  stroke: #3b82f6;
-}
-
-.action-btn.receive:hover {
-  border-color: #10b981;
-  background-color: #d1fae5;
-}
-
-.action-btn.receive:hover svg {
-  stroke: #10b981;
-}
-
-.action-btn.print:hover {
-  border-color: #6366f1;
-  background-color: #e0e7ff;
-}
-
-.action-btn.print:hover svg {
-  stroke: #6366f1;
-}
-
-/* Reuse existing styles from frame.css */
+/* Card */
 .purchase-card {
   background-color: #fff;
   border: 1px solid #e5e7eb;
@@ -195,6 +67,72 @@
   font-weight: 600;
 }
 
+/* Search */
+.search-wrapper {
+  position: relative;
+  width: 300px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #9ca3af;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 0.6rem 0.6rem 2.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Filters */
+.table-controls {
+  margin-bottom: 1.25rem;
+}
+
+.filter-section {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 0.6rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Table Wrapper - Makes table look like a finished card */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden; /* For clean rounded corners */
+  background-color: #fff;
+}
+
+/* Table */
 .purchase-table {
   width: 100%;
   border-collapse: collapse;
@@ -216,6 +154,10 @@
   white-space: nowrap;
 }
 
+.purchase-table th:last-child {
+  text-align: right;
+}
+
 .purchase-table th:hover {
   background-color: #f3f4f6;
 }
@@ -226,39 +168,118 @@
   color: #1f2937;
 }
 
+.purchase-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  padding-right: 1.5rem; /* Pushes amount to the far right */
+}
+
+/* Remove bottom border from last row */
+.purchase-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hover */
 .purchase-table tbody tr {
   transition: background-color 0.15s ease;
 }
 
 .purchase-table tbody tr:hover {
+  background-color: #eff6ff;
+}
+
+/* PO Number */
+.po-number {
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.purchase-table tbody tr:hover .po-number {
+  color: #2563eb;
+}
+
+/* Pagination */
+.table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.pagination-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
   background-color: #f9fafb;
+  border-color: #3b82f6;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-number {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.page-number.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-  .purchase-container {
-    padding: 1.5rem;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-}
-
 @media (max-width: 768px) {
   .purchase-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
+
   .purchase-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .filter-section {
+    flex-direction: column;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  .purchase-table th:last-child,
+  .purchase-table td:last-child {
+    text-align: right;
+    padding-right: 1rem;
   }
 }

@@ -56,10 +56,14 @@
 /* Report Tabs */
 .report-tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 2rem;
   margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid #e5e7eb;
-  overflow-x: auto;
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  min-width: fit-content;
 }
 
 .report-tab {
@@ -76,6 +80,7 @@
   position: relative;
   transition: all 0.2s ease;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .report-tab svg {
