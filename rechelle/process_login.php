@@ -9,6 +9,7 @@ $password = trim($_POST['password']);
 // Validate input
 if (!$username || !$password) {
     echo "invalid";
+    
     exit;
 }
 

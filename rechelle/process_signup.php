@@ -39,6 +39,7 @@ if ($result->num_rows > 0) {
     exit;
 }
 
+
 // Insert new user
 $sql = "INSERT INTO user_login (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);

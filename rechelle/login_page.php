@@ -134,6 +134,7 @@
             })
             .catch(err => console.error(err));
         }
+        
 
         // SIGNUP FUNCTION
         function signup() {
