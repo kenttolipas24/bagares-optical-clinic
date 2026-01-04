@@ -1,5 +1,5 @@
 /* Purchase Orders Container */
-.purchase-container {
+.audit-container {
   padding: 2rem;
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
@@ -9,21 +9,21 @@
 }
 
 /* Header */
-.purchase-header {
+.audit-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
 }
 
-.purchase-header h1 {
+.audit-header h1 {
   font-size: 1.75rem;
   margin: 0;
   color: #1f2937;
   font-weight: 700;
 }
 
-.add-order-btn {
+.generate-btn {
   background: linear-gradient(135deg, #3b82f6, #06b6d4);
   color: #fff;
   border: none;
@@ -39,13 +39,13 @@
   box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
 }
 
-.add-order-btn:hover {
+.generate-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
 }
 
 /* Card */
-.purchase-card {
+.audit-card {
   background-color: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -53,14 +53,14 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.purchase-top {
+.audit-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-.purchase-top h2 {
+.audit-top h2 {
   margin: 0;
   font-size: 1.25rem;
   color: #1f2937;
@@ -136,17 +136,17 @@
 }
 
 /* Table */
-.purchase-table {
+.audit-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
 
-.purchase-table thead {
+.audit-table thead {
   background-color: #f9fafb;
 }
 
-.purchase-table th {
+.audit-table th {
   text-align: left;
   padding: 0.85rem 1rem;
   font-weight: 600;
@@ -155,188 +155,24 @@
   white-space: nowrap;
 }
 
-.purchase-table th:last-child {
+.audit-table th:last-child {
   text-align: left;
 }
 
-.purchase-table td {
+.audit-table td {
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
   color: #1f2937;
 }
 
-.purchase-table tbody tr:last-child td {
+.audit-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.purchase-table tbody tr {
+.audit-table tbody tr {
   transition: background-color 0.15s ease;
 }
 
-.purchase-table tbody tr:hover {
+.audit-table tbody tr:hover {
   background-color: #eff6ff;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* User Info */
-.user-info {
-  font-weight: 500;
-  color: #111827;
-}
-
-.user-id {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 2px;
-}
-
-.username {
-  font-family: monospace;
-  font-size: 13px;
-}
-
-/* Badge Styles */
-.badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-/* Role Badges */
-.badge-admin {
-  background-color: #ede9fe;
-  color: #7c3aed;
-}
-
-.badge-staff {
-  background-color: #dbeafe;
-  color: #2563eb;
-}
-
-.badge-receptionist {
-  background-color: #fef3c7;
-  color: #d97706;
-}
-
-.badge-optometrist {
-  background-color: #d1fae5;
-  color: #059669;
-}
-
-/* Status Badges */
-.badge-active {
-  background-color: #d1fae5;
-  color: #059669;
-}
-
-.badge-inactive {
-  background-color: #fee2e2;
-  color: #dc2626;
-}
-
-/* Actions */
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  padding: 4px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: opacity 0.2s;
-}
-
-.action-btn:hover {
-  opacity: 0.7;
-}
-
-.action-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-.action-edit {
-  color: #2563eb;
-}
-
-.action-reset {
-  color: #ea580c;
-}
-
-.action-delete {
-  color: #dc2626;
-}
-
-/* Pagination */
-.table-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1rem;
-}
-
-.pagination-info {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.pagination-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.pagination-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #e5e7eb;
-  background-color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  background-color: #f9fafb;
-  border-color: #3b82f6;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.page-number {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #e5e7eb;
-  background-color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.page-number.active {
-  background-color: #3b82f6;
-  color: white;
-  border-color: #3b82f6;
 }
