@@ -1,119 +1,53 @@
-// Load the navbar.html content into the placeholder (if needed)
+// navbar.js (admin.js)
 fetch('../components/admin/navbar.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('navbar-placeholder').innerHTML = data;
+
+    // After navbar is loaded, attach click events to buttons
+    const buttons = document.querySelectorAll('.nav-button');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Extract pageId from onclick attribute - FIX THE REGEX
+        const onclickAttr = this.getAttribute('onclick');
+        const match = onclickAttr.match(/changePage\('([^']+)'/);
+        
+        if (match) {
+          const pageId = match[1];
+          
+          switchTab(pageId);
+          
+          // Update active state
+          buttons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Show users by default on page load
+    switchTab('users');
+    // Mark users button as active
+    const usersBtn = document.querySelector('.nav-button[onclick*="users"]');
+    if (usersBtn) usersBtn.classList.add('active');
   })
   .catch(error => console.error('Error loading navbar:', error));
 
-// Change to a specific page
-function changePage(pageId, event) {
-  console.log(`[v0] Changing to page: ${pageId}`);
+// Single function to switch pages
+// Single function to switch pages
+function switchTab(pageId, event) {
+  console.log('Switching to:', pageId);
 
-  // Prevent default link behavior if event exists
-  event?.preventDefault();
+  // Hide all placeholders
+  document.getElementById('usersTab-placeholder').style.display = 'none';
+  document.getElementById('auditTab-placeholder').style.display = 'none';
 
-  // Hide all pages
-  document.querySelectorAll(".page-content").forEach((page) => {
-    page.classList.remove("active");
-  });
-
-  // Handle specific page loading
-  switch (pageId) {
-    case 'users':
-      fetch('module/purchase_order.html')
-        .then(res => res.text())
-        .then(data => {
-          const contentArea = document.getElementById('main-content') || document.body;
-          contentArea.innerHTML = data;
-        })
-        .catch(error => console.error('Error loading purchase_order.html:', error));
-      break;
-    case 'audit':
-      // Show existing page if it exists
-      const targetPage = document.getElementById(`${pageId}-page`);
-      if (targetPage) {
-        targetPage.classList.add("active");
-      }
-      break;
-    default:
-      console.log("Unknown page ID");
-  }
-
-  // Close all dropdowns
-  document.querySelectorAll(".dropdown-menu").forEach((menu) => {
-    menu.classList.remove("show");
-    menu.closest(".nav-dropdown")?.classList.remove("active");
-  });
+  // Show the correct one
+  if (pageId === 'users') {
+    document.getElementById('usersTab-placeholder').style.display = 'block';
+  } else if (pageId === 'audit') {
+    document.getElementById('auditTab-placeholder').style.display = 'block';
+  } 
 }
-
-// Toggle dropdown menu
-function toggleDropdown(dropdownId) {
-  const dropdown = document.getElementById(`${dropdownId}-dropdown`);
-  const navDropdown = dropdown.closest(".nav-dropdown");
-
-  // Close all other dropdowns
-  document.querySelectorAll(".dropdown-menu").forEach((menu) => {
-    if (menu !== dropdown) {
-      menu.classList.remove("show");
-      menu.closest(".nav-dropdown")?.classList.remove("active");
-    }
-  });
-
-  // Toggle current dropdown
-  dropdown.classList.toggle("show");
-  navDropdown.classList.toggle("active");
-}
-
-// Navigation handlers
-function handleNavigation(section) {
-  console.log(`Navigating to ${section} section`);
-  switch (section) {
-    case "patient":
-      alert("Navigating to Patient section");
-      // Add actual navigation logic here (e.g., window.location.href)
-      break;
-    case "appointment":
-      alert("Navigating to Appointment section");
-      // Add actual navigation logic here
-      break;
-    default:
-      console.log("Unknown navigation section");
-  }
-}
-
-// Handle notification click (to be implemented)
-function handleNotification() {
-  console.log("Notification clicked");
-  // Add notification logic here
-}
-
-// Handle profile click (to be implemented)
-function handleProfile() {
-  console.log("Profile clicked");
-  // Add profile logic here
-}
-
-// Add interactive features on page load
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Bagares Optical Clinic header loaded successfully");
-
-  // Add hover effects or active state
-  const navButtons = document.querySelectorAll(".nav-button");
-  navButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      navButtons.forEach((btn) => btn.classList.remove("active"));
-      this.classList.add("active");
-    });
-  });
-});
-
-// Close dropdowns when clicking outside
-document.addEventListener("click", (event) => {
-  if (!event.target.closest(".nav-dropdown")) {
-    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
-      menu.classList.remove("show");
-      menu.closest(".nav-dropdown")?.classList.remove("active");
-    });
-  }
-});

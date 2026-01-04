@@ -1,59 +1,77 @@
-<!-- Audit Logs Tab -->
-<div id="audit-tab" class="hidden">
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-title">
-                <h2>Audit Logs</h2>
-                <p>Track all system activities and user actions</p>
-            </div>
-            <button class="btn-primary" onclick="exportAuditLogs()">
-                <i data-lucide="download"></i>
-                <span>Export Logs</span>
-            </button>
-        </div>
+<!-- User Management Tab -->
+<div class="audit-container">
+  <div class="audit-header">
+    <h1>Audit logs</h1>
+    <button class="generate-btn" onclick="generateexpoerlogs()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+      Generate Export Logs
+    </button>
+  </div>
 
-        <div class="filters">
-            <div class="search-input">
-                <i data-lucide="search"></i>
-                <input type="text" id="auditSearch" placeholder="Search logs..." oninput="filterAuditLogs()">
-            </div>
-            <select id="moduleFilter" onchange="filterAuditLogs()">
-                <option value="all">All Modules</option>
-                <option value="Patient Records">Patient Records</option>
-                <option value="Appointments">Appointments</option>
-                <option value="User Management">User Management</option>
-                <option value="Eye Examination">Eye Examination</option>
-                <option value="Sales & Billing">Sales & Billing</option>
-                <option value="Inventory">Inventory</option>
-                <option value="Reports">Reports</option>
-                <option value="System">System</option>
-            </select>
-            <input type="date" id="dateFrom" onchange="filterAuditLogs()">
-            <input type="date" id="dateTo" onchange="filterAuditLogs()">
-        </div>
+  <div class="audit-card">
+    <div class="audit-top">
+      <h2>Audits Logs</h2>
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" class="search-input" placeholder="Search logs..." id="userSearch" oninput="filterUsers()">
+      </div>
     </div>
 
-    <div class="table-container">
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Action</th>
-                        <th>Module</th>
-                        <th>Details</th>
-                        <th>Timestamp</th>
-                        <th>IP Address</th>
-                    </tr>
-                </thead>
-                <tbody id="auditTableBody">
-                </tbody>
-            </table>
-        </div>
-        <div id="auditEmptyState" class="empty-state hidden">
-            <i data-lucide="activity"></i>
-            <p>No audit logs found</p>
-            <p>Try adjusting your search or filter criteria</p>
-        </div>
+    <div class="table-controls">
+      <div class="filter-section">
+        <select class="filter-select" id="roleFilter" onchange="filterAuditLogs()">
+          <option value="all">All Modules</option>
+          <option value="Patient Records">Patient Records</option>
+          <option value="Appointments">Appointments</option>
+          <option value="User Management">User Management</option>
+          <option value="Eye Examination">Eye Examination</option>
+          <option value="Sales & Billing">Sales & Billing</option>
+          <option value="Inventory">Inventory</option>
+          <option value="Reports">Reports</option>
+          <option value="System">System</option>
+        </select>
+        
+        <input type="date" class="filter-select" id="dateFromFilter" onchange="filterAuditLogs()" placeholder="From Date">
+        <input type="date" class="filter-select" id="dateToFilter" onchange="filterAuditLogs()" placeholder="To Date">
+      </div>
     </div>
+
+    <div class="table-wrapper">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Action</th>
+            <th>Module</th>
+            <th>Details</th>
+            <th>Timestamp</th>
+            <th>IP Address</th>
+          </tr>
+        </thead>
+        <tbody id="auditsTableBody">
+          <!-- Data will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-pagination">
+      <div class="pagination-info">
+        Showing <span id="auditShowingStart">1</span> to <span id="auditShowingEnd">5</span> of <span id="totalaudit">5</span> audits
+      </div>
+      <div class="pagination-controls">
+        <button class="pagination-btn" disabled>Previous</button>
+        <div class="pagination-numbers">
+          <button class="page-number active">1</button>
+        </div>
+        <button class="pagination-btn" disabled>Next</button>
+      </div>
+    </div>
+  </div>
 </div>
