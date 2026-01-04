@@ -1,0 +1,49 @@
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit User</h3>
+            <button class="close-btn" onclick="closeEditUserModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="editUserId">
+            <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" id="editName" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Username *</label>
+                <input type="text" id="editUsername" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" id="editEmail" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Role *</label>
+                <select id="editRole" class="form-input">
+                    <option value="Admin">Admin</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Receptionist">Receptionist</option>
+                    <option value="Optometrist">Optometrist</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Status</label>
+                <select id="editStatus" class="form-input">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="info-box">
+                <p><strong>Note:</strong> To change the password, use the "Reset Password" button in the actions menu.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+            <button class="btn-primary" onclick="saveUser()">Save Changes</button>
+        </div>
+    </div>
+</div>
