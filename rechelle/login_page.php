@@ -28,6 +28,7 @@
         .terms input { margin-right: 8px; }
     </style>
     
+    
 </head>
 <body>
     <div class="container">
