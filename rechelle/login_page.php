@@ -27,6 +27,7 @@
         .terms { text-align: left; font-size: 0.85em; color: #666; margin-bottom: 20px; }
         .terms input { margin-right: 8px; }
     </style>
+
     
     
 </head>

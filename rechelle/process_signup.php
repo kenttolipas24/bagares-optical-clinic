@@ -12,6 +12,7 @@ if (!$username || !$email || !$password) {
     exit;
 }
 
+
 // Hash the password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 

@@ -39,7 +39,6 @@ if ($res->num_rows > 0) {
     die("error: username already exists");
 }
 
-
 // Prepare insert statement
 $sql = "INSERT INTO user_login (username, email, password, role, status) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
