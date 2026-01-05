@@ -1,49 +1,77 @@
 <!-- Edit User Modal -->
-<div id="editUserModal" class="modal">
+<div id="editUserModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editUserModalTitle">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Edit User</h3>
-            <button class="close-btn" onclick="closeEditUserModal()">
-                <i data-lucide="x"></i>
+            <h3 id="editUserModalTitle">Edit User</h3>
+            <button class="close-btn" onclick="closeEditUserModal()" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
             </button>
         </div>
-        <div class="modal-body">
-            <input type="hidden" id="editUserId">
-            <div class="form-group">
-                <label class="form-label">Full Name *</label>
-                <input type="text" id="editName" class="form-input">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Username *</label>
-                <input type="text" id="editUsername" class="form-input">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email Address *</label>
-                <input type="email" id="editEmail" class="form-input">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Role *</label>
-                <select id="editRole" class="form-input">
-                    <option value="Admin">Admin</option>
-                    <option value="Staff">Staff</option>
-                    <option value="Receptionist">Receptionist</option>
-                    <option value="Optometrist">Optometrist</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Status</label>
-                <select id="editStatus" class="form-input">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
-            </div>
-            <div class="info-box">
-                <p><strong>Note:</strong> To change the password, use the "Reset Password" button in the actions menu.</p>
+
+        <div class="modal-body-scroll">
+            <div class="modal-body">
+                <form id="editUserForm" novalidate>
+                    <input type="hidden" id="editUserId">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="editfirstname">First Name <span class="required">*</span></label>
+                            <input type="text" id="editfirstname" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editmiddlename">Middle Name <span class="required">*</span></label>
+                            <input type="text" id="editmiddlename" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editlastname">Last Name <span class="required">*</span></label>
+                            <input type="text" id="editlastname" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editSuffix">Suffix</label>
+                            <input type="text" id="editSuffix" class="form-input" placeholder="e.g., Jr., Sr., III">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editUsername">Username <span class="required">*</span></label>
+                        <input type="text" id="editUsername" class="form-input" required minlength="4">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="editEmail" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editRole">Role <span class="required">*</span></label>
+                        <select id="editRole" class="form-input" required>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Secretary/Cashier">Secretary/Cashier</option>
+                            <option value="Optometrist">Optometrist</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editStatus">Status</label>
+                        <select id="editStatus" class="form-input">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </form>
             </div>
         </div>
+
         <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeEditUserModal()">Cancel</button>
-            <button class="btn-primary" onclick="saveUser()">Save Changes</button>
+            <button type="button" class="btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+            <button type="button" class="btn-primary" id="saveEditBtn" onclick="saveEditedUser()">
+                <span class="btn-text">Save Changes</span>
+                <span class="btn-loading hidden">Saving...</span>
+            </button>
         </div>
     </div>
 </div>
