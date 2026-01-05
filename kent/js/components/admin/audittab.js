@@ -3,8 +3,6 @@ fetch('../components/admin/audit-tab.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('auditTab-placeholder').innerHTML = data;
-        
-        // FIXED: Call renderAuditLogs() not renderAudit()
         renderAuditLogs();
     })
     .catch(error => console.error('Error loading audit tab:', error));
@@ -20,97 +18,143 @@ let auditLogs = [
     { id: 8, user: 'Jose Mercado', action: 'Deleted user account', module: 'User Management', details: 'Removed inactive user: Test User', timestamp: '2026-01-03 02:10 PM', ipAddress: '192.168.1.100' }
 ];
 
-function addAuditLog(action, module, details) {
+let currentPage = 1;
+const logsPerPage = 10;
+
+function addAuditLog(action, module, details, user = 'Current User') {
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-US', {
+        month: '2-digit', day: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: true
+    });
+
     const newLog = {
         id: auditLogs.length + 1,
-        user: 'Admin User',
+        user,
         action,
         module,
         details,
-        timestamp: new Date().toLocaleString('en-US', {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit', hour12: true
-        }),
+        timestamp,
         ipAddress: '192.168.1.100'
     };
     auditLogs.unshift(newLog);
     renderAuditLogs();
 }
 
-function renderAuditLogs(filteredLogs = auditLogs) {
+function renderAuditLogs() {
+    const filtered = getFilteredLogs();
+    const totalLogs = filtered.length;
+    const totalPages = Math.ceil(totalLogs / logsPerPage);
+    const start = (currentPage - 1) * logsPerPage;
+    const end = Math.min(start + logsPerPage, totalLogs);
+    const pageLogs = filtered.slice(start, end);
+
     const tbody = document.getElementById('auditsTableBody');
+    if (!tbody) return;
 
-    if (!tbody) {
-        console.error('auditsTableBody not found!');
-        return;
+    if (pageLogs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem; color: #6b7280;">No audit logs found</td></tr>';
+    } else {
+        tbody.innerHTML = pageLogs.map(log => `
+            <tr>
+                <td><div class="user-info">${log.user}</div></td>
+                <td><div class="log-action">${log.action}</div></td>
+                <td><span class="badge badge-module">${log.module}</span></td>
+                <td><div class="log-details">${log.details}</div></td>
+                <td><div class="log-timestamp">${log.timestamp}</div></td>
+                <td><span class="ip-address">${log.ipAddress}</span></td>
+            </tr>
+        `).join('');
     }
 
-    if (filteredLogs.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #6b7280;">No audit logs found</td></tr>';
-        return;
-    }
+    // Update pagination info
+    document.getElementById('auditShowingStart').textContent = totalLogs === 0 ? 0 : start + 1;
+    document.getElementById('auditShowingEnd').textContent = end;
+    document.getElementById('totalAudits').textContent = totalLogs;
 
-    const getModuleBadgeClass = (module) => {
-        const map = {
-            'User Management': 'badge-module',
-            'Patient Records': 'badge-patient',
-            'Appointments': 'badge-appointment',
-            'Sales & Billing': 'badge-sales',
-            'Inventory': 'badge-inventory',
-            'System': 'badge-system',
-            'Eye Examination': 'badge-exam',
-            'Reports': 'badge-exam'
-        };
-        return map[module] || 'badge-module';
-    };
+    // Update page buttons
+    updatePagination(totalPages);
+}
 
-    tbody.innerHTML = filteredLogs.map(log => `
-        <tr>
-            <td><div class="user-info">${log.user}</div></td>
-            <td>${log.action}</td>
-            <td><span class="badge ${getModuleBadgeClass(log.module)}">${log.module}</span></td>
-            <td><div class="log-details">${log.details}</div></td>
-            <td>${log.timestamp}</td>
-            <td><span class="ip-address">${log.ipAddress}</span></td>
-        </tr>
-    `).join('');
+function getFilteredLogs() {
+    const searchTerm = (document.getElementById('auditSearch')?.value || '').toLowerCase();
+    const moduleFilter = document.getElementById('moduleFilter')?.value || 'all';
+    const dateFrom = document.getElementById('dateFromFilter')?.value;
+    const dateTo = document.getElementById('dateToFilter')?.value;
+
+    return auditLogs.filter(log => {
+        const matchesSearch = !searchTerm ||
+            log.user.toLowerCase().includes(searchTerm) ||
+            log.action.toLowerCase().includes(searchTerm) ||
+            log.details.toLowerCase().includes(searchTerm) ||
+            log.module.toLowerCase().includes(searchTerm);
+
+        const matchesModule = moduleFilter === 'all' || log.module === moduleFilter;
+
+        // Date filtering (simple string compare on YYYY-MM-DD part)
+        let matchesDate = true;
+        if (dateFrom || dateTo) {
+            const logDate = log.timestamp.split(', ')[0]; // e.g., "01/04/2026"
+            const [month, day, year] = logDate.split('/');
+            const logDateStr = `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`;
+
+            if (dateFrom && logDateStr < dateFrom) matchesDate = false;
+            if (dateTo && logDateStr > dateTo) matchesDate = false;
+        }
+
+        return matchesSearch && matchesModule && matchesDate;
+    });
 }
 
 function filterAuditLogs() {
-    const searchTerm = document.getElementById('userSearch')?.value.toLowerCase() || '';
-    const moduleFilter = document.getElementById('roleFilter')?.value || 'all';
+    currentPage = 1;
+    renderAuditLogs();
+}
 
-    const filtered = auditLogs.filter(log => {
-        const matchesSearch = searchTerm === '' ||
-            log.user.toLowerCase().includes(searchTerm) ||
-            log.action.toLowerCase().includes(searchTerm) ||
-            log.details.toLowerCase().includes(searchTerm);
-        const matchesModule = moduleFilter === 'all' || log.module === moduleFilter;
-        return matchesSearch && matchesModule;
-    });
+function changePage(delta) {
+    const filtered = getFilteredLogs();
+    const totalPages = Math.ceil(filtered.length / logsPerPage);
+    currentPage = Math.max(1, Math.min(totalPages, currentPage + delta));
+    renderAuditLogs();
+}
 
-    renderAuditLogs(filtered);
+function updatePagination(totalPages) {
+    const pageNumbers = document.getElementById('pageNumbers');
+    pageNumbers.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'page-number';
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add('active');
+        btn.onclick = () => {
+            currentPage = i;
+            renderAuditLogs();
+        };
+        pageNumbers.appendChild(btn);
+    }
+
+    document.getElementById('prevPageBtn').disabled = currentPage === 1;
+    document.getElementById('nextPageBtn').disabled = currentPage === totalPages || totalPages === 0;
 }
 
 function exportAuditLogs() {
-    const searchTerm = document.getElementById('userSearch')?.value.toLowerCase() || '';
-    const moduleFilter = document.getElementById('roleFilter')?.value || 'all';
+    const filtered = getFilteredLogs();
+    if (filtered.length === 0) {
+        alert('No logs to export.');
+        return;
+    }
 
-    const filtered = auditLogs.filter(log => {
-        const matchesSearch = searchTerm === '' ||
-            log.user.toLowerCase().includes(searchTerm) ||
-            log.action.toLowerCase().includes(searchTerm) ||
-            log.details.toLowerCase().includes(searchTerm);
-        const matchesModule = moduleFilter === 'all' || log.module === moduleFilter;
-        return matchesSearch && matchesModule;
-    });
+    const headers = ['User', 'Action', 'Module', 'Details', 'Timestamp', 'IP Address'];
+    const rows = filtered.map(log => [
+        log.user, log.action, log.module, log.details, log.timestamp, log.ipAddress
+    ]);
 
-    const csv = [
-        ['User', 'Action', 'Module', 'Details', 'Timestamp', 'IP Address'],
-        ...filtered.map(log => [log.user, log.action, log.module, log.details, log.timestamp, log.ipAddress])
-    ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+    const csv = [headers, ...rows]
+        .map(row => row.map(cell => `"${(cell || '').toString().replace(/"/g, '""')}"`).join(','))
+        .join('\n');
 
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -119,7 +163,7 @@ function exportAuditLogs() {
     URL.revokeObjectURL(url);
 }
 
-// Export for global use
+// Global exports
 window.auditLogs = auditLogs;
 window.addAuditLog = addAuditLog;
 window.renderAuditLogs = renderAuditLogs;

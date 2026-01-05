@@ -192,7 +192,6 @@
 
 
 
-
 /* User Info */
 .user-info {
   font-weight: 500;
@@ -206,87 +205,148 @@
 }
 
 .username {
-  font-family: monospace;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
   font-size: 13px;
+  color: #6b7280;
 }
 
-/* Badge Styles */
+/* === MINIMALIST BADGES === */
 .badge {
   display: inline-block;
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
+  border: 1px solid transparent;
+  line-height: 1.3;
 }
 
-/* Role Badges */
-.badge-admin {
-  background-color: #ede9fe;
-  color: #7c3aed;
+/* Role Badge - Neutral gray for ALL roles */
+.badge-role {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border-color: #e5e7eb;
 }
 
-.badge-staff {
-  background-color: #dbeafe;
-  color: #2563eb;
+/* Status Badges - Subtle colors only */
+.badge-status.badge-active {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
 }
 
-.badge-receptionist {
-  background-color: #fef3c7;
-  color: #d97706;
+.badge-status.badge-inactive {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
 }
 
-.badge-optometrist {
-  background-color: #d1fae5;
-  color: #059669;
+/* === 3-DOT ACTIONS MENU === */
+.actions-menu {
+  position: relative;
+  display: inline-block;
 }
 
-/* Status Badges */
-.badge-active {
-  background-color: #d1fae5;
-  color: #059669;
-}
-
-.badge-inactive {
-  background-color: #fee2e2;
-  color: #dc2626;
-}
-
-/* Actions */
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  padding: 4px;
+.action-menu-btn {
+  padding: 6px;
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: 4px;
-  transition: opacity 0.2s;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.action-btn:hover {
-  opacity: 0.7;
+.action-menu-btn:hover {
+  background-color: #f3f4f6;
 }
 
-.action-btn svg {
-  width: 18px;
-  height: 18px;
+.action-menu-btn svg {
+  stroke: #6b7280;
+  stroke-width: 2;
 }
 
-.action-edit {
-  color: #2563eb;
+/* Dropdown Menu */
+.actions-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  min-width: 180px;
+  z-index: 1000;
+  margin-top: 4px;
+  overflow: hidden;
 }
 
-.action-reset {
-  color: #ea580c;
+.actions-dropdown.hidden {
+  display: none;
 }
 
-.action-delete {
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover {
+  background-color: #f9fafb;
+}
+
+.dropdown-item svg {
+  stroke: #6b7280;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.dropdown-item.danger {
   color: #dc2626;
+  border-top: 1px solid #e5e7eb;
 }
+
+.dropdown-item.danger svg {
+  stroke: #dc2626;
+}
+
+.dropdown-item.danger:hover {
+  background-color: #fef2f2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .actions-dropdown {
+    right: -50px;
+    min-width: 160px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Pagination */
 .table-pagination {
