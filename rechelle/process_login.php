@@ -13,6 +13,7 @@ if (!$username || !$password) {
     exit;
 }
 
+
 // Check if user exists
 $sql = "SELECT * FROM user_login WHERE username = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
