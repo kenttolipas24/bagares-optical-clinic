@@ -2,7 +2,7 @@
 <div class="audit-container">
   <div class="audit-header">
     <h1>Audit logs</h1>
-    <button class="generate-btn" onclick="generateexpoerlogs()">
+    <button class="generate-btn" onclick="openExportLogsModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
           <polyline points="17 8 12 3 7 8"></polyline>
@@ -20,7 +20,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
-        <input type="text" class="search-input" placeholder="Search logs..." id="userSearch" oninput="filterUsers()">
+        <input type="text" class="search-input" placeholder="Search by user, action, or details..." id="auditSearch" oninput="filterAuditLogs()">
       </div>
     </div>
 
@@ -63,14 +63,12 @@
 
     <div class="table-pagination">
       <div class="pagination-info">
-        Showing <span id="auditShowingStart">1</span> to <span id="auditShowingEnd">5</span> of <span id="totalaudit">5</span> audits
+          Showing <span id="auditShowingStart">1</span> to <span id="auditShowingEnd">10</span> of <span id="totalAudits">0</span> logs
       </div>
       <div class="pagination-controls">
-        <button class="pagination-btn" disabled>Previous</button>
-        <div class="pagination-numbers">
-          <button class="page-number active">1</button>
-        </div>
-        <button class="pagination-btn" disabled>Next</button>
+          <button class="pagination-btn" id="prevPageBtn" onclick="changePage(-1)" disabled>Previous</button>
+          <div class="pagination-numbers" id="pageNumbers"></div>
+          <button class="pagination-btn" id="nextPageBtn" onclick="changePage(1)" disabled>Next</button>
       </div>
     </div>
   </div>

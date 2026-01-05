@@ -1,0 +1,50 @@
+<!-- Export Logs Modal -->
+<div id="exportLogsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="exportModalTitle">Export Audit Logs</h3>
+            <button class="close-btn" onclick="closeExportLogsModal()" aria-label="Close modal">
+                <!-- Pure SVG Close Icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <p class="modal-description">
+                Download the current audit logs as a CSV file. This can be opened in Excel, Google Sheets, or any spreadsheet program.
+            </p>
+
+            <div class="form-group">
+                <label class="form-label">Date Range (Optional)</label>
+                <div class="date-range-grid">
+                    <input type="date" id="exportDateFrom" class="form-input">
+                    <input type="date" id="exportDateTo" class="form-input">
+                </div>
+                <p class="info-text">Leave blank to include all dates</p>
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="includeCurrentFilters" checked>
+                    <span class="checkbox-custom"></span>
+                    Apply current search and module filters
+                </label>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Note:</strong> Exported columns: User, Action, Module, Details, Timestamp, IP Address</p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeExportLogsModal()">Cancel</button>
+            <button class="btn-primary" id="confirmExportBtn" onclick="exportCSVOnly()">
+                <span class="btn-text">Export as CSV</span>
+                <span class="btn-loading hidden">Exporting...</span>
+            </button>
+        </div>
+    </div>
+</div>
