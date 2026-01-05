@@ -1,121 +1,129 @@
-// Load the navbar.html content into the placeholder (if needed)
+
+// Load navbar HTML
 fetch('../components/manager/navbar.html')
   .then(res => res.text())
   .then(data => {
     document.getElementById('navbar-placeholder').innerHTML = data;
+    
+    // Set initial page
+    changePage('inventory');
   })
   .catch(error => console.error('Error loading navbar:', error));
-
-// Change to a specific page
-function changePage(pageId, event) {
-  console.log(`[v0] Changing to page: ${pageId}`);
-
-  // Prevent default link behavior if event exists
-  event?.preventDefault();
-
-  // Hide all pages
-  document.querySelectorAll(".page-content").forEach((page) => {
-    page.classList.remove("active");
-  });
-
-  // Handle specific page loading
-  switch (pageId) {
-    case 'purchase-orders':
-      fetch('module/purchase_order.html')
-        .then(res => res.text())
-        .then(data => {
-          const contentArea = document.getElementById('main-content') || document.body; // Adjust target ID as needed
-          contentArea.innerHTML = data;
-        })
-        .catch(error => console.error('Error loading purchase_order.html:', error));
-      break;
-    case 'inventory':
-    case 'suppliers':
-    case 'sales-billing':
-      // Show existing page if it exists
-      const targetPage = document.getElementById(`${pageId}-page`);
-      if (targetPage) {
-        targetPage.classList.add("active");
-      }
-      break;
-    default:
-      console.log("Unknown page ID");
-  }
-
-  // Close all dropdowns
-  document.querySelectorAll(".dropdown-menu").forEach((menu) => {
-    menu.classList.remove("show");
-    menu.closest(".nav-dropdown")?.classList.remove("active");
-  });
-}
 
 // Toggle dropdown menu
 function toggleDropdown(dropdownId) {
   const dropdown = document.getElementById(`${dropdownId}-dropdown`);
-  const navDropdown = dropdown.closest(".nav-dropdown");
-
-  // Close all other dropdowns
-  document.querySelectorAll(".dropdown-menu").forEach((menu) => {
-    if (menu !== dropdown) {
-      menu.classList.remove("show");
-      menu.closest(".nav-dropdown")?.classList.remove("active");
+  const allDropdowns = document.querySelectorAll('.dropdown-menu');
+  
+  // Close other dropdowns
+  allDropdowns.forEach(menu => {
+    if (menu.id !== `${dropdownId}-dropdown`) {
+      menu.classList.remove('show');
     }
   });
-
+  
   // Toggle current dropdown
-  dropdown.classList.toggle("show");
-  navDropdown.classList.toggle("active");
+  dropdown.classList.toggle('show');
 }
 
-// Navigation handlers
-function handleNavigation(section) {
-  console.log(`Navigating to ${section} section`);
-  switch (section) {
-    case "patient":
-      alert("Navigating to Patient section");
-      // Add actual navigation logic here (e.g., window.location.href)
-      break;
-    case "appointment":
-      alert("Navigating to Appointment section");
-      // Add actual navigation logic here
-      break;
-    default:
-      console.log("Unknown navigation section");
-  }
-}
-
-// Handle notification click (to be implemented)
-function handleNotification() {
-  console.log("Notification clicked");
-  // Add notification logic here
-}
-
-// Handle profile click (to be implemented)
-function handleProfile() {
-  console.log("Profile clicked");
-  // Add profile logic here
-}
-
-// Add interactive features on page load
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Bagares Optical Clinic header loaded successfully");
-
-  // Add hover effects or active state
-  const navButtons = document.querySelectorAll(".nav-button");
-  navButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      navButtons.forEach((btn) => btn.classList.remove("active"));
-      this.classList.add("active");
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.nav-dropdown')) {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+      menu.classList.remove('show');
     });
+  }
+});
+
+// Main function to switch pages
+function changePage(pageId, event) {
+  if (event) {
+    event.preventDefault();
+  }
+  
+  console.log('Switching to:', pageId);
+  
+  // Hide ALL placeholders first
+  const placeholders = [
+    'frame-placeholder',
+    'purchase-placeholder',
+    'supplier-placeholder',
+    'reports-placeholder'
+  ];
+  
+  placeholders.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.style.display = 'none';
   });
-});
-
-// Close dropdowns when clicking outside
-document.addEventListener("click", (event) => {
-  if (!event.target.closest(".nav-dropdown")) {
-    document.querySelectorAll(".dropdown-menu").forEach((menu) => {
-      menu.classList.remove("show");
-      menu.closest(".nav-dropdown")?.classList.remove("active");
-    });
+  
+  // Show the correct placeholder based on pageId
+  switch(pageId) {
+    case 'inventory':
+      document.getElementById('frame-placeholder').style.display = 'block';
+      updateDropdownText('Inventory');
+      break;
+      
+    case 'purchase-orders':
+      document.getElementById('purchase-placeholder').style.display = 'block';
+      updateDropdownText('Purchase Orders');
+      break;
+      
+    case 'suppliers':
+      document.getElementById('supplier-placeholder').style.display = 'block';
+      updateDropdownText('Suppliers');
+      break;
+      
+    case 'sales-billing':
+      // When you create sales-billing placeholder, add it here
+      // document.getElementById('sales-billing-placeholder').style.display = 'block';
+      alert('Sales & Billing - Coming Soon!');
+      break;
+      
+    case 'reports':
+      document.getElementById('reports-placeholder').style.display = 'block';
+      break;
+      
+    default:
+      console.log('Unknown page:', pageId);
   }
-});
+  
+  // Close dropdown after selection
+  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+    menu.classList.remove('show');
+  });
+  
+  // Update active state for nav buttons
+  updateActiveButton(pageId);
+}
+
+// Update dropdown text
+function updateDropdownText(text) {
+  const dropdownText = document.getElementById('inventoryDropdownText');
+  if (dropdownText) {
+    dropdownText.textContent = text;
+  }
+}
+
+// Update active button state
+function updateActiveButton(pageId) {
+  document.querySelectorAll('.nav-button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Add active class to the correct button
+  if (pageId === 'inventory' || pageId === 'purchase-orders' || pageId === 'suppliers') {
+    const inventoryBtn = document.querySelector('.nav-dropdown .nav-button');
+    if (inventoryBtn) inventoryBtn.classList.add('active');
+  } else if (pageId === 'sales-billing') {
+    const salesBtn = document.querySelector('.nav-button[onclick*="sales-billing"]');
+    if (salesBtn) salesBtn.classList.add('active');
+  } else if (pageId === 'reports') {
+    const reportsBtn = document.querySelector('.nav-button[onclick*="reports"]');
+    if (reportsBtn) reportsBtn.classList.add('active');
+  }
+}
+
+// Handle notification (placeholder function)
+function handleNotification() {
+  alert('Notifications - Coming Soon!');
+}
