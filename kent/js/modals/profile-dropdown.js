@@ -72,7 +72,7 @@ function setupProfileDropdownListeners() {
 
       if (item.classList.contains('logout')) {
         console.log('Logging out...');
-        window.location.href = '../login page.html';
+        window.location.href = '../login.html';
       } else {
         console.log(`Selected: ${text}`);
         handleMenuNavigation(text);
