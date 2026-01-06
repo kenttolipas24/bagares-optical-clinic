@@ -1,0 +1,90 @@
+.vd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal */
+.vd-modal {
+  width: 420px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Header */
+.vd-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.vd-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.vd-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.vd-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #475569;
+}
+
+/* Body */
+.vd-body {
+  padding: 20px;
+}
+
+/* Grid layout */
+.vd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.vd-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vd-item span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.vd-item strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Status badge */
+.vd-status {
+  width: fit-content;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}

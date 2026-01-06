@@ -1,0 +1,64 @@
+<!-- Add Item Modal -->
+<div id="addItemModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="addItemModalTitle">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="addItemModalTitle">Add Item</h2>
+            <button class="close-btn" onclick="closeAddItemModal()" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body-scroll">
+            <div class="modal-body">
+                <form id="addItemForm" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="addProductName">Product Name <span class="required">*</span></label>
+                            <input type="text" id="addProductName" class="form-input" placeholder="Enter product name" required>
+                            <p class="error-text hidden" id="addProductNameError">Product name is required</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="addSKU">SKU <span class="required">*</span></label>
+                            <input type="text" id="addSKU" class="form-input" placeholder="e.g., RB-AV-001" required>
+                            <p class="error-text hidden" id="addSKUError">SKU is required</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="addCategory">Category <span class="required">*</span></label>
+                            <select class="form-input" id="addCategory" required>
+                                <option value="">Select category</option>
+                                <option value="frames">Frames</option>
+                                <option value="lenses">Lenses</option>
+                            </select>
+                            <p class="error-text hidden" id="addCategoryError">Category is required</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="addUnitPrice">Unit Price <span class="required">*</span></label>
+                            <input type="number" id="addUnitPrice" class="form-input" placeholder="₱0.00" step="0.01" min="0" required>
+                            <p class="error-text hidden" id="addUnitPriceError">Unit Price is required</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="addStockQuantity">Stock Quantity <span class="required">*</span></label>
+                            <input type="number" id="addStockQuantity" class="form-input" placeholder="0" min="0" required>
+                            <p class="error-text hidden" id="addStockQuantityError">Stock Quantity is required</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary" onclick="closeAddItemModal()">Cancel</button>
+            <button type="button" class="btn-primary" id="addItemBtn">
+                <span class="btn-text">Add Item</span>
+                <span class="btn-loading">Adding...</span>
+            </button>
+        </div>
+    </div>
+</div>

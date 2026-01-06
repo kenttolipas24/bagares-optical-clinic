@@ -187,42 +187,6 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.view-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.result-count {
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-.export-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #374151;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-}
-
-.export-btn:hover {
-  background-color: #f9fafb;
-  border-color: #3b82f6;
-  color: #3b82f6;
-}
-
-.export-btn svg {
-  stroke: currentColor;
-}
-
 /* Table Wrapper */
 .table-wrapper {
   overflow-x: auto;
@@ -340,13 +304,12 @@
   color: #991b1b;
 }
 
-/* Action Buttons */
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
+/* ===== 3-DOT ACTION MENU STYLES ===== */
+.action-cell {
+  position: relative;
 }
 
-.action-btn {
+.action-menu-btn {
   padding: 0.5rem;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
@@ -358,39 +321,83 @@
   justify-content: center;
 }
 
-.action-btn:hover {
-  background-color: #f9fafb;
-}
-
-.action-btn.view:hover {
+.action-menu-btn:hover {
+  background-color: #f3f4f6;
   border-color: #3b82f6;
-  background-color: #eff6ff;
 }
 
-.action-btn.view:hover svg {
+.action-menu-btn svg {
+  stroke: #6b7280;
+}
+
+.action-menu-btn:hover svg {
   stroke: #3b82f6;
 }
 
-.action-btn.edit:hover {
-  border-color: #10b981;
-  background-color: #d1fae5;
+/* Dropdown Menu */
+.action-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.25rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
 }
 
-.action-btn.edit:hover svg {
-  stroke: #10b981;
+.action-menu.show {
+  display: block;
 }
 
-.action-btn.delete:hover {
-  border-color: #ef4444;
+/* Menu Items */
+.action-menu-item {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.action-menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.action-menu-item svg {
+  stroke: #6b7280;
+  flex-shrink: 0;
+}
+
+.action-menu-item:hover svg {
+  stroke: #3b82f6;
+}
+
+/* Danger Item (Delete) */
+.action-menu-item.danger {
+  color: #dc2626;
+}
+
+.action-menu-item.danger:hover {
   background-color: #fee2e2;
 }
 
-.action-btn.delete:hover svg {
-  stroke: #ef4444;
+.action-menu-item.danger svg {
+  stroke: #dc2626;
 }
 
-.action-btn svg {
-  stroke: #6b7280;
+.action-menu-item.danger:hover svg {
+  stroke: #991b1b;
 }
 
 /* Pagination */
@@ -464,14 +471,6 @@
   border-color: #3b82f6;
 }
 
-/* Checkbox */
-input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  accent-color: #3b82f6;
-}
-
 /* Responsive */
 @media (max-width: 1024px) {
   .inventory-container {
@@ -519,5 +518,11 @@ input[type="checkbox"] {
   .table-pagination {
     flex-direction: column;
     gap: 1rem;
+  }
+  
+  /* Mobile: Menu opens to the left to prevent overflow */
+  .action-menu {
+    right: auto;
+    left: 0;
   }
 }
