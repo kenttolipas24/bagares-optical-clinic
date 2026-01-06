@@ -1,0 +1,101 @@
+<main class="form-container">
+    <form id="booking-form">
+        <!-- Step 1: Service & Time -->
+        <div id="step-1">
+            <div class="form-header">
+                <h2>Choose Service & Date</h2>
+                <p>Select what type of eye care you need.</p>
+            </div>
+
+            <div class="form-group">
+                <label>Type of Service</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="comprehensive" name="service" value="Comprehensive Eye Exam" required>
+                        <label for="comprehensive" class="radio-label">Comprehensive Eye Exam</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="followup" name="service" value="Follow-up Checkup">
+                        <label for="followup" class="radio-label">Follow-up Checkup</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="glasses" name="service" value="Glasses Pickup / Fitting">
+                        <label for="glasses" class="radio-label">Glasses Pickup / Fitting</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="date-time-group">
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="text" id="date" placeholder="dd/mm/yyyy" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <select id="time" required>
+                        <option value="">Select time</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="13:00">01:00 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="15:00">03:00 PM</option>
+                        <option value="16:00">04:00 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="btn-next" onclick="nextStep(2)">
+                Next Step <span>→</span>
+            </button>
+        </div>
+
+        <!-- Step 2: Personal Info -->
+        <div id="step-2" class="hidden">
+            <div class="form-header">
+                <h2>Personal Information</h2>
+                <p>Please provide your contact details.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="your.email@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="+63 XXX XXX XXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Additional Notes (Optional)</label>
+                <input type="text" id="notes" placeholder="Any special requests or concerns?">
+            </div>
+
+            <button type="button" class="btn-next" onclick="nextStep(3)">
+                Next Step <span>→</span>
+            </button>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div id="step-3" class="hidden">
+            <div class="form-header">
+                <h2>Confirm Your Appointment</h2>
+                <p>Please review your booking details.</p>
+            </div>
+
+            <div id="confirmation-details" style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                <!-- JavaScript will populate this -->
+            </div>
+
+            <button type="submit" class="btn-next">
+                Confirm Booking <span>✓</span>
+            </button>
+        </div>
+    </form>
+</main>
