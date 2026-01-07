@@ -63,3 +63,16 @@
     font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
 }
+
+.service-icon {
+    width: 72px;
+    height: 72px;
+    color: var(--color-accent);
+}
+
+.service-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-light);
+}

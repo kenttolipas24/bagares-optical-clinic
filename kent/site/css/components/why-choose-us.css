@@ -41,15 +41,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
     margin: 0 auto var(--spacing-lg);
     transition: all var(--transition-normal);
 }
 
+.feature-icon svg {
+    width: 36px;
+    height: 36px;
+    color: var(--color-accent);
+}
+
 .feature:hover .feature-icon {
     background: var(--color-accent);
-    transform: rotate(10deg) scale(1.1);
+    transform: translateY(-4px);
 }
+
+.feature:hover .feature-icon svg {
+    color: #fff;
+}
+
 
 .feature h3 {
     font-size: var(--font-size-xl);
