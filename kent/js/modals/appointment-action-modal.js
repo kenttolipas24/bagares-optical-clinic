@@ -60,24 +60,25 @@ document.addEventListener('keydown', function(e) {
 });
 
 // Action functions
-function confirmAppointment() { 
-  alert('Appointment confirmed!'); 
-  closeAppointmentActionModal(); 
-}
-
 function viewAppointmentDetails() { 
-  alert('View details'); 
+  console.log('View details for appointment:', currentAppointmentId);
+  // TODO: Open view details modal
+  alert(`View details for appointment: ${currentAppointmentId}`); 
   closeAppointmentActionModal(); 
 }
 
 function rescheduleAppointment() { 
-  alert('Reschedule opened'); 
+  console.log('Reschedule appointment:', currentAppointmentId);
+  // TODO: Open reschedule modal
+  alert(`Reschedule appointment: ${currentAppointmentId}`); 
   closeAppointmentActionModal(); 
 }
 
 function cancelAppointment() { 
-  if (confirm('Cancel this appointment?')) {
-    alert('Appointment cancelled');
+  if (confirm(`Are you sure you want to cancel appointment ${currentAppointmentId}?`)) {
+    console.log('Cancel appointment:', currentAppointmentId);
+    // TODO: API call to cancel appointment
+    alert('Appointment cancelled successfully');
   }
   closeAppointmentActionModal(); 
 }

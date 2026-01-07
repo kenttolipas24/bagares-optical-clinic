@@ -1,4 +1,4 @@
-/* Appointment Action Dropdown - Clean like screenshot */
+/* Appointment Action Dropdown - Minimalist & Professional */
 .appointment-action-modal {
   display: none;
   position: fixed;
@@ -35,7 +35,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   color: #374151;
   font-size: 14px;
   transition: background 0.15s;
@@ -46,31 +46,50 @@
   background: #f3f4f6;
 }
 
-.appointment-action-modal .action-item i {
-  font-size: 15px;
+/* SVG Icon Styles */
+.action-dropdown-icon {
   width: 18px;
-  color: #6b7280;
+  height: 18px;
   flex-shrink: 0;
+  stroke: #6b7280;
+  transition: stroke 0.15s;
 }
 
-/* Confirm (Green) */
-.appointment-action-modal .action-item:nth-child(1) {
-  color: #059669;
+/* View Details - Blue */
+.appointment-action-modal .action-item:nth-child(1):hover {
+  background: #eff6ff;
 }
 
-.appointment-action-modal .action-item:nth-child(1) i {
-  color: #059669;
+.appointment-action-modal .action-item:nth-child(1):hover .action-dropdown-icon {
+  stroke: #2563eb;
 }
 
-/* Cancel (Red) */
-.appointment-action-modal .action-item:last-child {
+.appointment-action-modal .action-item:nth-child(1):hover {
+  color: #2563eb;
+}
+
+/* Reschedule - Orange */
+.appointment-action-modal .action-item:nth-child(2):hover {
+  background: #fff7ed;
+}
+
+.appointment-action-modal .action-item:nth-child(2):hover .action-dropdown-icon {
+  stroke: #ea580c;
+}
+
+.appointment-action-modal .action-item:nth-child(2):hover {
+  color: #ea580c;
+}
+
+/* Cancel - Red */
+.appointment-action-modal .action-item.action-delete {
   color: #dc2626;
 }
 
-.appointment-action-modal .action-item:last-child i {
-  color: #dc2626;
+.appointment-action-modal .action-item.action-delete .action-dropdown-icon {
+  stroke: #dc2626;
 }
 
-.appointment-action-modal .action-item:last-child:hover {
+.appointment-action-modal .action-item.action-delete:hover {
   background: #fef2f2;
 }

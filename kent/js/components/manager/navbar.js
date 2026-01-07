@@ -73,11 +73,11 @@ function changePage(pageId, event) {
       updateDropdownText('Suppliers');
       break;
       
-    case 'sales-billing':
+    // case 'sales-billing':
       // When you create sales-billing placeholder, add it here
       // document.getElementById('sales-billing-placeholder').style.display = 'block';
-      alert('Sales & Billing - Coming Soon!');
-      break;
+      // alert('Sales & Billing - Coming Soon!');
+      // break;
       
     case 'reports':
       document.getElementById('reports-placeholder').style.display = 'block';
@@ -114,9 +114,9 @@ function updateActiveButton(pageId) {
   if (pageId === 'inventory' || pageId === 'purchase-orders' || pageId === 'suppliers') {
     const inventoryBtn = document.querySelector('.nav-dropdown .nav-button');
     if (inventoryBtn) inventoryBtn.classList.add('active');
-  } else if (pageId === 'sales-billing') {
-    const salesBtn = document.querySelector('.nav-button[onclick*="sales-billing"]');
-    if (salesBtn) salesBtn.classList.add('active');
+  // } else if (pageId === 'sales-billing') {
+  //   const salesBtn = document.querySelector('.nav-button[onclick*="sales-billing"]');
+  //   if (salesBtn) salesBtn.classList.add('active');
   } else if (pageId === 'reports') {
     const reportsBtn = document.querySelector('.nav-button[onclick*="reports"]');
     if (reportsBtn) reportsBtn.classList.add('active');

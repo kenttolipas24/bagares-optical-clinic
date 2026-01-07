@@ -2,35 +2,39 @@
   <div class="appointment-container">
     <div class="appointment-header">
       <h1>Appointment</h1>
-      <button class="btn-add"  onclick="openAddAppointmentModal()">+ Add Appointment</button>
+      <button class="btn-add" onclick="openAddAppointmentModal()">+ Add Appointment</button>
     </div>
 
     <div class="appointment-content">
       <div class="appointment-left">
         <div class="card">
-          <div class="card-header">Appointment Records</div>
-          
-          <div class="search-box">
-            <input type="text" placeholder="Search patients..." id="searchInput">
+          <div class="card-header-row">
+            <div class="card-header">Appointment Records</div>
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input type="text" placeholder="Search appointments..." id="searchInput">
+            </div>
           </div>
 
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Date & Time</th>
-                <th>Service</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                <th>Type of Service</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="appointmentTable">
+              <!-- Appointments will be loaded here by JavaScript -->
               <tr>
-                <td>Rechelle P. Aldea</td>
-                <td>01/01/2025<br>10:00 AM</td>
-                <td>Consultation</td>
-                <td><span class="status-badge">Pending</span></td>
-                <td><button class="actions-btn" onclick="openAppointmentActionModal(event, 'appt-001')">⋮</button></td>
+                <td colspan="5" style="text-align: center; padding: 20px; color: #999;">
+                  Loading appointments...
+                </td>
               </tr>
             </tbody>
           </table>
@@ -41,7 +45,7 @@
         <div class="card calendar">
           <div class="calendar-header">
             <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
-            <div id="calendarTitle">2025 July</div>
+            <div id="calendarTitle">2025 January</div>
             <button class="calendar-nav" onclick="changeMonth(1)">›</button>
           </div>
           
@@ -56,7 +60,7 @@
           </div>
           
           <div class="calendar-grid" id="calendarGrid">
-            <!-- Calendar days will be generated here -->
+            <!-- Calendar days will be generated here by JavaScript -->
           </div>
 
           <div class="appointment-detail" id="appointmentDetail">
