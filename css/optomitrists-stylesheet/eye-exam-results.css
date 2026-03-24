@@ -1,0 +1,372 @@
+/* ================================================
+   EYE EXAMINATION RESULTS - TABLE DESIGN
+   ================================================ */
+
+#eye-exam-results-section {
+  width: 100%;
+  background: #f8f9fa;
+  min-height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.exam-main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ────────────────────────────────────────────────
+   PAGE HEADER
+   ──────────────────────────────────────────────── */
+.exam-page-header {
+  margin-bottom: 2rem;
+}
+
+.exam-page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a202c;
+  letter-spacing: -0.02em;
+}
+
+/* ────────────────────────────────────────────────
+   CONTROLS (FILTER & SEARCH)
+   ──────────────────────────────────────────────── */
+.exam-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.exam-filter-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.exam-filter-select {
+  padding: 0.625rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  color: #4a5568;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exam-filter-select:hover {
+  border-color: #cbd5e0;
+}
+
+.exam-filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.exam-search-box {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.exam-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #a0aec0;
+  pointer-events: none;
+}
+
+.exam-search-input {
+  width: 100%;
+  padding: 0.625rem 1rem 0.625rem 2.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  color: #2d3748;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.exam-search-input::placeholder {
+  color: #a0aec0;
+}
+
+.exam-search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ────────────────────────────────────────────────
+   TABLE CONTAINER
+   ──────────────────────────────────────────────── */
+.exam-table-container {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+/* ────────────────────────────────────────────────
+   TABLE STYLES
+   ──────────────────────────────────────────────── */
+.exam-results-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.exam-results-table thead {
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.exam-results-table th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.exam-results-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s;
+}
+
+.exam-results-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.exam-results-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.exam-results-table td {
+  padding: 1rem 1.25rem;
+  color: #2d3748;
+  font-size: 0.875rem;
+}
+
+/* Patient Name Column */
+.exam-patient-name-cell {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.exam-patient-id-small {
+  display: block;
+  font-size: 0.75rem;
+  color: #a0aec0;
+  font-weight: 400;
+  margin-top: 0.25rem;
+}
+
+/* Date Column */
+.exam-date-cell {
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* Prescription Columns */
+.exam-prescription-cell {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.exam-prescription-line {
+  display: block;
+}
+
+.exam-rx-label {
+  display: inline-block;
+  width: 50px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.exam-rx-value {
+  color: #2d3748;
+}
+
+/* PD and Lens Type */
+.exam-value-cell {
+  font-weight: 500;
+}
+
+/* Empty State */
+.exam-empty-row {
+  text-align: center;
+  padding: 4rem 2rem !important;
+}
+
+.exam-empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #a0aec0;
+}
+
+.exam-empty-content svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.5;
+}
+
+.exam-empty-content p {
+  font-size: 1rem;
+  color: #718096;
+  margin: 0;
+}
+
+/* Loading State */
+.exam-loading-row {
+  text-align: center;
+  padding: 3rem 2rem !important;
+  color: #a0aec0;
+}
+
+/* ────────────────────────────────────────────────
+   PAGINATION
+   ──────────────────────────────────────────────── */
+.exam-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.exam-pagination-info {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.exam-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.exam-pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  color: #4a5568;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exam-pagination-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e0;
+}
+
+.exam-pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.exam-pagination-btn svg {
+  stroke-width: 2.5;
+}
+
+.exam-page-numbers {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.exam-page-number {
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  color: #4a5568;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exam-page-number:hover {
+  background: #f8fafc;
+  border-color: #cbd5e0;
+}
+
+.exam-page-number.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  #eye-exam-results-section {
+    padding: 1rem;
+  }
+
+  .exam-results-table {
+    font-size: 0.8125rem;
+  }
+
+  .exam-results-table th,
+  .exam-results-table td {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .exam-page-title {
+    font-size: 1.5rem;
+  }
+
+  .exam-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exam-search-box {
+    max-width: 100%;
+  }
+
+  .exam-table-container {
+    overflow-x: auto;
+  }
+
+  .exam-results-table {
+    min-width: 900px;
+  }
+
+  .exam-pagination {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .exam-page-numbers {
+    order: -1;
+  }
+}

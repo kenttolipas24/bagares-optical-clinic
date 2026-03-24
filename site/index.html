@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bagares Optical Clinic</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+/* HERO */
+.hero {
+  border-bottom: 1px solid var(--line);
+  padding: 6rem 2rem 5rem;
+}
+.hero-inner { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.hero-label { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-weight: 300; color: var(--ink); line-height: 1.15;
+  margin-bottom: 1.25rem; letter-spacing: -0.02em;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 2rem; max-width: 440px; }
+.hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.hero-note { font-size: 12.5px; color: var(--ink-3); }
+
+.hero-aside {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  overflow: hidden; background: var(--bg-2);
+}
+.aside-head { padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--line); background: white; }
+.aside-head span { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.svc-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 1.5rem; border-bottom: 1px solid var(--line); background: white; transition: var(--t); }
+.svc-row:last-child { border-bottom: none; }
+.svc-row:hover { background: var(--bg-2); }
+.svc-row-left { display: flex; align-items: center; gap: 12px; }
+.svc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.svc-row-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.svc-row-dur { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+.svc-row-price { font-size: 13.5px; font-weight: 600; color: var(--ink); font-family: 'Fraunces', serif; }
+
+/* STATS STRIP */
+.stats-strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stats-inner { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat-item { padding: 2rem; text-align: center; border-right: 1px solid var(--line); }
+.stat-item:last-child { border-right: none; }
+.stat-n { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; color: var(--ink); letter-spacing: -0.03em; margin-bottom: 4px; }
+.stat-l { font-size: 12.5px; color: var(--ink-3); font-weight: 500; }
+
+/* SERVICES SECTION */
+.section { padding: 5rem 2rem; }
+.section-inner { max-width: 1140px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1rem; }
+.section-title { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 300; color: var(--ink); margin-bottom: 3rem; letter-spacing: -0.02em; }
+.section-title em { font-style: italic; }
+
+.svcs-table { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.svcs-table-row { display: grid; grid-template-columns: 1fr 100px 100px 140px; align-items: center; padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--line); transition: var(--t); }
+.svcs-table-row:last-child { border-bottom: none; }
+.svcs-table-row:hover { background: var(--bg-2); }
+.svcs-table-head { background: var(--bg-2); font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 1.5rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 100px 100px 140px; }
+.svc-name-cell strong { font-size: 14px; font-weight: 500; color: var(--ink); display: block; margin-bottom: 2px; }
+.svc-name-cell span { font-size: 12.5px; color: var(--ink-3); }
+.svc-dur-cell, .svc-price-cell { font-size: 13.5px; color: var(--ink-2); font-weight: 500; }
+.svc-price-cell { font-family: 'Fraunces', serif; color: var(--ink); }
+
+/* HOW IT WORKS */
+.steps-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.step-card { padding: 1.75rem 0; border-top: 2px solid var(--line); }
+.step-card.accent { border-top-color: var(--accent); }
+.step-num { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 300; color: var(--line-dark); margin-bottom: 12px; letter-spacing: -0.03em; }
+.step-card.accent .step-num { color: var(--accent); opacity: 0.4; }
+.step-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.step-desc { font-size: 13px; color: var(--ink-3); line-height: 1.65; }
+
+/* CTA */
+.cta-row { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 3.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.cta-text h2 { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 300; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.02em; }
+.cta-text p { font-size: 14px; color: var(--ink-3); }
+
+@keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.fade-in { animation: fadein 0.5s ease both; }
+[data-d="1"] { animation-delay: 0.1s; }
+[data-d="2"] { animation-delay: 0.2s; }
+[data-d="3"] { animation-delay: 0.3s; }
+
+@media (max-width: 900px) { .hero-inner { grid-template-columns:1fr; gap:3rem; } .hero-aside { display:none; } .steps-row { grid-template-columns:1fr 1fr; } .cta-row { flex-direction:column; text-align:center; } }
+@media (max-width: 600px) { .steps-row { grid-template-columns:1fr; } .stats-inner { grid-template-columns:1fr 1fr; } .stat-item:nth-child(2) { border-right:none; } .svcs-table-head,.svcs-table-row { grid-template-columns:1fr 80px; } .svc-dur-cell { display:none; } }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-label fade-in">Catarman, Northern Samar</p>
+      <h1 class="fade-in" data-d="1">Clear vision,<br><em>expert</em> care.</h1>
+      <p class="hero-sub fade-in" data-d="2">Book a comprehensive eye exam, contact lens fitting, or follow-up with our licensed specialists — entirely online, in under 2 minutes.</p>
+      <div class="hero-actions fade-in" data-d="3">
+        <a href="booking.html" class="btn btn-dark btn-lg">Book an appointment</a>
+        <span class="hero-note">No walk-in needed</span>
+      </div>
+    </div>
+    <div class="hero-aside fade-in" data-d="2">
+      <div class="aside-head"><span>Services</span></div>
+      <div class="svc-row"><div class="svc-row-left"><div class="svc-dot"></div><div><div class="svc-row-name">Comprehensive Eye Exam</div><div class="svc-row-dur">45–60 min</div></div></div><div class="svc-row-price">₱500</div></div>
+      <div class="svc-row"><div class="svc-row-left"><div class="svc-dot"></div><div><div class="svc-row-name">Follow-up Checkup</div><div class="svc-row-dur">20–30 min</div></div></div><div class="svc-row-price">₱200</div></div>
+      <div class="svc-row"><div class="svc-row-left"><div class="svc-dot"></div><div><div class="svc-row-name">Contact Lens Fitting</div><div class="svc-row-dur">30–45 min</div></div></div><div class="svc-row-price">₱350</div></div>
+      <div class="svc-row"><div class="svc-row-left"><div class="svc-dot"></div><div><div class="svc-row-name">Pediatric Eye Exam</div><div class="svc-row-dur">40–50 min</div></div></div><div class="svc-row-price">₱450</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-n">1,200+</div><div class="stat-l">Patients served</div></div>
+    <div class="stat-item"><div class="stat-n">10+</div><div class="stat-l">Years in service</div></div>
+    <div class="stat-item"><div class="stat-n">3</div><div class="stat-l">Licensed specialists</div></div>
+    <div class="stat-item"><div class="stat-n">4.9</div><div class="stat-l">Patient rating</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" style="border-bottom:1px solid var(--line);">
+  <div class="section-inner">
+    <p class="section-label">Services</p>
+    <h2 class="section-title">What we offer</h2>
+    <div class="svcs-table">
+      <div class="svcs-table-head"><span>Service</span><span>Duration</span><span>Fee</span><span></span></div>
+      <div class="svcs-table-row"><div class="svc-name-cell"><strong>Comprehensive Eye Exam</strong><span>Full vision evaluation, refraction, and prescription update</span></div><div class="svc-dur-cell">45–60 min</div><div class="svc-price-cell">₱500</div><a href="booking.html" class="btn btn-outline btn-sm">Book →</a></div>
+      <div class="svcs-table-row"><div class="svc-name-cell"><strong>Follow-up Checkup</strong><span>Quick review of previous treatment or prescription</span></div><div class="svc-dur-cell">20–30 min</div><div class="svc-price-cell">₱200</div><a href="booking.html" class="btn btn-outline btn-sm">Book →</a></div>
+      <div class="svcs-table-row"><div class="svc-name-cell"><strong>Contact Lens Fitting</strong><span>Measurement and trial fitting for new contact lens prescription</span></div><div class="svc-dur-cell">30–45 min</div><div class="svc-price-cell">₱350</div><a href="booking.html" class="btn btn-outline btn-sm">Book →</a></div>
+      <div class="svcs-table-row"><div class="svc-name-cell"><strong>Pediatric Eye Exam</strong><span>Specialized vision screening for children ages 3–17</span></div><div class="svc-dur-cell">40–50 min</div><div class="svc-price-cell">₱450</div><a href="booking.html" class="btn btn-outline btn-sm">Book →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="border-bottom:1px solid var(--line);">
+  <div class="section-inner">
+    <p class="section-label">Process</p>
+    <h2 class="section-title">How online booking works</h2>
+    <div class="steps-row">
+      <div class="step-card accent"><div class="step-num">01</div><div class="step-title">Create an account</div><div class="step-desc">Register with your email and basic details. Free and takes 30 seconds.</div></div>
+      <div class="step-card"><div class="step-num">02</div><div class="step-title">Choose your service</div><div class="step-desc">Select a service, preferred doctor, date, and available time slot.</div></div>
+      <div class="step-card"><div class="step-num">03</div><div class="step-title">Enter patient details</div><div class="step-desc">Fill in your information and submit your booking request.</div></div>
+      <div class="step-card"><div class="step-num">04</div><div class="step-title">Get your confirmation</div><div class="step-desc">A message will appear in your dashboard inbox once the clinic confirms.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="section-inner">
+    <div class="cta-row">
+      <div class="cta-text">
+        <h2>Ready to book your visit?</h2>
+        <p>Same-week slots available. No phone call required.</p>
+      </div>
+      <a href="booking.html" class="btn btn-dark btn-lg">Book appointment →</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/shared.js"></script>
+<script>
+  Bagares.renderNav('Home');
+  Bagares.renderFooter();
+</script>
+</body>
+</html>

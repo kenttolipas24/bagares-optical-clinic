@@ -1,0 +1,83 @@
+<div class="reports-container">
+  <!-- Header -->
+  <div class="reports-header">
+    <div class="header-title">
+      <h1>Reports</h1>
+      <p class="header-subtitle">View and analyze inventory data</p>
+    </div>
+    <button class="generate-btn" onclick="generateCustomReport()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Export Report
+    </button>
+  </div>
+
+  <!-- Report Card -->
+  <div class="report-content" id="inventory-report">
+    <div class="report-card">
+      <!-- Card Header -->
+      <div class="card-header">
+        <h2>Inventory Report</h2>
+        <span class="header-subtitle" id="reportDate"></span>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" class="search-input" placeholder="Search products..." id="reportSearch">
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <select class="filter-select" id="inventoryCategory">
+          <option value="all">All Categories</option>
+          <option value="frames">Frames</option>
+          <option value="lenses">Lenses</option>
+          <option value="accessories">Accessories</option>
+        </select>
+
+        <select class="filter-select" id="inventoryStock">
+          <option value="all">All Status</option>
+          <option value="in-stock">In Stock</option>
+          <option value="low-stock">Low Stock</option>
+          <option value="out-of-stock">Out of Stock</option>
+        </select>
+
+        <input type="date" class="filter-input" id="inventoryDate">
+      </div>
+
+      <!-- Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Quantity</th>
+              <th>User</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody">
+            <!-- Data will be inserted here dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer -->
+      <div class="table-footer">
+        <span id="entryCount">Showing <strong>0</strong> of <strong>0</strong> entries</span>
+        <span>Total Items: <strong id="totalItems">0</strong></span>
+      </div>
+    </div>
+  </div>
+</div>

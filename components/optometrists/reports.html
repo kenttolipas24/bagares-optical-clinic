@@ -1,0 +1,255 @@
+<!-- reports.html -->
+<section class="reports-section">
+    <div class="reports-container">
+        <div class="reports-header">
+            <h1>Reports</h1>
+            <div class="header-actions">
+                <button class="generate-btn" onclick="generateCustomReport()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Generate Custom Report
+                </button>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-button active" onclick="switchTab('inventory')">Inventory Report</button>
+                <button class="tab-button" onclick="switchTab('sales')">Sales Report</button>
+                <button class="tab-button" onclick="switchTab('patient-records')">Patient Records</button>
+                <button class="tab-button" onclick="switchTab('condemnation')">Condemnation Report</button>
+            </div>
+
+            <!-- Inventory Report Tab -->
+            <div class="tab-content active" id="inventory-tab">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select class="filter-select">
+                            <option>All Categories</option>
+                            <option>Frames</option>
+                            <option>Lenses</option>
+                            <option>Accessories</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Stock Level</label>
+                        <select class="filter-select">
+                            <option>All Stock Levels</option>
+                            <option>In Stock</option>
+                            <option>Low Stock</option>
+                            <option>Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Search Product</label>
+                        <input type="text" class="filter-input" placeholder="Search product...">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By</label>
+                        <select class="filter-select">
+                            <option>Product Name (A-Z)</option>
+                            <option>Product Name (Z-A)</option>
+                            <option>Stock (High to Low)</option>
+                            <option>Stock (Low to High)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="report-table-wrapper">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Unit Price</th>
+                                <th>Total Value</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-info">Showing — of —</div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" disabled>‹ Prev</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn" disabled>Next ›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Report Tab -->
+            <div class="tab-content" id="sales-tab">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select class="filter-select">
+                            <option>All Categories</option>
+                            <option>Frames</option>
+                            <option>Lenses</option>
+                            <option>Accessories</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By</label>
+                        <select class="filter-select">
+                            <option>Date (Newest First)</option>
+                            <option>Date (Oldest First)</option>
+                            <option>Amount (High to Low)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="report-table-wrapper">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice No.</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-info">Showing — of —</div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" disabled>‹ Prev</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn" disabled>Next ›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Records Tab -->
+            <div class="tab-content" id="patient-records-tab">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label class="filter-label">Search Patient</label>
+                        <input type="text" class="filter-input" placeholder="Search patient...">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By</label>
+                        <select class="filter-select">
+                            <option>Date (Newest First)</option>
+                            <option>Date (Oldest First)</option>
+                            <option>Patient Name (A-Z)</option>
+                            <option>Patient Name (Z-A)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="report-table-wrapper">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Address</th>
+                                <th>Result</th>
+                                <th>Add</th>
+                                <th>PD</th>
+                                <th>Age</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-info">Showing — of —</div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" disabled>‹ Prev</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn" disabled>Next ›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Condemnation Report Tab -->
+            <div class="tab-content" id="condemnation-tab">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select class="filter-select">
+                            <option>All Categories</option>
+                            <option>Frames</option>
+                            <option>Lenses</option>
+                            <option>Accessories</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Reason</label>
+                        <select class="filter-select">
+                            <option>All Reasons</option>
+                            <option>Damaged</option>
+                            <option>Expired</option>
+                            <option>Defective</option>
+                            <option>Obsolete</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By</label>
+                        <select class="filter-select">
+                            <option>Date (Newest First)</option>
+                            <option>Date (Oldest First)</option>
+                            <option>Value (High to Low)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="report-table-wrapper">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Date Condemned</th>
+                                <th>Product Name</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total Value</th>
+                                <th>Reason</th>
+                                <th>Approved By</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-info">Showing — of —</div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" disabled>‹ Prev</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn" disabled>Next ›</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

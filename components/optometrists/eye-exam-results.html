@@ -1,0 +1,70 @@
+<section id="eye-exam-results-section">
+  <main class="exam-main-content">
+    <!-- Page Header -->
+    <div class="exam-page-header">
+      <h2 class="exam-page-title">EYE EXAMINATION RESULTS</h2>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="exam-controls">
+      <div class="exam-filter-group">
+        <select class="exam-filter-select" id="dateFilter">
+          <option value="all">All Time</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="year">This Year</option>
+        </select>
+      </div>
+
+      <div class="exam-search-box">
+        <svg class="exam-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" class="exam-search-input" placeholder="Search by patient name or ID...">
+      </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="exam-table-container">
+      <table class="exam-results-table">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Exam Date</th>
+            <th>OD Prescription</th>
+            <th>OS Prescription</th>
+            <th>PD</th>
+            <th>Lens Type</th>
+          </tr>
+        </thead>
+        <tbody id="examResultsBody">
+          <!-- Results will be dynamically loaded here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="exam-pagination">
+      <div class="exam-pagination-info">
+        <span id="paginationInfo">Showing 0 to 0 of 0 results</span>
+      </div>
+      <div class="exam-pagination-controls">
+        <button class="exam-pagination-btn" id="prevBtn" onclick="previousPage()" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Previous
+        </button>
+        <div class="exam-page-numbers" id="pageNumbers"></div>
+        <button class="exam-pagination-btn" id="nextBtn" onclick="nextPage()" disabled>
+          Next
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+</section>

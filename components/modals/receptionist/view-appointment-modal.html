@@ -1,0 +1,73 @@
+<div id="viewAppointmentModal" class="view-appointment-overlay">
+  <div class="view-appointment-container">
+
+    <div class="view-appointment-header">
+      <h2>Appointment Details</h2>
+      <button class="modal-close" onclick="closeViewAppointmentModal()">×</button>
+    </div>
+
+    <div class="view-appointment-body">
+      <div class="detail-row">
+        <span class="label">Patient Name</span>
+        <span class="value" id="vd-name"></span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Date</span>
+        <span class="value" id="vd-date"></span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Time</span>
+        <span class="value" id="vd-time"></span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Type of Service</span>
+        <span class="value" id="vd-service"></span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Status</span>
+        <span class="value" id="vd-status"></span>
+      </div>
+
+      <!-- Reschedule fields — hidden by default -->
+      <div id="reschedule-fields" style="display:none; margin-top:12px; border-top:1px solid #e5e7eb; padding-top:14px;">
+        <div class="detail-row" style="flex-direction:column; gap:6px;">
+          <span class="label">New Date</span>
+          <input type="date" id="resched-date" style="padding:8px 10px; border:1px solid #d1d5db; border-radius:6px; font-size:13px; width:100%;">
+        </div>
+        <div class="detail-row" style="flex-direction:column; gap:6px; margin-top:10px;">
+          <span class="label">New Time</span>
+          <select id="resched-time" style="padding:8px 10px; border:1px solid #d1d5db; border-radius:6px; font-size:13px; width:100%;">
+            <option value="">— Select time —</option>
+            <option value="08:00">8:00 AM</option>
+            <option value="09:00">9:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+            <option value="13:00">1:00 PM</option>
+            <option value="14:00">2:00 PM</option>
+            <option value="15:00">3:00 PM</option>
+            <option value="16:00">4:00 PM</option>
+          </select>
+        </div>
+        <div class="detail-row" style="flex-direction:column; gap:6px; margin-top:10px;">
+          <span class="label">Reason <span style="font-weight:400; font-size:11px; color:#9ca3af;">(optional)</span></span>
+          <textarea id="resched-reason" rows="2" placeholder="e.g. Doctor unavailable on original date..." style="padding:8px 10px; border:1px solid #d1d5db; border-radius:6px; font-size:13px; width:100%; resize:vertical; font-family:inherit;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-appointment-footer" style="display:flex; gap:8px; padding:14px 20px; border-top:1px solid #e5e7eb; justify-content:flex-end;">
+      <!-- Default action buttons -->
+      <div id="vd-actions-default" style="display:flex; gap:8px; width:100%; justify-content:flex-end;">
+        <button onclick="closeViewAppointmentModal()" style="padding:8px 16px; border:1px solid #d1d5db; border-radius:6px; background:white; font-size:13px; cursor:pointer;">Close</button>
+        <button onclick="startReschedule()" style="padding:8px 16px; border:1px solid #f59e0b; border-radius:6px; background:#fffbeb; color:#92400e; font-size:13px; cursor:pointer; font-weight:500;">📅 Reschedule</button>
+        <button id="vd-confirm-btn" onclick="confirmAppointment()" style="padding:8px 20px; border:none; border-radius:6px; background:#16a34a; color:white; font-size:13px; cursor:pointer; font-weight:600;">✓ Confirm</button>
+      </div>
+      <!-- Reschedule confirm buttons -->
+      <div id="vd-actions-resched" style="display:none; gap:8px; width:100%; justify-content:flex-end;">
+        <button onclick="cancelReschedule()" style="padding:8px 16px; border:1px solid #d1d5db; border-radius:6px; background:white; font-size:13px; cursor:pointer;">← Back</button>
+        <button onclick="submitReschedule()" style="padding:8px 20px; border:none; border-radius:6px; background:#2563eb; color:white; font-size:13px; cursor:pointer; font-weight:600;">Send Reschedule Notice</button>
+      </div>
+    </div>
+
+  </div>
+</div>

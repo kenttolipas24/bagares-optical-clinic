@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bagares Optical Clinic — Dashboard</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+/* HEADER */
+.dash-header { border-bottom: 1px solid var(--line); padding: 2rem 2rem 1.75rem; }
+.dash-header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.dh-label { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.dh-name { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 300; color: var(--ink); letter-spacing: -0.02em; }
+.dh-sub { font-size: 13px; color: var(--ink-3); margin-top: 3px; }
+.dh-actions { display: flex; gap: 8px; align-items: center; }
+
+/* MAIN */
+.dash-main { max-width: 1100px; margin: 0 auto; padding: 1.75rem 2rem 5rem; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 1.75rem; }
+.stat-c { background: white; padding: 1.25rem 1.5rem; }
+.stat-c:first-child { border-radius: var(--r-lg) 0 0 var(--r-lg); }
+.stat-c:last-child { border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+.stat-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 300; color: var(--ink); letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
+.stat-num.accent { color: var(--accent); }
+.stat-lbl { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+
+/* TABS */
+.dash-tabs { display: flex; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; gap: 0; }
+.dash-tab { padding: 10px 16px; font-size: 13.5px; font-weight: 500; color: var(--ink-3); cursor: pointer; border: none; background: none; font-family: 'DM Sans', sans-serif; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: var(--t); display: flex; align-items: center; gap: 7px; }
+.dash-tab:hover { color: var(--ink); }
+.dash-tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.tab-n { background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 50px; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: up .2s ease; }
+@keyframes up { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th { text-align: left; padding: 9px 14px; font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.data-table td { padding: 13px 14px; border-bottom: 1px solid var(--line); font-size: 13.5px; vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg-2); }
+.td-primary { font-weight: 500; color: var(--ink); }
+.td-secondary { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+
+/* EMPTY */
+.empty { text-align: center; padding: 4rem 2rem; border: 1px solid var(--line); border-radius: var(--r-lg); }
+.empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: 0.3; }
+.empty h3 { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 300; color: var(--ink); margin-bottom: 6px; }
+.empty p { font-size: 13.5px; color: var(--ink-3); margin-bottom: 1.5rem; }
+
+/* INBOX */
+.inbox-wrap { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.inbox-row { display: flex; align-items: flex-start; gap: 14px; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); cursor: pointer; transition: var(--t); }
+.inbox-row:last-child { border-bottom: none; }
+.inbox-row:hover { background: var(--bg-2); }
+.inbox-row.unread { background: white; }
+.inbox-row:not(.unread) { background: var(--bg-2); }
+.unread-pip { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 5px; }
+.unread-pip.read { opacity: 0; }
+.inbox-meta { flex: 1; min-width: 0; }
+.inbox-from { font-size: 11.5px; color: var(--ink-3); margin-bottom: 2px; }
+.inbox-subject { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox-row:not(.unread) .inbox-subject { font-weight: 400; color: var(--ink-2); }
+.inbox-preview { font-size: 12.5px; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox-time { font-size: 11px; color: var(--ink-4); flex-shrink: 0; text-align: right; line-height: 1.6; }
+
+/* MESSAGE VIEW */
+.msg-view { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.msg-view-head { background: var(--ink); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; }
+.msg-view-head h3 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 300; color: white; margin-bottom: 5px; letter-spacing: -0.01em; }
+.msg-meta { font-size: 11.5px; color: rgba(255,255,255,0.4); display: flex; gap: 16px; flex-wrap: wrap; }
+.msg-view-back { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); cursor: pointer; color: rgba(255,255,255,0.7); font-size: 12px; padding: 6px 12px; border-radius: var(--r); font-family: 'DM Sans', sans-serif; transition: var(--t); white-space: nowrap; }
+.msg-view-back:hover { color: white; background: rgba(255,255,255,0.15); }
+.msg-view-body { padding: 1.75rem; font-size: 14px; line-height: 1.85; color: var(--ink); white-space: pre-line; }
+
+/* PROFILE */
+.profile-wrap { max-width: 580px; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.profile-banner { height: 72px; background: var(--ink); }
+.profile-body { padding: 0 1.75rem 2rem; }
+.profile-av { width: 60px; height: 60px; border-radius: 50%; background: white; border: 3px solid white; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--ink); margin-top: -30px; margin-bottom: 14px; }
+.profile-name { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 300; color: var(--ink); margin-bottom: 2px; }
+.profile-email { font-size: 13px; color: var(--ink-3); margin-bottom: 1.5rem; }
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--line); margin-bottom: 1.25rem; }
+.pf-item label { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+.pf-item .pv { font-size: 14px; color: var(--ink); font-weight: 500; }
+
+@media (max-width: 768px) { .stats-row{grid-template-columns:1fr 1fr;background:none;border:none;gap:1px;} .stat-c{border:1px solid var(--line);border-radius:var(--r);} .stat-c:first-child,.stat-c:last-child{border-radius:var(--r);} .profile-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="dash-header">
+  <div class="dash-header-inner">
+    <div>
+      <div class="dh-label">Patient dashboard</div>
+      <div class="dh-name" id="dhName">—</div>
+      <div class="dh-sub" id="dhSub"></div>
+    </div>
+    <div class="dh-actions">
+      <a href="booking.html" class="btn btn-dark btn-sm">+ New appointment</a>
+      <button class="btn btn-outline btn-sm" onclick="Bagares.logout()">Sign out</button>
+    </div>
+  </div>
+</div>
+
+<div class="dash-main">
+
+  <div class="stats-row">
+    <div class="stat-c"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Total bookings</div></div>
+    <div class="stat-c"><div class="stat-num" id="s-pending">0</div><div class="stat-lbl">Pending</div></div>
+    <div class="stat-c"><div class="stat-num" id="s-confirmed">0</div><div class="stat-lbl">Confirmed</div></div>
+    <div class="stat-c"><div class="stat-num accent" id="s-unread">0</div><div class="stat-lbl">Unread messages</div></div>
+  </div>
+
+  <div class="dash-tabs">
+    <button class="dash-tab active" id="tab-a" onclick="showTab('a')">Appointments</button>
+    <button class="dash-tab"        id="tab-i" onclick="showTab('i')">Inbox <span class="tab-n" id="unreadN" style="display:none;"></span></button>
+    <button class="dash-tab"        id="tab-p" onclick="showTab('p')">Profile</button>
+  </div>
+
+  <div class="tab-panel active" id="tp-a"></div>
+  <div class="tab-panel"        id="tp-i"></div>
+  <div class="tab-panel"        id="tp-p"></div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="js/shared.js"></script>
+<script>
+if (!Bagares.getUser()) window.location.href = 'login.html';
+const user = Bagares.getUser();
+Bagares.renderNav('Dashboard');
+Bagares.renderFooter();
+
+const fn = user.name.split(' ')[0];
+document.getElementById('dhName').textContent = fn + "'s appointments";
+const hr = new Date().getHours();
+document.getElementById('dhSub').textContent = (hr<12?'Good morning':hr<18?'Good afternoon':'Good evening') + ', ' + fn + '. Here\'s your overview.';
+
+// Cache loaded data
+let _bookings = [], _messages = [];
+
+async function loadAll() {
+  try {
+    _bookings = await Bagares.getUserBookings(user.email);
+    _messages = await Bagares.getAllMessages(user.email);
+    loadStats();
+    renderAppt();
+    renderInbox();
+    renderProfile();
+  } catch(err) {
+    console.error('Load error:', err);
+  }
+}
+
+function loadStats() {
+  const unread = _messages.filter(m=>!m.is_read).length;
+  document.getElementById('s-total').textContent=_bookings.length;
+  document.getElementById('s-pending').textContent=_bookings.filter(b=>b.status==='Pending').length;
+  document.getElementById('s-confirmed').textContent=_bookings.filter(b=>b.status==='Confirmed').length;
+  document.getElementById('s-unread').textContent=unread;
+  const n=document.getElementById('unreadN');
+  if(unread>0){n.style.display='inline';n.textContent=unread;}else n.style.display='none';
+}
+
+function showTab(t) {
+  ['a','i','p'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('tp-'+x).classList.toggle('active',x===t);
+  });
+}
+
+/* APPOINTMENTS */
+function renderAppt() {
+  const el=document.getElementById('tp-a');
+  if(!_bookings.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📅</div><h3>No appointments yet</h3><p>Book your first visit — it takes under 2 minutes.</p><a href="booking.html" class="btn btn-dark">Book appointment →</a></div>`;
+    return;
+  }
+  el.innerHTML=`
+    <div style="border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:white;">
+      <table class="data-table">
+        <thead><tr><th>Service</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Ref</th><th>Messages</th></tr></thead>
+        <tbody>${_bookings.map(b=>{
+          const sc={Pending:'badge-pending',Confirmed:'badge-confirmed',Cancelled:'badge-cancelled',Done:'badge-done'}[b.status]||'badge-pending';
+          const bMsgs=_messages.filter(m=>m.booking_id===b.id);
+          const mc=bMsgs.length, uc=bMsgs.filter(m=>!m.is_read).length;
+          const dateStr = b.date ? new Date(b.date+'T00:00:00').toLocaleDateString('en-PH',{weekday:'short',year:'numeric',month:'short',day:'numeric'}) : '—';
+          const timeStr = b.time ? ({
+            '08:00':'8:00 AM','09:00':'9:00 AM','10:00':'10:00 AM','11:00':'11:00 AM',
+            '13:00':'1:00 PM','14:00':'2:00 PM','15:00':'3:00 PM','16:00':'4:00 PM'
+          }[b.time]||b.time) : '—';
+          return `<tr>
+            <td><div class="td-primary">${b.service}</div></td>
+            <td><div class="td-secondary">${b.doctor}</div></td>
+            <td><div class="td-primary">${dateStr}</div></td>
+            <td>${timeStr}</td>
+            <td><span class="badge ${sc}">${b.status}</span></td>
+            <td style="font-family:monospace;font-size:12.5px;color:var(--ink-2);">${b.id}</td>
+            <td>${mc>0?`<button class="btn btn-sm btn-outline" onclick="showTab('i')" style="font-size:12px;">${uc>0?'● ':''}${mc} msg${mc>1?'s':''}</button>`:'<span style="color:var(--ink-4);">—</span>'}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+}
+
+/* INBOX */
+function renderInbox() {
+  const el=document.getElementById('tp-i');
+  if(!_messages.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">💬</div><h3>Inbox is empty</h3><p>Booking confirmations and clinic messages will appear here.</p><a href="booking.html" class="btn btn-dark">Book appointment →</a></div>`;
+    return;
+  }
+  el.innerHTML=`
+    <div class="inbox-wrap">
+      ${_messages.map(m=>{
+        const d=new Date(m.created_at);
+        const ds=d.toLocaleDateString('en-PH',{month:'short',day:'numeric'});
+        const ts=d.toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'});
+        const prev=m.body.replace(/<[^>]+>/g,'').substring(0,100)+'…';
+        return `<div class="inbox-row${!m.is_read?' unread':''}" onclick="openMsg('${m.booking_id}',${m.id})">
+          <div class="unread-pip${m.is_read?' read':''}"></div>
+          <div class="inbox-meta">
+            <div class="inbox-from">Bagares Optical Clinic · ${m.service||m.booking_id}</div>
+            <div class="inbox-subject">${m.subject}</div>
+            <div class="inbox-preview">${prev}</div>
+          </div>
+          <div class="inbox-time">${ds}<br>${ts}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+async function openMsg(bookingId, msgId) {
+  const msg=_messages.find(m=>m.booking_id===bookingId&&m.id===msgId);
+  if(!msg) return;
+  await Bagares.markRead(bookingId, msgId);
+  msg.is_read=true;
+  loadStats();
+  const ds=new Date(msg.created_at).toLocaleString('en-PH',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('tp-i').innerHTML=`
+    <div class="msg-view">
+      <div class="msg-view-head">
+        <div>
+          <h3>${msg.subject}</h3>
+          <div class="msg-meta">
+            <span>From: Bagares Optical Clinic</span>
+            <span>${ds}</span>
+            <span>${bookingId}</span>
+          </div>
+        </div>
+        <button class="msg-view-back" onclick="renderInbox();showTab('i');">← Back</button>
+      </div>
+      <div class="msg-view-body">${msg.body}</div>
+    </div>`;
+}
+
+/* PROFILE */
+function renderProfile() {
+  const initials=user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  const since=_bookings.length?new Date(_bookings[_bookings.length-1].created_at).toLocaleDateString('en-PH',{year:'numeric',month:'long'}):'New patient';
+  const lastDate=_bookings.length?new Date(_bookings[0].date+'T00:00:00').toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}):'—';
+  document.getElementById('tp-p').innerHTML=`
+    <div class="profile-wrap">
+      <div class="profile-banner"></div>
+      <div class="profile-body">
+        <div class="profile-av">${initials}</div>
+        <div class="profile-name">${user.name}</div>
+        <div class="profile-email">${user.email}</div>
+        <div class="profile-grid">
+          <div class="pf-item"><label>Phone</label><div class="pv">${user.phone||'—'}</div></div>
+          <div class="pf-item"><label>Total appointments</label><div class="pv">${_bookings.length}</div></div>
+          <div class="pf-item"><label>Patient since</label><div class="pv">${since}</div></div>
+          <div class="pf-item"><label>Last booking</label><div class="pv">${lastDate}</div></div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <a href="booking.html" class="btn btn-dark btn-sm">+ New appointment</a>
+          <button class="btn btn-outline btn-sm" onclick="Bagares.logout()">Sign out</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// Load everything from Supabase
+loadAll();
+if(new URLSearchParams(location.search).get('tab')==='inbox') showTab('i');
+</script>
+</body>
+</html>

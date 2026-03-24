@@ -1,0 +1,37 @@
+<section id="patient-section">
+  <main class="main-content">
+    <div class="page-header">
+      <h2 class="page-title">PATIENT</h2>
+      <button class="add-patient-btn" onclick="openPatientModal('add')">+ Add Patient</button>
+    </div>
+
+    <div class="patient-section">
+      <div class="patient-header">
+        <h3 class="patient-records-title">Patient Records</h3>
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" class="search-input" placeholder="Search patients...">
+        </div>
+      </div>
+
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Age</th>
+            <th>Eye Examination Result</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+</section>

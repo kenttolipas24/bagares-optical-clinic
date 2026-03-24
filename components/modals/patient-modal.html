@@ -1,0 +1,59 @@
+<!-- Patient Modal (patient-modal.html) -->
+<div id="patientRecordModal" class="patient-modal">
+  <div class="patient-modal-overlay"></div>
+  <div class="patient-modal-content">
+    <div class="patient-modal-header">
+      <h2 id="patientModalTitle">Add Patient</h2>
+      <button class="patient-modal-close" onclick="closePatientModal()">&times;</button>
+    </div>
+    <div class="patient-modal-body">
+      <form id="patientRecordForm">
+        <div class="patient-form-row">
+          <div class="patient-form-group">
+            <label for="patientFirstName">First Name</label>
+            <input type="text" id="patientFirstName" class="patient-input" placeholder="Enter first name" required>
+          </div>
+          <div class="patient-form-group">
+            <label for="patientMiddleInitial">M.I</label>
+            <input type="text" id="patientMiddleInitial" class="patient-input" placeholder="Enter M.I" maxlength="2">
+          </div>
+          <div class="patient-form-group">
+            <label for="patientLastName">Last Name</label>
+            <input type="text" id="patientLastName" class="patient-input" placeholder="Enter last name" required>
+          </div>
+          <div class="patient-form-group">
+            <label for="patientSuffix">Suffix</label>
+            <input type="text" id="patientSuffix" class="patient-input" placeholder="Enter Suffix">
+          </div>
+        </div>
+
+        <div class="patient-form-row">
+          <div class="patient-form-group">
+            <label for="patientEmail">Email</label>
+            <input type="email" id="patientEmail" class="patient-input" placeholder="Enter email" required>
+          </div>
+          <div class="patient-form-group">
+            <label for="patientDateOfBirth">Date of Birth</label>
+            <input type="date" id="patientDateOfBirth" class="patient-input" required>
+          </div>
+        </div>
+
+        <div class="patient-form-row">
+          <div class="patient-form-group">
+            <label for="patientAddress">Address</label>
+            <input type="text" id="patientAddress" class="patient-input" placeholder="Enter address" required>
+          </div>
+          <div class="patient-form-group">
+            <label for="patientContactNumber">Contact Number</label>
+            <input type="tel" id="patientContactNumber" class="patient-input" placeholder="Enter contact number">
+          </div>
+        </div>
+
+        <div class="patient-modal-footer">
+          <button type="button" class="patient-btn-cancel" onclick="closePatientModal()">Cancel</button>
+          <button type="submit" class="patient-btn-submit">Add Patient</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

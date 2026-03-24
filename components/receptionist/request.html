@@ -1,0 +1,152 @@
+<section id="request-section">
+  <main class="request-container">
+    <div class="request-header">
+      <h1>Booking Requests</h1>
+    </div>
+
+    <!-- Search + Table Section -->
+    <div class="card">
+      <div class="card-header-row">
+        <div class="card-header">Booking Request Records</div>
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" id="requestSearchInput" placeholder="Search requests...">
+        </div>
+      </div>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Request Date</th>
+            <th>Request Time</th>
+            <th>Service</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="requestsTable">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: #999;">
+              Loading booking requests...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Action Dropdown Menu -->
+  <div id="requestActionDropdown" class="request-action-dropdown">
+    <button class="dropdown-action-item" onclick="openConfirmModal()">
+      <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      Confirm
+    </button>
+    <button class="dropdown-action-item" onclick="openRescheduleModal()">
+      <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      Reschedule
+    </button>
+    <button class="dropdown-action-item danger" onclick="openCancelModal()">
+      <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+      Cancel
+    </button>
+  </div>
+
+  <!-- Dropdown Overlay -->
+  <div id="dropdownOverlay" class="dropdown-overlay" onclick="closeActionDropdown()"></div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Confirm Appointment</h3>
+        <button class="close-btn" onclick="closeConfirmModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="confirmModalBody">
+        <!-- Details will be populated here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+        <button class="btn-primary" onclick="confirmAppointment()">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reschedule Modal -->
+  <div id="rescheduleModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Reschedule Appointment</h3>
+        <button class="close-btn" onclick="closeRescheduleModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="rescheduleDate">New Date</label>
+          <input type="date" id="rescheduleDate" required>
+        </div>
+        <div class="form-group">
+          <label for="rescheduleTime">New Time</label>
+          <input type="time" id="rescheduleTime" required>
+        </div>
+        <div class="form-group">
+          <label for="rescheduleReason">Reason (Optional)</label>
+          <textarea id="rescheduleReason" rows="3" placeholder="Enter reason for rescheduling"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeRescheduleModal()">Cancel</button>
+        <button class="btn-primary" onclick="rescheduleAppointment()">Reschedule</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancellation Modal -->
+  <div id="cancelModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Cancel Appointment</h3>
+        <button class="close-btn" onclick="closeCancelModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: #64748b; margin-bottom: 1rem;">Are you sure you want to cancel this appointment request?</p>
+        <div class="form-group">
+          <label for="cancelReason">Reason for Cancellation (Optional)</label>
+          <textarea id="cancelReason" rows="3" placeholder="Enter reason"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeCancelModal()">Go Back</button>
+        <button class="btn-danger" onclick="cancelAppointment()">Cancel Appointment</button>
+      </div>
+    </div>
+  </div>
+</section>

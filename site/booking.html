@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bagares Optical Clinic — Book Appointment</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+.book-header { padding: 2.5rem 2rem 2rem; border-bottom: 1px solid var(--line); }
+.book-header-inner { max-width: 760px; margin: 0 auto; }
+.book-header p { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.book-header h1 { font-family: 'Fraunces', serif; font-size: 1.7rem; font-weight: 300; color: var(--ink); letter-spacing: -0.02em; }
+
+.book-main { max-width: 760px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+
+/* stepper */
+.stepper { display: flex; align-items: center; margin-bottom: 2rem; gap: 0; }
+.s-item { display: flex; align-items: center; flex: 1; position: relative; }
+.s-item:last-child { flex: 0; }
+.s-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-dark); background: white; color: var(--ink-3); transition: var(--t); flex-shrink: 0; z-index: 1; position: relative; }
+.s-dot.active { border-color: var(--ink); color: var(--ink); background: white; }
+.s-dot.done { background: var(--ink); border-color: var(--ink); color: white; font-size: 11px; }
+.s-lbl { position: absolute; top: 34px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; color: var(--ink-3); font-weight: 500; letter-spacing: 0.02em; }
+.s-line { flex: 1; height: 1px; background: var(--line); margin: 0 -1px; }
+.s-line.done { background: var(--ink); }
+
+/* card */
+.form-card { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.prog-wrap { height: 2px; background: var(--line); }
+.prog-bar { height: 100%; background: var(--accent); transition: width .4s ease; }
+.card-head { padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--line); }
+.card-head h2 { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.card-head p { font-size: 13px; color: var(--ink-3); }
+.card-body { padding: 1.5rem 1.75rem; }
+
+.step-panel { display: none; }
+.step-panel.active { display: block; animation: up .2s ease; }
+@keyframes up { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* section mini label */
+.slbl { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 9px; display: block; }
+
+/* service options - clean rows */
+.svc-list { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 1.5rem; }
+.svc-opt { position: relative; }
+.svc-opt input { position: absolute; opacity: 0; }
+.svc-opt-lbl {
+  display: grid; grid-template-columns: 24px 1fr auto;
+  align-items: center; gap: 14px;
+  padding: 13px 16px; border-bottom: 1px solid var(--line);
+  cursor: pointer; transition: var(--t);
+}
+.svc-opt:last-child .svc-opt-lbl { border-bottom: none; }
+.svc-opt-lbl:hover { background: var(--bg-2); }
+.svc-opt input:checked + .svc-opt-lbl { background: var(--accent-bg); }
+.svc-radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--line-dark); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: var(--t); }
+.svc-opt input:checked + .svc-opt-lbl .svc-radio { border-color: var(--accent); background: var(--accent); }
+.svc-opt input:checked + .svc-opt-lbl .svc-radio::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: white; }
+.svc-info-name { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+.svc-info-meta { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+.svc-price { font-size: 13.5px; font-weight: 600; color: var(--ink); font-family: 'Fraunces', serif; white-space: nowrap; }
+
+/* doctor options */
+.doc-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 1.5rem; }
+.doc-opt { position: relative; }
+.doc-opt input { position: absolute; opacity: 0; }
+.doc-opt-lbl { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r); cursor: pointer; transition: var(--t); }
+.doc-opt-lbl:hover { border-color: var(--ink-2); background: var(--bg-2); }
+.doc-opt input:checked + .doc-opt-lbl { border-color: var(--ink); background: white; }
+.doc-initial { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-2); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--ink-2); flex-shrink: 0; font-family: 'Fraunces', serif; }
+.doc-opt input:checked + .doc-opt-lbl .doc-initial { background: var(--ink); color: white; border-color: var(--ink); }
+.doc-n { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+.doc-s { font-size: 11px; color: var(--ink-3); }
+.doc-avail { font-size: 10.5px; font-weight: 600; margin-top: 2px; }
+.ok { color: var(--success); }
+.busy { color: var(--warn); }
+
+/* calendar */
+.cal-wrap { border: 1px solid var(--line); border-radius: var(--r); padding: 14px; }
+.cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal-nav-btn { background: none; border: none; cursor: pointer; color: var(--ink-3); font-size: 17px; padding: 3px 8px; border-radius: 4px; transition: var(--t); }
+.cal-nav-btn:hover { background: var(--bg-2); color: var(--ink); }
+.cal-title { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.cal-dh { text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-3); padding: 4px 0; }
+.cal-d { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 13px; cursor: pointer; transition: var(--t); position: relative; border: 1px solid transparent; }
+.cal-d:hover:not(.dis):not(.oth) { background: var(--bg-2); }
+.cal-d.sel { background: var(--ink); color: white !important; }
+.cal-d.today { font-weight: 700; color: var(--accent); }
+.cal-d.dis,.cal-d.oth { color: var(--line-dark); cursor: not-allowed; font-size: 12px; }
+.cal-d::after { content:''; display:none; width:4px; height:4px; border-radius:50%; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); }
+.cal-d.has-s::after { display:block; background:var(--success); }
+.cal-d.full::after { display:block; background:var(--error); }
+
+/* slots */
+.slot-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; }
+.slot-btn { padding: 9px 4px; border: 1px solid var(--line-dark); border-radius: var(--r); font-size: 12px; font-weight: 500; color: var(--ink-2); background: white; cursor: pointer; transition: var(--t); font-family: 'DM Sans', sans-serif; }
+.slot-btn:hover:not(.taken) { border-color: var(--ink); color: var(--ink); }
+.slot-btn.sel { background: var(--ink); color: white; border-color: var(--ink); }
+.slot-btn.taken { background: var(--bg-2); color: var(--line-dark); cursor: not-allowed; font-size: 11px; text-decoration: line-through; }
+
+/* notify */
+.notif-row { display: flex; gap: 8px; }
+.notif-opt { position: relative; flex: 1; }
+.notif-opt input { position: absolute; opacity: 0; }
+.notif-lbl { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px; border: 1px solid var(--line-dark); border-radius: var(--r); cursor: pointer; transition: var(--t); font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+.notif-lbl:hover { border-color: var(--ink-2); }
+.notif-opt input:checked + .notif-lbl { border-color: var(--ink); color: var(--ink); background: var(--bg-2); }
+
+/* receipt */
+.receipt { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 1.25rem; }
+.receipt-head { background: var(--ink); padding: 1rem 1.4rem; display: flex; justify-content: space-between; align-items: flex-start; }
+.receipt-head h3 { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 300; color: white; letter-spacing: -0.01em; }
+.receipt-head p { font-size: 11.5px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.receipt-ref { font-size: 11.5px; color: rgba(255,255,255,0.4); text-align: right; }
+.receipt-ref strong { display: block; font-family: monospace; font-size: 13px; color: white; margin-top: 2px; }
+.receipt-body { padding: 0 1.4rem; }
+.rrow { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); gap: 1rem; }
+.rrow:last-child { border-bottom: none; }
+.rk { font-size: 12px; color: var(--ink-3); font-weight: 500; flex-shrink: 0; }
+.rv { font-size: 13px; color: var(--ink); font-weight: 500; text-align: right; }
+
+/* success */
+.success-wrap { display: none; }
+.success-wrap.show { display: block; animation: up .3s ease; }
+.success-inner { max-width: 480px; margin: 0 auto; text-align: center; padding: 4rem 2rem; }
+.success-check { width: 56px; height: 56px; border-radius: 50%; background: var(--success-bg); border: 1px solid #bbf7d0; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 22px; }
+.success-inner h2 { font-family: 'Fraunces', serif; font-size: 1.7rem; font-weight: 300; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+.success-inner p { font-size: 14px; color: var(--ink-3); line-height: 1.75; margin-bottom: 1.75rem; }
+.ref-pill { display: inline-block; border: 1px solid var(--line-dark); border-radius: var(--r); padding: 8px 20px; font-family: monospace; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 1.75rem; background: var(--bg-2); }
+
+.btn-row { display: flex; gap: 8px; margin-top: 1.4rem; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+@media (max-width: 600px) { .card-body{padding:1rem;} .svc-opt-lbl{grid-template-columns:20px 1fr auto;gap:10px;} .doc-list{grid-template-columns:1fr 1fr;} .slot-grid{grid-template-columns:repeat(3,1fr);} .notif-row{flex-wrap:wrap;} .two-col,.three-col{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- LOGIN GATE -->
+<div class="modal-overlay" id="gate">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <h3>Sign in to complete booking</h3>
+        <p>Your confirmation will appear in your dashboard inbox.</p>
+      </div>
+      <button class="modal-x" onclick="closeGate()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info" style="margin-bottom:1.1rem;">
+        <span>ℹ</span>
+        <span>When your booking is submitted, the clinic will send a <strong>confirmation message</strong> to your <strong>Dashboard → Inbox</strong>. An account is required to receive it.</span>
+      </div>
+      <div class="form-group" id="fg-ge"><label class="form-label">Email</label><input class="form-input" id="g-em" type="email" placeholder="you@email.com"><div class="field-error" id="err-ge">Valid email required.</div></div>
+      <div class="form-group" id="fg-gp">
+        <label class="form-label">Password</label>
+        <div style="position:relative;"><input class="form-input" id="g-pw" type="password" placeholder="Your password" style="padding-right:38px;"><button type="button" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink-3);" onclick="toggleGPw(this)">👁</button></div>
+        <div class="field-error" id="err-gp">Password required.</div>
+      </div>
+      <div class="alert alert-error" id="gate-err" style="display:none;margin-bottom:1rem;"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-dark" onclick="gateLogin()">Sign in & submit booking →</button>
+      <a href="login.html?r=1" class="btn btn-outline">Create a free account</a>
+      <button class="btn btn-ghost btn-sm" style="color:var(--ink-3);" onclick="closeGate()">← Go back</button>
+    </div>
+  </div>
+</div>
+
+<div class="book-header">
+  <div class="book-header-inner">
+    <p>Online Booking</p>
+    <h1>Book an appointment</h1>
+  </div>
+</div>
+
+<div class="book-main">
+  <!-- STEPPER -->
+  <div class="stepper" id="stepper">
+    <div class="s-item"><div class="s-dot active" id="dot-1"><span>1</span><div class="s-lbl">Service</div></div><div class="s-line" id="ln-1"></div></div>
+    <div class="s-item"><div class="s-dot" id="dot-2"><span>2</span><div class="s-lbl">Details</div></div><div class="s-line" id="ln-2"></div></div>
+    <div class="s-item"><div class="s-dot" id="dot-3"><span>3</span><div class="s-lbl">Confirm</div></div></div>
+  </div>
+
+  <div class="form-card" id="fCard">
+    <div class="prog-wrap"><div class="prog-bar" id="pBar" style="width:33%"></div></div>
+
+    <!-- STEP 1 -->
+    <div class="step-panel active" id="p1">
+      <div class="card-head"><h2>Service & schedule</h2><p>Choose a service, doctor, date and time.</p></div>
+      <div class="card-body">
+        <span class="slbl">Service</span>
+        <div class="svc-list">
+          <div class="svc-opt"><input type="radio" name="svc" id="s1" value="Comprehensive Eye Exam" checked><label class="svc-opt-lbl" for="s1"><div class="svc-radio"></div><div><div class="svc-info-name">Comprehensive Eye Exam</div><div class="svc-info-meta">Full vision evaluation, refraction & prescription update</div></div><div class="svc-price">₱500<br><span style="font-size:11px;font-weight:400;font-family:'DM Sans',sans-serif;color:var(--ink-3);">45–60 min</span></div></label></div>
+          <div class="svc-opt"><input type="radio" name="svc" id="s2" value="Follow-up Checkup"><label class="svc-opt-lbl" for="s2"><div class="svc-radio"></div><div><div class="svc-info-name">Follow-up Checkup</div><div class="svc-info-meta">Quick review of previous treatment or prescription</div></div><div class="svc-price">₱200<br><span style="font-size:11px;font-weight:400;font-family:'DM Sans',sans-serif;color:var(--ink-3);">20–30 min</span></div></label></div>
+          <div class="svc-opt"><input type="radio" name="svc" id="s3" value="Contact Lens Fitting"><label class="svc-opt-lbl" for="s3"><div class="svc-radio"></div><div><div class="svc-info-name">Contact Lens Fitting</div><div class="svc-info-meta">Measurement and trial fitting for new contacts</div></div><div class="svc-price">₱350<br><span style="font-size:11px;font-weight:400;font-family:'DM Sans',sans-serif;color:var(--ink-3);">30–45 min</span></div></label></div>
+          <div class="svc-opt"><input type="radio" name="svc" id="s4" value="Pediatric Eye Exam"><label class="svc-opt-lbl" for="s4"><div class="svc-radio"></div><div><div class="svc-info-name">Pediatric Eye Exam</div><div class="svc-info-meta">Friendly vision screening for children ages 3–17</div></div><div class="svc-price">₱450<br><span style="font-size:11px;font-weight:400;font-family:'DM Sans',sans-serif;color:var(--ink-3);">40–50 min</span></div></label></div>
+        </div>
+
+        <span class="slbl">Doctor</span>
+        <div class="doc-list">
+          <div class="doc-opt"><input type="radio" name="doc" id="d1" value="Dr. Maria Santos" checked><label class="doc-opt-lbl" for="d1"><div class="doc-initial">MS</div><div><div class="doc-n">Dr. M. Santos</div><div class="doc-s">Optometrist</div><div class="doc-avail ok">Available</div></div></label></div>
+          <div class="doc-opt"><input type="radio" name="doc" id="d2" value="Dr. Jose Reyes"><label class="doc-opt-lbl" for="d2"><div class="doc-initial">JR</div><div><div class="doc-n">Dr. J. Reyes</div><div class="doc-s">Ophthalmologist</div><div class="doc-avail ok">Available</div></div></label></div>
+          <div class="doc-opt"><input type="radio" name="doc" id="d3" value="Dr. Ana Lim"><label class="doc-opt-lbl" for="d3"><div class="doc-initial">AL</div><div><div class="doc-n">Dr. A. Lim</div><div class="doc-s">Pediatric Optom.</div><div class="doc-avail busy">Busy today</div></div></label></div>
+        </div>
+
+        <div class="two-col" id="schedGrid" style="margin-top:0.5rem;">
+          <div class="form-group">
+            <label class="form-label">Date <span class="req">*</span></label>
+            <div class="cal-wrap">
+              <div class="cal-nav"><button type="button" class="cal-nav-btn" onclick="prevM()">‹</button><span class="cal-title" id="calT"></span><button type="button" class="cal-nav-btn" onclick="nextM()">›</button></div>
+              <div class="cal-grid" id="calG"></div>
+            </div>
+            <div class="field-error" id="err-date" style="display:none;">Select a date.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time slot <span class="req">*</span></label>
+            <div class="alert alert-info" id="slotHint" style="font-size:12.5px;padding:10px 12px;margin-bottom:0;">Select a date to see available slots.</div>
+            <div class="slot-grid" id="slotG" style="display:none;"></div>
+            <div class="field-error" id="err-time" style="display:none;">Select a time slot.</div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-dark" style="flex:1;" onclick="s1Next()">Continue →</button></div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-panel" id="p2">
+      <div class="card-head"><h2>Patient details</h2><p>Your information is kept private and used only for your appointment.</p></div>
+      <div class="card-body">
+        <div class="alert alert-success" id="autofill" style="display:none;margin-bottom:1rem;">Details pre-filled from your account.</div>
+        <div class="two-col">
+          <div class="form-group" id="fg-fn"><label class="form-label">First name <span class="req">*</span></label><input class="form-input" id="p-fn" type="text" placeholder="Maria"><div class="field-error" id="err-fn">Required.</div></div>
+          <div class="form-group" id="fg-ln"><label class="form-label">Last name <span class="req">*</span></label><input class="form-input" id="p-ln" type="text" placeholder="Santos"><div class="field-error" id="err-ln">Required.</div></div>
+        </div>
+        <div class="three-col">
+          <div class="form-group" id="fg-dob"><label class="form-label">Date of birth <span class="req">*</span></label><input class="form-input" id="p-dob" type="date"><div class="field-error" id="err-dob">Required.</div></div>
+          <div class="form-group"><label class="form-label">Sex</label><select class="form-input" id="p-sex"><option value="">—</option><option>Male</option><option>Female</option><option>Prefer not to say</option></select></div>
+          <div class="form-group"><label class="form-label">Patient type</label><select class="form-input" id="p-ptype"><option>New patient</option><option>Returning patient</option></select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Address</label><input class="form-input" id="p-addr" type="text" placeholder="Street, Barangay, City"></div>
+        <div class="two-col">
+          <div class="form-group" id="fg-ph"><label class="form-label">Phone <span class="req">*</span></label><input class="form-input" id="p-ph" type="tel" placeholder="09XX XXX XXXX"><div class="field-error" id="err-ph">Valid PH number required.</div></div>
+          <div class="form-group" id="fg-em"><label class="form-label">Email <span class="req">*</span></label><input class="form-input" id="p-em" type="email" placeholder="you@email.com"><div class="field-error" id="err-em">Valid email required.</div></div>
+        </div>
+        <div style="border-top:1px solid var(--line);padding-top:1.1rem;margin-top:0.25rem;">
+          <span class="slbl">Reminder preference</span>
+          <div class="notif-row">
+            <div class="notif-opt"><input type="radio" name="notif" id="n1" value="SMS" checked><label class="notif-lbl" for="n1">SMS</label></div>
+            <div class="notif-opt"><input type="radio" name="notif" id="n2" value="Email"><label class="notif-lbl" for="n2">Email</label></div>
+            <div class="notif-opt"><input type="radio" name="notif" id="n3" value="Both"><label class="notif-lbl" for="n3">Both</label></div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:1rem;"><label class="form-label">Notes <span style="font-weight:400;text-transform:none;font-size:12px;color:var(--ink-3);">(optional)</span></label><textarea class="form-input" id="p-notes" rows="3" placeholder="Symptoms, concerns, or special requests..."></textarea></div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-dark" style="flex:1;" onclick="s2Next()">Review →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-panel" id="p3">
+      <div class="card-head"><h2>Review & confirm</h2><p>Check everything before submitting.</p></div>
+      <div class="card-body">
+        <div class="receipt">
+          <div class="receipt-head">
+            <div><h3>Bagares Optical Clinic</h3><p>C.P. Garcia St., Catarman, Northern Samar</p></div>
+            <div class="receipt-ref"><span>Reference</span><strong id="refDisplay">—</strong></div>
+          </div>
+          <div class="receipt-body" id="rBody"></div>
+        </div>
+        <div class="alert alert-warn" style="margin-bottom:1.25rem;">Please arrive 10–15 minutes early. Bring previous glasses or prescriptions if available.</div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goStep(2)">← Edit</button>
+          <button class="btn btn-success" style="flex:1;" onclick="tryConfirm()">Submit booking request →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-wrap" id="successWrap">
+    <div class="success-inner">
+      <div class="success-check">✓</div>
+      <h2>Booking submitted</h2>
+      <p>Your request has been sent to the clinic. Check your <strong>Dashboard → Inbox</strong> for the confirmation message from our staff.</p>
+      <div class="ref-pill" id="successRef"></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <a href="dashboard.html?tab=inbox" class="btn btn-dark">Go to inbox →</a>
+        <button class="btn btn-outline" onclick="location.reload()">Book another</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="js/shared.js"></script>
+<script>
+Bagares.renderNav('Book Appointment');
+Bagares.renderFooter();
+
+let step=1, selD=null, selT=null, calY, calM;
+const ALL=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'];
+const LBL={'08:00':'8:00 AM','09:00':'9:00 AM','10:00':'10:00 AM','11:00':'11:00 AM','13:00':'1:00 PM','14:00':'2:00 PM','15:00':'3:00 PM','16:00':'4:00 PM'};
+
+// Pre-fill if logged in
+const _u=Bagares.getUser();
+if(_u){
+  const nm=_u.name.split(' ');
+  document.getElementById('p-fn').value=nm[0]||'';
+  document.getElementById('p-ln').value=nm.slice(1).join(' ')||'';
+  document.getElementById('p-em').value=_u.email||'';
+  document.getElementById('p-ph').value=_u.phone||'';
+  document.getElementById('autofill').style.display='flex';
+}
+
+// Get currently selected doctor value
+function getDoc(){ return document.querySelector('input[name="doc"]:checked')?.value||''; }
+
+// Re-load slots whenever doctor changes
+document.querySelectorAll('input[name="doc"]').forEach(r => {
+  r.addEventListener('change', () => { if(selD) selDate(selD, parseInt(selD.split('-')[2])); });
+});
+
+function goStep(n){
+  document.getElementById('p'+step).classList.remove('active');
+  step=n; document.getElementById('p'+step).classList.add('active');
+  updateS(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateS(){
+  const L=['Service','Details','Confirm'];
+  [1,2,3].forEach(i=>{
+    const d=document.getElementById('dot-'+i);
+    if(i<step){d.className='s-dot done';d.innerHTML='✓<div class="s-lbl">'+L[i-1]+'</div>';}
+    else if(i===step){d.className='s-dot active';d.innerHTML='<span>'+i+'</span><div class="s-lbl">'+L[i-1]+'</div>';}
+    else{d.className='s-dot';d.innerHTML='<span>'+i+'</span><div class="s-lbl">'+L[i-1]+'</div>';}
+  });
+  [1,2].forEach(i=>document.getElementById('ln-'+i).classList.toggle('done',i<step));
+  document.getElementById('pBar').style.width={1:'33%',2:'66%',3:'100%'}[step];
+}
+function setE(id,s){document.getElementById('fg-'+id)?.classList.toggle('has-error',s);}
+function v(id){return(document.getElementById(id)?.value||'').trim();}
+
+function s1Next(){
+  let ok=true;
+  if(!selD){document.getElementById('err-date').style.display='block';ok=false;}else document.getElementById('err-date').style.display='none';
+  if(!selT){document.getElementById('err-time').style.display='block';ok=false;}else document.getElementById('err-time').style.display='none';
+  if(ok) goStep(2);
+}
+function s2Next(){
+  const checks=[['fn',v('p-fn').length>0],['ln',v('p-ln').length>0],['dob',v('p-dob').length>0],['ph',/^09\d{9}$/.test(v('p-ph').replace(/\s/g,''))],['em',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('p-em'))]];
+  let ok=true; checks.forEach(([id,vl])=>{setE(id,!vl);if(!vl)ok=false;});
+  if(ok){buildR();goStep(3);}
+}
+
+const _ref=Bagares.genRef();
+function buildR(){
+  const svc=document.querySelector('input[name="svc"]:checked')?.value||'—';
+  const doc=getDoc()||'—';
+  const notif=document.querySelector('input[name="notif"]:checked')?.value||'SMS';
+  document.getElementById('rBody').innerHTML=`
+    <div class="rrow"><span class="rk">Service</span><span class="rv">${svc}</span></div>
+    <div class="rrow"><span class="rk">Doctor</span><span class="rv">${doc}</span></div>
+    <div class="rrow"><span class="rk">Date & time</span><span class="rv">${Bagares.formatDate(selD)} · ${LBL[selT]}</span></div>
+    <div class="rrow"><span class="rk">Patient</span><span class="rv">${v('p-fn')} ${v('p-ln')}</span></div>
+    <div class="rrow"><span class="rk">Date of birth</span><span class="rv">${v('p-dob')}</span></div>
+    <div class="rrow"><span class="rk">Contact</span><span class="rv">${v('p-ph')} · ${v('p-em')}</span></div>
+    <div class="rrow"><span class="rk">Reminder</span><span class="rv">${notif}</span></div>`;
+  document.getElementById('refDisplay').textContent=_ref;
+  document.getElementById('successRef').textContent=_ref;
+}
+
+// ── CONFIRM / GATE ─────────────────────────────────────────────────────────
+function tryConfirm(){
+  if(!Bagares.getUser()){document.getElementById('gate').classList.add('open');}
+  else finish();
+}
+
+async function finish(){
+  const u=Bagares.getUser();
+  const confirmBtn=document.querySelector('#p3 .btn-success');
+  confirmBtn.disabled=true; confirmBtn.textContent='Submitting…';
+  try {
+    await Bagares.saveBooking({
+      service:   document.querySelector('input[name="svc"]:checked')?.value||'—',
+      doctor:    getDoc()||'—',
+      date:      selD,
+      dateFormatted: Bagares.formatDate(selD),
+      time:      selT,        // stored as '09:00' in DB
+      timeLabel: LBL[selT],   // used in message body
+      patientName:  v('p-fn')+' '+v('p-ln'),
+      patientEmail: u.email,
+      phone:    v('p-ph'), dob: v('p-dob'),
+      address:  v('p-addr'), notes: v('p-notes'),
+      sex:      document.getElementById('p-sex').value,
+      patientType: document.getElementById('p-ptype').value,
+      notif:    document.querySelector('input[name="notif"]:checked')?.value||'SMS'
+    });
+    document.getElementById('fCard').style.display='none';
+    document.getElementById('stepper').style.display='none';
+    document.getElementById('successWrap').classList.add('show');
+  } catch(err) {
+    confirmBtn.disabled=false; confirmBtn.textContent='Submit booking request →';
+    Bagares.toast('Error submitting booking. Please try again.','error');
+    console.error(err);
+  }
+}
+
+// ── GATE LOGIN ─────────────────────────────────────────────────────────────
+function closeGate(){document.getElementById('gate').classList.remove('open');}
+function toggleGPw(btn){const el=document.getElementById('g-pw');el.type=el.type==='password'?'text':'password';btn.textContent=el.type==='password'?'👁':'🔒';}
+
+async function gateLogin(){
+  const em=document.getElementById('g-em').value.trim(), pw=document.getElementById('g-pw').value;
+  const ve=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+  document.getElementById('fg-ge').classList.toggle('has-error',!ve);
+  document.getElementById('fg-gp').classList.toggle('has-error',!pw);
+  if(!ve||!pw) return;
+  const btn=document.querySelector('#gate .modal-foot .btn-dark');
+  btn.disabled=true; btn.textContent='Signing in…';
+  try {
+    const f=await Bagares.findAccount(em, pw);
+    if(!f){
+      const e=document.getElementById('gate-err'); e.style.display='flex'; e.textContent='Incorrect email or password.';
+      btn.disabled=false; btn.textContent='Sign in & submit booking →'; return;
+    }
+    Bagares.setUser({name:f.name,email:f.email,phone:f.phone});
+    closeGate(); Bagares.renderNav('Book Appointment');
+    Bagares.toast('Signed in as '+f.name.split(' ')[0],'success');
+    if(!v('p-ph')) document.getElementById('p-ph').value=f.phone||'';
+    setTimeout(finish,400);
+  } catch(err) {
+    btn.disabled=false; btn.textContent='Sign in & submit booking →';
+    Bagares.toast('Login failed. Check connection.','error');
+  }
+}
+
+// ── CALENDAR ───────────────────────────────────────────────────────────────
+(function initC(){const n=new Date();calY=n.getFullYear();calM=n.getMonth();renderC();})();
+
+function renderC(){
+  const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calT').textContent=MN[calM]+' '+calY;
+  const g=document.getElementById('calG'); g.innerHTML='';
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d=>{const e=document.createElement('div');e.className='cal-dh';e.textContent=d;g.appendChild(e);});
+  const first=new Date(calY,calM,1).getDay(), days=new Date(calY,calM+1,0).getDate();
+  const today=new Date(); today.setHours(0,0,0,0);
+  for(let i=0;i<first;i++){const e=document.createElement('div');e.className='cal-d oth';g.appendChild(e);}
+  for(let d=1;d<=days;d++){
+    const e=document.createElement('div'); e.className='cal-d'; e.textContent=d;
+    const dt=new Date(calY,calM,d);
+    if(dt<today||dt.getDay()===0){e.classList.add('dis');}
+    else{
+      if(dt.toDateString()===today.toDateString()) e.classList.add('today');
+      e.classList.add('has-s'); // all future weekdays assumed available until selected
+      const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      if(selD===ds) e.classList.add('sel');
+      e.onclick=()=>selDate(ds,d);
+    }
+    g.appendChild(e);
+  }
+}
+
+async function selDate(ds, day){
+  selD=ds; selT=null; renderC();
+  document.getElementById('err-date').style.display='none';
+
+  // Show loading state in slot area
+  const hint=document.getElementById('slotHint');
+  const grid=document.getElementById('slotG');
+  hint.style.display='flex'; hint.textContent='Loading available slots…';
+  grid.style.display='none'; grid.innerHTML='';
+
+  try {
+    // ← THIS IS THE KEY CALL: fetch real taken slots from Supabase
+    const doctor = getDoc();
+    const taken  = await Bagares.getTakenSlots(doctor, ds);
+    renderSlots(taken);
+  } catch(err) {
+    hint.textContent='Could not load slots. Please try again.';
+    console.error(err);
+  }
+}
+
+function renderSlots(taken){
+  const g=document.getElementById('slotG');
+  document.getElementById('slotHint').style.display='none';
+  g.style.display='grid'; g.innerHTML='';
+  ALL.forEach(t=>{
+    const b=document.createElement('button'); b.type='button'; b.className='slot-btn';
+    if(taken.includes(t)){
+      b.classList.add('taken'); b.textContent=LBL[t]; b.disabled=true;
+    } else {
+      b.textContent=LBL[t];
+      if(selT===t) b.classList.add('sel');
+      b.onclick=()=>selSlot(t);
+    }
+    g.appendChild(b);
+  });
+}
+
+function selSlot(t){
+  selT=t;
+  document.querySelectorAll('.slot-btn').forEach(b=>{b.classList.remove('sel');if(b.textContent===LBL[t])b.classList.add('sel');});
+  document.getElementById('err-time').style.display='none';
+}
+function prevM(){calM--;if(calM<0){calM=11;calY--;}renderC();}
+function nextM(){calM++;if(calM>11){calM=0;calY++;}renderC();}
+if(window.innerWidth<600) document.getElementById('schedGrid').style.gridTemplateColumns='1fr';
+</script>
+</body>
+</html>

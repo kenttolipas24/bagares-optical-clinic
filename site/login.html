@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bagares Optical Clinic — Sign In</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+.auth-page {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+
+/* LEFT */
+.auth-left {
+  background: var(--ink);
+  padding: 4rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.auth-left-brand { display: flex; align-items: center; gap: 10px; }
+.auth-left-logo { width: 34px; height: 34px; border-radius: 6px; background: white; color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; font-family: 'Fraunces', serif; }
+.auth-left-brand strong { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600; color: white; }
+.auth-left-brand span { font-size: 11px; color: rgba(255,255,255,0.4); display: block; }
+.auth-left-body { padding: 2rem 0; }
+.auth-left-body h2 { font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 300; color: white; line-height: 1.2; margin-bottom: 1.25rem; letter-spacing: -0.02em; }
+.auth-left-body h2 em { font-style: italic; color: var(--accent); }
+.auth-left-body p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 2.5rem; max-width: 340px; }
+.auth-perk { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.07); }
+.auth-perk:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+.perk-line { width: 24px; height: 1px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+.auth-perk span { font-size: 13px; color: rgba(255,255,255,0.55); }
+.auth-left-foot { font-size: 12px; color: rgba(255,255,255,0.2); }
+
+/* RIGHT */
+.auth-right {
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  padding: 4rem 3rem;
+  border-left: 1px solid var(--line);
+}
+.auth-box { width: 100%; max-width: 380px; }
+
+.auth-tabs {
+  display: flex; gap: 0;
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: 3px; margin-bottom: 2rem; background: var(--bg-2);
+}
+.auth-tab { flex: 1; padding: 8px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 4px; transition: var(--t); border: none; background: none; font-family: 'DM Sans', sans-serif; color: var(--ink-3); }
+.auth-tab.active { background: white; color: var(--ink); border: 1px solid var(--line); }
+
+.auth-panel { display: none; }
+.auth-panel.active { display: block; animation: up .2s ease; }
+@keyframes up { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+.auth-panel h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 300; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.01em; }
+.auth-sub { font-size: 13.5px; color: var(--ink-3); margin-bottom: 1.5rem; }
+
+.pw-wrap { position: relative; }
+.pw-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 14px; color: var(--ink-3); padding: 2px; }
+.pw-strength { height: 2px; background: var(--line); border-radius: 1px; margin-top: 5px; }
+.pw-fill { height: 100%; border-radius: 1px; transition: width .3s, background .3s; width: 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.auth-foot { text-align: center; font-size: 12.5px; color: var(--ink-3); margin-top: 1.1rem; }
+.auth-foot a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--ink); }
+.auth-foot a:hover { color: var(--accent); border-color: var(--accent); }
+
+@media (max-width: 768px) { .auth-page { grid-template-columns:1fr; } .auth-left { display:none; } .auth-right { padding:2rem 1.5rem; } }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="auth-left-brand">
+      <div class="auth-left-logo">B</div>
+      <div><strong>Bagares Optical Clinic</strong><span>Patient Portal</span></div>
+    </div>
+    <div class="auth-left-body">
+      <h2>Your account,<br>your <em>health.</em></h2>
+      <p>Sign in to manage appointments, view your prescription history, and receive messages from the clinic.</p>
+      <div class="auth-perk"><div class="perk-line"></div><span>Book appointments online, 24/7</span></div>
+      <div class="auth-perk"><div class="perk-line"></div><span>Receive booking confirmations in your inbox</span></div>
+      <div class="auth-perk"><div class="perk-line"></div><span>View and track all past appointments</span></div>
+    </div>
+    <div class="auth-left-foot">© 2025 Bagares Optical Clinic</div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-box">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-in" onclick="switchTab('in')">Sign in</button>
+        <button class="auth-tab" id="tab-reg" onclick="switchTab('reg')">Register</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div class="auth-panel active" id="panel-in">
+        <h3>Welcome back</h3>
+        <p class="auth-sub">Enter your credentials to continue.</p>
+        <div class="form-group" id="fg-ie"><label class="form-label">Email <span class="req">*</span></label><input class="form-input" id="i-em" type="email" placeholder="you@email.com" autocomplete="email"><div class="field-error" id="err-ie">Enter a valid email.</div></div>
+        <div class="form-group" id="fg-ip"><label class="form-label">Password <span class="req">*</span></label><div class="pw-wrap"><input class="form-input" id="i-pw" type="password" placeholder="Your password" style="padding-right:38px;" autocomplete="current-password"><button type="button" class="pw-eye" onclick="togglePw('i-pw',this)">👁</button></div><div class="field-error" id="err-ip">Password required.</div></div>
+        <div style="text-align:right;margin-bottom:1.25rem;"><a href="#" style="font-size:12.5px;color:var(--ink-3);text-decoration:none;border-bottom:1px solid var(--line);">Forgot password?</a></div>
+        <div class="alert alert-error" id="in-err" style="display:none;margin-bottom:1rem;"></div>
+        <button class="btn btn-dark" style="width:100%;" onclick="doLogin()">Sign in →</button>
+        <div class="auth-foot">No account? <a href="#" onclick="switchTab('reg')">Create one</a></div>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="auth-panel" id="panel-reg">
+        <h3>Create account</h3>
+        <p class="auth-sub">Register to book and track appointments.</p>
+        <div class="two-col">
+          <div class="form-group" id="fg-rfn"><label class="form-label">First name <span class="req">*</span></label><input class="form-input" id="r-fn" type="text" placeholder="Maria" autocomplete="given-name"><div class="field-error" id="err-rfn">Required.</div></div>
+          <div class="form-group" id="fg-rln"><label class="form-label">Last name <span class="req">*</span></label><input class="form-input" id="r-ln" type="text" placeholder="Santos" autocomplete="family-name"><div class="field-error" id="err-rln">Required.</div></div>
+        </div>
+        <div class="form-group" id="fg-rem"><label class="form-label">Email <span class="req">*</span></label><input class="form-input" id="r-em" type="email" placeholder="you@email.com" autocomplete="email"><div class="field-error" id="err-rem">Valid email required.</div></div>
+        <div class="form-group" id="fg-rph"><label class="form-label">Phone <span class="req">*</span></label><input class="form-input" id="r-ph" type="tel" placeholder="09XX XXX XXXX" autocomplete="tel"><div class="field-error" id="err-rph">Valid PH number required.</div></div>
+        <div class="form-group" id="fg-rpw">
+          <label class="form-label">Password <span class="req">*</span></label>
+          <div class="pw-wrap"><input class="form-input" id="r-pw" type="password" placeholder="Min. 8 characters" style="padding-right:38px;" oninput="checkStr(this.value)" autocomplete="new-password"><button type="button" class="pw-eye" onclick="togglePw('r-pw',this)">👁</button></div>
+          <div class="pw-strength"><div class="pw-fill" id="pwFill"></div></div>
+          <div class="field-error" id="err-rpw">Minimum 8 characters.</div>
+        </div>
+        <div class="alert alert-error" id="reg-err" style="display:none;margin-bottom:1rem;"></div>
+        <button class="btn btn-dark" style="width:100%;margin-top:4px;" onclick="doReg()">Create account →</button>
+        <div class="auth-foot">Have an account? <a href="#" onclick="switchTab('in')">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/shared.js"></script>
+<script>
+Bagares.renderNav('');
+if (Bagares.getUser()) window.location.href = 'dashboard.html';
+if (new URLSearchParams(location.search).get('r')) switchTab('reg');
+
+function switchTab(t) {
+  ['in','reg'].forEach(x => { document.getElementById('panel-'+x).classList.toggle('active',x===t); document.getElementById('tab-'+x).classList.toggle('active',x===t); });
+}
+function togglePw(id, btn) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; btn.textContent=el.type==='password'?'👁':'🔒'; }
+function checkStr(pw) { let s=0; if(pw.length>=8)s++; if(/[A-Z]/.test(pw))s++; if(/[0-9]/.test(pw))s++; if(/[^A-Za-z0-9]/.test(pw))s++; const f=document.getElementById('pwFill'); f.style.width=['0%','25%','50%','75%','100%'][s]; f.style.background=['','#dc2626','#f59e0b','#3b82f6','#16a34a'][s]; }
+function setE(id,show) { document.getElementById('fg-'+id)?.classList.toggle('has-error',show); }
+function v(id) { return (document.getElementById(id)?.value||'').trim(); }
+
+async function doLogin() {
+  const em=v('i-em'), pw=document.getElementById('i-pw').value;
+  const ve=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+  setE('ie',!ve); setE('ip',!pw); if(!ve||!pw) return;
+  const btn=document.querySelector('#panel-in .btn-dark');
+  btn.disabled=true; btn.textContent='Signing in…';
+  try {
+    const f = await Bagares.findAccount(em, pw);
+    const e=document.getElementById('in-err');
+    if(!f){e.style.display='flex';e.textContent='Incorrect email or password.';btn.disabled=false;btn.textContent='Sign in →';return;}
+    e.style.display='none';
+    Bagares.setUser({name:f.name,email:f.email,phone:f.phone});
+    Bagares.toast('Welcome back, '+f.name.split(' ')[0],'success');
+    setTimeout(()=>window.location.href=Bagares.getRedirect()||'dashboard.html',500);
+  } catch(err) {
+    btn.disabled=false; btn.textContent='Sign in →';
+    document.getElementById('in-err').style.display='flex';
+    document.getElementById('in-err').textContent='Connection error. Check your internet.';
+  }
+}
+
+async function doReg() {
+  const fn=v('r-fn'),ln=v('r-ln'),em=v('r-em'),ph=v('r-ph'),pw=document.getElementById('r-pw').value;
+  const checks=[['rfn',fn.length>0],['rln',ln.length>0],['rem',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)],['rph',/^09\d{9}$/.test(ph.replace(/\s/g,''))],['rpw',pw.length>=8]];
+  let ok=true; checks.forEach(([id,vl])=>{setE(id,!vl);if(!vl)ok=false;});
+  if(!ok) return;
+  const btn=document.querySelector('#panel-reg .btn-dark');
+  btn.disabled=true; btn.textContent='Creating account…';
+  try {
+    const exists = await Bagares.emailExists(em);
+    if(exists){const e=document.getElementById('reg-err');e.style.display='flex';e.textContent='An account with this email already exists.';btn.disabled=false;btn.textContent='Create account →';return;}
+    const acc = await Bagares.createAccount(fn+' '+ln, em, ph, pw);
+    Bagares.setUser({name:fn+' '+ln,email:em,phone:ph});
+    Bagares.toast('Account created. Welcome!','success');
+    setTimeout(()=>window.location.href=Bagares.getRedirect()||'dashboard.html',600);
+  } catch(err) {
+    btn.disabled=false; btn.textContent='Create account →';
+    document.getElementById('reg-err').style.display='flex';
+    document.getElementById('reg-err').textContent='Connection error. Try again.';
+    console.error(err);
+  }
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){if(document.getElementById('panel-in').classList.contains('active'))doLogin();else doReg();}});
+</script>
+</body>
+</html>

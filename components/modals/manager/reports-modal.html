@@ -1,0 +1,30 @@
+<div class="custom-report-modal" id="customReportModal">
+  <div class="modal-overlay" onclick="closeCustomReportModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Export Inventory Report</h2>
+      <button class="close-btn" onclick="closeCustomReportModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-instruction">Select the columns you wish to include in your exported inventory file.</p>
+      
+      <div class="form-group">
+        <label>Columns to Include <small>(Hold Ctrl/Cmd to select multiple)</small></label>
+        <select id="customColumns" multiple size="6">
+          <option value="product_name" selected>Product Name</option>
+          <option value="sku" selected>SKU</option>
+          <option value="category" selected>Category</option>
+          <option value="stock" selected>Current Stock</option>
+          <option value="price" selected>Unit Price</option>
+          <option value="status" selected>Status</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="cancel-btn" onclick="closeCustomReportModal()">Cancel</button>
+      <button class="generate-final-btn" onclick="generateFinalCustomReport()">Download CSV</button>
+    </div>
+  </div>
+</div>

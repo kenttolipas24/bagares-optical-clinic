@@ -1,0 +1,147 @@
+<!-- Eye Examination Modal -->
+<div id="eye-exam-modal" class="eye-exam-modal">
+  <div class="eye-exam-modal-content">
+    <div class="eye-exam-modal-header">
+      <h2>Eye Examination</h2>
+      <button class="eye-exam-close" onclick="closeEyeExamModal()">&times;</button>
+    </div>
+
+    <div class="eye-exam-modal-body">
+      <!-- Patient Information Section - ENHANCED -->
+      <div class="exam-section">
+        <div class="section-header">
+          <div class="section-indicator"></div>
+          <h3>Patient Information</h3>
+        </div>
+        
+        <!-- Row 1: Basic Info -->
+        <div class="patient-info-card">
+          <div class="info-row">
+            <div class="info-item">
+              <label>Patient Name</label>
+              <div class="info-value" id="patientName">-</div>
+            </div>
+            <div class="info-item">
+              <label>Age</label>
+              <div class="info-value" id="patientAge">-</div>
+            </div>
+            <div class="info-item">
+              <label>Birthdate</label>
+              <div class="info-value" id="patientBirthdate">-</div>
+            </div>
+          </div>
+          
+          <!-- Row 2: Contact Info -->
+          <div class="info-row">
+            <div class="info-item info-item-full">
+              <label>Email Address</label>
+              <div class="info-value" id="patientEmail">-</div>
+            </div>
+          </div>
+          
+          <!-- Row 3: Address -->
+          <div class="info-row">
+            <div class="info-item info-item-full">
+              <label>Address</label>
+              <div class="info-value" id="patientAddress">-</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Exam Date - Editable -->
+        <div class="form-grid" style="margin-top: 20px;">
+          <div class="form-group">
+            <label>Date of Examination</label>
+            <input type="date" id="examDate">
+          </div>
+        </div>
+      </div>
+
+      <!-- Refraction Section -->
+      <div class="exam-section">
+        <div class="section-header">
+          <div class="section-indicator"></div>
+          <h3>Refraction</h3>
+        </div>
+        
+        <div class="refraction-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Eye</th>
+                <th>Sphere (SPH)</th>
+                <th>Cylinder (CYL)</th>
+                <th>Axis</th>
+                <th>Add</th>
+                <th>PD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>OD</strong></td>
+                <td><input type="text" id="od_sph" placeholder="+0.00"></td>
+                <td><input type="text" id="od_cyl" placeholder="-0.00"></td>
+                <td><input type="text" id="od_axis" placeholder="000"></td>
+                <td><input type="text" id="od_add" placeholder="+0.00"></td>
+                <td rowspan="2"><input type="text" id="pd" placeholder="63"></td>
+              </tr>
+              <tr>
+                <td><strong>OS</strong></td>
+                <td><input type="text" id="os_sph" placeholder="+0.00"></td>
+                <td><input type="text" id="os_cyl" placeholder="-0.00"></td>
+                <td><input type="text" id="os_axis" placeholder="000"></td>
+                <td><input type="text" id="os_add" placeholder="+0.00"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Lens Recommendation Section -->
+      <div class="exam-section">
+        <div class="section-header">
+          <div class="section-indicator"></div>
+          <h3>Lens Recommendation</h3>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Lens Type</label>
+            <select id="lensType">
+              <option value="">Select type</option>
+              <option value="Single Vision">Single Vision</option>
+              <option value="Bifocal">Bifocal</option>
+              <option value="Progressive">Progressive</option>
+              <option value="Reading">Reading</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Frames</label>
+            <select id="lensMaterial">
+              <option value="">Select frames</option>
+              <option value="Plastic">Plastic</option>
+              <option value="Polycarbonate">Polycarbonate</option>
+              <option value="High Index">High Index</option>
+              <option value="Trivex">Trivex</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Notes -->
+      <div class="exam-section">
+        <div class="section-header">
+          <div class="section-indicator"></div>
+          <h3>Additional Notes</h3>
+        </div>
+        <div class="form-group">
+          <textarea id="examNotes" rows="4" placeholder="Enter any additional observations or recommendations..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="eye-exam-modal-footer">
+      <button class="btn-secondary" onclick="closeEyeExamModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveEyeExam()">Save Examination</button>
+    </div>
+  </div>
+</div>

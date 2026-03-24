@@ -1,0 +1,28 @@
+<!-- Appointment Action Dropdown Modal -->
+<div id="appointmentActionModal" class="appointment-action-modal">
+  <div class="action-dropdown-content">
+    <button class="action-item" onclick="viewAppointmentDetails()">
+      <svg class="action-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      View Details
+    </button>
+    <button class="action-item" onclick="eyeExamine()">
+      <svg class="action-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+        <path d="M7.5 11s1-2 3.5-2 3.5 2 3.5 2-1 2-3.5 2-3.5-2-3.5-2z"></path>
+        <circle cx="11" cy="11" r="1" fill="currentColor"></circle>
+      </svg>
+      Eye Examine
+    </button>
+    <button class="action-item action-delete" onclick="cancelAppointment()">
+      <svg class="action-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+      Cancel
+    </button>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<!-- User Management Tab -->
+<div class="purchase-container">
+  <div class="purchase-header">
+    <h1>User Management</h1>
+    <button class="add-order-btn" onclick="openAddUserModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Add New User
+    </button>
+  </div>
+
+  <div class="purchase-card">
+    <div class="purchase-top">
+      <h2>User Management</h2>
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" class="search-input" placeholder="Search name, email..." id="userSearch" oninput="filterUsers()">
+      </div>
+    </div>
+
+    <div class="table-controls">
+      <div class="filter-section">
+        <select class="filter-select" id="roleFilter" onchange="filterUsers()">
+          <option value="all">All Roles</option>
+          <option value="Admin">Admin</option>
+          <option value="Manager">Manager</option>
+          <option value="Secretary/Cashier">Secretary/Cashier</option>
+          <option value="Optometrist">Optometrist</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="purchase-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Date Created</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <!-- Data will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-pagination">
+      <div class="pagination-info">
+        Showing <span id="orderShowingStart">1</span> to <span id="orderShowingEnd">5</span> of <span id="totalOrders">5</span> users
+      </div>
+      <div class="pagination-controls">
+        <button class="pagination-btn" disabled>Previous</button>
+        <div class="pagination-numbers">
+          <button class="page-number active">1</button>
+        </div>
+        <button class="pagination-btn" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+</div>

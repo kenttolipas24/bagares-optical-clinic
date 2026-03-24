@@ -1,0 +1,68 @@
+<!-- Restock Modal - Simplified -->
+<div id="restockModal" class="modal">
+  <div class="modal-overlay" onclick="closeRestockModal()"></div>
+  <div class="modal-container modal-medium">
+    <div class="modal-header">
+      <h2>Restock Item</h2>
+      <button class="modal-close-btn" onclick="closeRestockModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Product Info -->
+      <div class="restock-product-info">
+        <div class="product-preview-image small" id="restockProductImage">
+          <span id="restockProductInitials">??</span>
+        </div>
+        <div>
+          <h4 id="restockProductName">Product Name</h4>
+          <p class="text-muted">SKU: <span id="restockProductSKU">N/A</span></p>
+        </div>
+      </div>
+
+      <!-- Current Stock Info -->
+      <div class="stock-info-card">
+        <div class="stock-info-item">
+          <label>Current Stock</label>
+          <div class="stock-value" id="restockCurrentStock">0</div>
+        </div>
+        <div class="stock-info-item">
+          <label>Status</label>
+          <span class="status-badge" id="restockCurrentStatus">Low Stock</span>
+        </div>
+      </div>
+
+      <!-- Restock Form -->
+      <form id="restockForm" onsubmit="handleRestockSubmit(event)">
+        <div class="form-group">
+          <label for="restockQuantity" class="form-label required">
+            Quantity to Add
+          </label>
+          <input 
+            type="number" 
+            id="restockQuantity" 
+            class="form-input" 
+            placeholder="Enter quantity"
+            min="1"
+            required
+          >
+          <small class="form-hint">Enter the number of items to add to inventory</small>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" onclick="closeRestockModal()">Cancel</button>
+      <button type="submit" form="restockForm" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        Confirm Restock
+      </button>
+    </div>
+  </div>
+</div>

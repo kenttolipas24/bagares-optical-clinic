@@ -1,0 +1,417 @@
+<section id="sales-section" class="sales-view">
+  <div class="sales-container">
+    <!-- LEFT: Inventory Panel -->
+    <div class="inventory-panel">
+      <div class="patient-header">
+        <div class="patient-name-group">
+          <label for="patientNameDisplay">Patient Name <span class="required">*</span></label>
+          <button type="button" class="patient-dropdown-btn" id="patientDropdownBtn">
+            <span id="patientNameDisplay">Select a patient...</span>
+            <svg class="dropdown-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <input type="hidden" id="patientId">
+          <input type="hidden" id="patientName">
+        </div>
+
+        <div class="date-group">
+          <label for="saleDate">Date</label>
+          <input type="date" id="saleDate">
+        </div>
+      </div>
+
+      <!-- NEW: Exam/Prescription Linking -->
+      <div class="exam-linking-row" id="examLinkingRow" style="display: none;">
+        <label>Link to Prescription</label>
+        <select id="examSelect" class="exam-select">
+          <option value="">-- No prescription --</option>
+        </select>
+        <small class="exam-hint">Optional: Link this sale to patient's eye exam</small>
+      </div>
+
+      <div class="inventory-filter">
+        <div class="category-toggle">
+          <button class="category-btn active" data-category="frames">Frames</button>
+          <button class="category-btn" data-category="lenses">Lenses</button>
+        </div>
+        <input type="search" id="inventorySearch" placeholder="Search inventory...">
+      </div>
+
+      <div class="inventory-list" id="inventoryList"></div>
+    </div>
+
+    <!-- RIGHT: Cart Panel -->
+    <div class="cart-panel">
+      <div class="cart-header-row-title">
+        <h2>Current Sale</h2>
+        <button class="btn-sales-history" id="btnSalesHistory" title="View Sales History">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          History
+        </button>
+      </div>
+
+      <div class="cart-table">
+        <div class="cart-header-row">
+          <span>Item</span>
+          <span>Price</span>
+          <span>Qty</span>
+          <span>Total</span>
+          <span></span>
+        </div>
+
+        <div class="cart-body" id="saleItemsBody"></div>
+      </div>
+
+      <!-- NEW: Discount Section -->
+      <div class="discount-section">
+        <div class="discount-row">
+          <label>Discount Type</label>
+          <select id="discountType" class="discount-select">
+            <option value="none">No Discount</option>
+            <option value="senior">Senior Citizen (20%)</option>
+            <option value="pwd">PWD (20%)</option>
+            <option value="promo">Promo Discount</option>
+            <option value="custom">Custom Amount</option>
+          </select>
+        </div>
+        <div class="discount-row" id="customDiscountRow" style="display: none;">
+          <label>Discount Value</label>
+          <div class="custom-discount-input">
+            <input type="number" id="customDiscountValue" placeholder="0" min="0" step="0.01">
+            <select id="customDiscountUnit">
+              <option value="percent">%</option>
+              <option value="fixed">₱</option>
+            </select>
+          </div>
+        </div>
+        <div class="discount-id-row" id="discountIdRow" style="display: none;">
+          <label>ID Number</label>
+          <input type="text" id="discountIdNumber" placeholder="Enter Senior/PWD ID">
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <div class="totals-breakdown">
+          <div class="subtotal-row">
+            <span>Subtotal</span>
+            <span id="subtotalAmount">₱0.00</span>
+          </div>
+          <div class="discount-row-display" id="discountRowDisplay" style="display: none;">
+            <span>Discount (<span id="discountLabel">0%</span>)</span>
+            <span id="discountAmount">-₱0.00</span>
+          </div>
+          <div class="total">
+            <span>Total</span>
+            <strong id="totalAmount">₱0.00</strong>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="btnCancel" class="btn secondary">Cancel</button>
+          <button id="btnProcess" class="btn primary" disabled>Process Payment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sales Patient Selection Modal -->
+  <div id="salesPatientModal" class="sales-modal-overlay">
+    <div class="sales-modal-dialog">
+      <div class="sales-modal-header">
+        <h3>Select Patient</h3>
+        <button class="sales-close-btn" id="closePatientModal">×</button>
+      </div>
+
+      <div class="sales-modal-body">
+        <input 
+          type="text" 
+          id="salesPatientSearch"
+          class="sales-modal-search"
+          placeholder="Continue typing to filter..."
+          autocomplete="off"
+        >
+
+        <div class="patient-list" id="salesPatientList">
+          <!-- Patient cards will be inserted here -->
+        </div>
+      </div>
+
+      <div class="sales-modal-footer">
+        <button class="btn secondary" id="btnCancelPatient">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Modal - ENHANCED with Cash Tendering -->
+  <div id="paymentModal" class="modal">
+    <div class="modal-content payment-modal-enhanced">
+      <div class="modal-head">
+        <h3>Payment</h3>
+        <button id="closeModal" class="modal-close-btn">×</button>
+      </div>
+      
+      <div class="payment-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="modalSubtotal">₱0.00</span>
+        </div>
+        <div class="summary-row discount-summary" id="modalDiscountRow" style="display: none;">
+          <span>Discount</span>
+          <span id="modalDiscount">-₱0.00</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total Due</span>
+          <strong id="modalTotal">₱0.00</strong>
+        </div>
+      </div>
+
+      <div class="payment-method-section">
+        <label>Payment Method</label>
+        <div class="payment-methods">
+          <button data-method="cash" class="payment-method-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="6" width="20" height="12" rx="2"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Cash
+          </button>
+          <button data-method="card" class="payment-method-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+            Card
+          </button>
+          <button data-method="gcash" class="payment-method-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="5" y="2" width="14" height="20" rx="2"/>
+              <line x1="12" y1="18" x2="12" y2="18"/>
+            </svg>
+            GCash
+          </button>
+        </div>
+      </div>
+
+      <!-- Cash Tendering Section -->
+      <div class="cash-tendering-section" id="cashTenderingSection" style="display: none;">
+        <div class="tender-input-group">
+          <label>Amount Tendered</label>
+          <div class="tender-input-wrapper">
+            <span class="currency-symbol">₱</span>
+            <input type="number" id="amountTendered" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="quick-cash-buttons">
+          <button class="quick-cash" data-amount="100">₱100</button>
+          <button class="quick-cash" data-amount="200">₱200</button>
+          <button class="quick-cash" data-amount="500">₱500</button>
+          <button class="quick-cash" data-amount="1000">₱1000</button>
+          <button class="quick-cash" data-amount="exact">Exact</button>
+        </div>
+        <div class="change-display" id="changeDisplay">
+          <span>Change</span>
+          <strong id="changeAmount">₱0.00</strong>
+        </div>
+      </div>
+
+      <!-- Reference Number for Card/GCash -->
+      <div class="reference-section" id="referenceSection" style="display: none;">
+        <label>Reference Number</label>
+        <input type="text" id="referenceNumber" placeholder="Enter transaction reference">
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnModalCancel" class="btn secondary">Cancel</button>
+        <button id="btnModalConfirm" class="btn primary" disabled>Confirm Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW: Sales History Modal -->
+  <div id="salesHistoryModal" class="modal sales-history-modal">
+    <div class="modal-content history-modal-content">
+      <div class="modal-head">
+        <h3>Sales History</h3>
+        <button id="closeHistoryModal" class="modal-close-btn">×</button>
+      </div>
+      
+      <div class="history-filters">
+        <div class="filter-group">
+          <label>Date Range</label>
+          <input type="date" id="historyDateFrom">
+          <span>to</span>
+          <input type="date" id="historyDateTo">
+        </div>
+        <div class="filter-group">
+          <label>Status</label>
+          <select id="historyStatus">
+            <option value="">All</option>
+            <option value="paid">Paid</option>
+            <option value="voided">Voided</option>
+          </select>
+        </div>
+        <button class="btn primary btn-sm" id="btnFilterHistory">Filter</button>
+      </div>
+
+      <div class="history-table-wrapper">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Sale #</th>
+              <th>Date</th>
+              <th>Patient</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Payment</th>
+              <th>Staff</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <!-- Sales rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="history-pagination" id="historyPagination">
+        <!-- Pagination will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW: Void Sale Modal -->
+  <div id="voidSaleModal" class="modal">
+    <div class="modal-content void-modal-content">
+      <div class="modal-head void-header">
+        <h3>⚠️ Void Sale</h3>
+        <button id="closeVoidModal" class="modal-close-btn">×</button>
+      </div>
+      
+      <div class="void-body">
+        <div class="void-sale-info">
+          <p><strong>Sale #:</strong> <span id="voidSaleId"></span></p>
+          <p><strong>Patient:</strong> <span id="voidPatientName"></span></p>
+          <p><strong>Amount:</strong> <span id="voidAmount"></span></p>
+          <p><strong>Date:</strong> <span id="voidDate"></span></p>
+        </div>
+
+        <div class="void-warning">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <p>This action will void the sale and restore inventory stock. This cannot be undone.</p>
+        </div>
+
+        <div class="void-reason-group">
+          <label>Reason for Voiding <span class="required">*</span></label>
+          <select id="voidReason">
+            <option value="">Select reason...</option>
+            <option value="customer_request">Customer Request/Return</option>
+            <option value="wrong_item">Wrong Item Entered</option>
+            <option value="wrong_price">Pricing Error</option>
+            <option value="wrong_patient">Wrong Patient</option>
+            <option value="duplicate">Duplicate Entry</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="void-notes-group" id="voidNotesGroup" style="display: none;">
+          <label>Additional Notes</label>
+          <textarea id="voidNotes" rows="3" placeholder="Please provide details..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnCancelVoid" class="btn secondary">Cancel</button>
+        <button id="btnConfirmVoid" class="btn danger" disabled>Confirm Void</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW: View Sale Details Modal -->
+  <div id="viewSaleModal" class="modal">
+    <div class="modal-content view-sale-content">
+      <div class="modal-head">
+        <h3>Sale Details</h3>
+        <button id="closeViewSaleModal" class="modal-close-btn">×</button>
+      </div>
+      
+      <div class="sale-details-body">
+        <div class="sale-info-grid">
+          <div class="info-item">
+            <label>Sale #</label>
+            <span id="viewSaleId"></span>
+          </div>
+          <div class="info-item">
+            <label>Date</label>
+            <span id="viewSaleDate"></span>
+          </div>
+          <div class="info-item">
+            <label>Patient</label>
+            <span id="viewPatientName"></span>
+          </div>
+          <div class="info-item">
+            <label>Processed By</label>
+            <span id="viewStaffName"></span>
+          </div>
+          <div class="info-item">
+            <label>Payment Method</label>
+            <span id="viewPaymentMethod"></span>
+          </div>
+          <div class="info-item">
+            <label>Status</label>
+            <span id="viewStatus"></span>
+          </div>
+        </div>
+
+        <div class="sale-items-section">
+          <h4>Items</h4>
+          <table class="sale-items-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="viewSaleItems"></tbody>
+          </table>
+        </div>
+
+        <div class="sale-totals">
+          <div class="totals-row">
+            <span>Subtotal</span>
+            <span id="viewSubtotal"></span>
+          </div>
+          <div class="totals-row" id="viewDiscountRow" style="display: none;">
+            <span>Discount</span>
+            <span id="viewDiscount"></span>
+          </div>
+          <div class="totals-row total">
+            <span>Total</span>
+            <strong id="viewTotal"></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnPrintReceipt" class="btn secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/>
+            <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print Receipt
+        </button>
+        <button id="btnCloseViewSale" class="btn primary">Close</button>
+      </div>
+    </div>
+  </div>
+</section>

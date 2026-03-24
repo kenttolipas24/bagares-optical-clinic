@@ -1,0 +1,92 @@
+<div class="purchase-container">
+    <div class="purchase-header">
+        <h1>Purchase Orders</h1>
+        <button class="add-order-btn" onclick="openAddOrderModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Create Purchase Order
+        </button>
+    </div>
+
+    <div class="purchase-card">
+        <div class="purchase-top">
+            <h2>Purchase Order Management</h2>
+            <div class="search-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" class="search-input" placeholder="Search orders..." id="searchOrderInput" oninput="filterOrders()">
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="purchase-table" id="purchaseTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortOrderTable('po')">PO Number</th>
+                        <th onclick="sortOrderTable('supplier')">Supplier</th>
+                        <th onclick="sortOrderTable('date')">Order Date</th>
+                        <th onclick="sortOrderTable('delivery')">Expected Delivery</th>
+                        <th onclick="sortOrderTable('items')">Items</th>
+                        <th onclick="sortOrderTable('total')">Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="purchaseTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="createOrderModal" class="modal">
+    <div class="modal-content large">
+        <div class="modal-header">
+            <h2>New Purchase Order</h2>
+            <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+        </div>
+        <form id="purchaseOrderForm" onsubmit="handleCreateOrder(event)">
+            <input type="hidden" id="poOrderDate">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Supplier</label>
+                    <select id="poSupplier" required>
+                        <option value="">Select a supplier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Expected Delivery</label>
+                    <input type="date" id="poDeliveryDate" required>
+                </div>
+            </div>
+
+            <div class="items-section">
+                <h3>Order Items</h3>
+                <table class="items-entry-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th style="width: 80px;">Qty</th>
+                            <th style="width: 150px;">Unit Cost (₱)</th>
+                            <th style="width: 150px;">Subtotal</th>
+                            <th style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="poItemsBody"></tbody>
+                </table>
+                <button type="button" class="btn-add-item" onclick="addItemRow()">+ Add Product</button>
+            </div>
+
+            <div class="modal-footer">
+                <div class="grand-total-container">
+                    <strong>Total Amount:</strong> <span id="poGrandTotal">₱0.00</span>
+                </div>
+                <button type="button" class="btn-secondary" onclick="closeOrderModal()">Cancel</button>
+                <button type="submit" class="btn-primary">Save Order</button>
+            </div>
+        </form>
+    </div>
+</div>

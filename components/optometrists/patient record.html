@@ -1,0 +1,106 @@
+<!-- <div class="patient-records-card">
+  <div class="pr-header">
+    <h1 class="pr-title">Patient Records</h1>
+    <div class="pr-search">
+      <input type="text" id="searchPatient" placeholder="Search patient..." class="search-input">
+    </div>
+  </div>
+
+  <div class="pr-table-container">
+    <table class="pr-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Date</th>
+          <th>OD (Sph/Cyl/Axis)</th>
+          <th>OS (Sph/Cyl/Axis)</th>
+          <th>Add (OU)</th>
+          <th>PD</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="patientTable"></tbody>
+    </table>
+  </div>
+</div> -->
+
+<!-- Modal overlay & modal -->
+<!-- <div class="modal-overlay" id="overlay"></div>
+<div class="modal" id="modal"></div> -->
+
+
+
+<section id="patient-section">
+  <main class="main-content">
+    <div class="page-header">
+      <h2 class="page-title">WALK-IN PATIENTS</h2>
+      <button class="add-patient-btn" onclick="openPatientModal('add')">+ Add Patient</button>
+    </div>
+
+    <div class="patient-section">
+      <div class="patient-header">
+        <h3 class="patient-records-title">Patient Records</h3>
+        
+        <div class="header-actions">
+          <!-- FILTER DROPDOWN -->
+          <div class="filter-dropdown-container">
+            <button class="filter-dropdown-btn" onclick="toggleFilterDropdown(event)">
+              <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M7 12h10M11 18h2"></path>
+              </svg>
+              <span id="current-filter-text">No Eye Exam</span>
+              <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </button>
+            
+            <div class="filter-dropdown-menu" id="filterDropdown">
+              <button class="filter-dropdown-item" onclick="selectFilter('all', 'All Patients', event)">
+                <span class="filter-check">✓</span>
+                All Patients
+              </button>
+              <button class="filter-dropdown-item active" onclick="selectFilter('no-exam', 'No Eye Exam', event)">
+                <span class="filter-check">✓</span>
+                No Eye Exam
+              </button>
+              <button class="filter-dropdown-item" onclick="selectFilter('walk-in', 'Walk-in Only', event)">
+                <span class="filter-check">✓</span>
+                Walk-in Only
+              </button>
+              <button class="filter-dropdown-item" onclick="selectFilter('online', 'Online Booking', event)">
+                <span class="filter-check">✓</span>
+                Online Booking
+              </button>
+            </div>
+          </div>
+
+          <!-- SEARCH BOX -->
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" class="search-input" placeholder="Search patients...">
+          </div>
+        </div>
+      </div>
+
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Address</th>
+            <th>Age</th>
+            <th>Eye Examination Result</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+</section>

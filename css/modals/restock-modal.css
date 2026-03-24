@@ -1,0 +1,152 @@
+/* Restock Modal - Minimalist & Professional */
+
+/* Modal Medium Size */
+.modal-container.modal-medium {
+  max-width: 500px;
+}
+
+/* Restock Product Info - Clean */
+.restock-product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+  border: 1px solid #e5e7eb;
+}
+
+.restock-product-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.text-muted {
+  margin: 0.25rem 0 0 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* Stock Info Card - Simple */
+.stock-info-card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #fef3c7;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+  border: 1px solid #fbbf24;
+}
+
+.stock-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.stock-info-item label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stock-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #92400e;
+}
+
+/* Form Styles - Minimal */
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.4rem;
+}
+
+.form-label.required::after {
+  content: ' *';
+  color: #dc2626;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #111827;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 75px;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* New Stock Preview - Clean */
+.new-stock-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: #d1fae5;
+  border-radius: 6px;
+  margin-top: 1.25rem;
+  border: 1px solid #10b981;
+}
+
+.preview-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #065f46;
+}
+
+.preview-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #065f46;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stock-info-card {
+    grid-template-columns: 1fr;
+  }
+
+  .new-stock-preview {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}

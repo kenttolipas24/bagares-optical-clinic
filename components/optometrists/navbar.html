@@ -1,0 +1,31 @@
+<header class="header">
+  <div class="header-background"></div>
+  <div class="header-container">
+
+    <div class="logo-section">
+      <div class="logo">
+        <img src="../assets/picture/logo.jpg" alt="Logo">
+      </div>
+      <span class="clinic-name">Bagares Optical Clinic</span>
+    </div>
+
+    <nav class="navigation">
+      <button class="nav-button active" onclick="changePage('appointment', event)">Appointment</button>
+      <button class="nav-button" onclick="changePage('patient-record', event)">Walk-in Patients</button>
+      <button class="nav-button" onclick="changePage('eye-exam-results', event)">Eye examine result</button>
+      <button class="nav-button" onclick="changePage('reports', event)">Reports</button>
+    </nav>
+
+    <div class="icons-section">
+      <button class="icon-button" onclick="handleNotification()">
+        <img src="https://cdn.iconsax.io/icons/free/rounded/notifications/twotone/notification_alert-message-update-reminder-bell-temp.webp" alt="Notification Icon" class="icon-img">
+        <span class="notification-badge"></span>
+      </button>
+
+      <button class="icon-button profile-btn" id="profileBtn">
+        <img src="https://cdn.iconsax.io/icons/free/rounded/users/bold/user-square_user-profile-person-account-square-individual-identity-temp.webp" alt="Profile Icon" class="icon-img">
+      </button>
+    </div>
+
+  </div>
+</header>

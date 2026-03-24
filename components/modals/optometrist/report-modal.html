@@ -1,0 +1,57 @@
+<!-- Custom Report Modal -->
+<div class="custom-report-modal" id="customReportModal">
+  <div class="modal-overlay" onclick="closeCustomReportModal()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Generate Report</h2>
+      <button class="close-btn" onclick="closeCustomReportModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Report Type</label>
+        <select id="customReportType">
+          <option value="inventory">Inventory Report</option>
+          <option value="sales">Sales Report</option>
+          <option value="patient">Patient Report</option>
+          <option value="Condemnation">Condemnation Report</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Date Range</label>
+        <div class="date-range">
+          <input type="date" id="customDateFrom">
+          <span>to</span>
+          <input type="date" id="customDateTo">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Columns to Include</label>
+        <select id="customColumns" multiple size="6">
+          <!-- Options populated dynamically -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Export Format</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="exportFormat" value="csv" checked>
+            <span>CSV</span>
+          </label>
+          <label>
+            <input type="radio" name="exportFormat" value="excel">
+            <span>Excel</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="cancel-btn" onclick="closeCustomReportModal()">Cancel</button>
+      <button class="generate-final-btn" onclick="generateFinalCustomReport()">Generate Report</button>
+    </div>
+  </div>
+</div>

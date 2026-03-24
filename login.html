@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagares Optical Management System</title>
+    <link rel="icon" type="image/png" href="assets/picture/logo.jpg"/>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            background:#f5f7fa;
+            display:flex; justify-content:center; align-items:center; min-height:100vh;
+        }
+        .container {
+            background:#fff; padding:25px; border-radius:12px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.1);
+            width:400px; text-align:center;
+        }
+        .logo img { width:60px; margin-bottom:20px; border-radius:50%; }
+        h2 { color:#1a1a1a; font-size:1.5em; margin-bottom:5px; }
+        p  { color:#666; font-size:0.9em; margin-bottom:25px; }
+        .form-group { margin-bottom:20px; text-align:left; }
+        .form-group label { display:block; color:#333; font-size:0.9em; margin-bottom:8px; }
+        .form-group input {
+            width:100%; padding:12px 15px;
+            border:2px solid #e0e0e0; border-radius:8px;
+            font-size:0.95em; transition:border-color 0.3s;
+        }
+        .form-group input:focus { border-color:#007bff; outline:none; }
+        .options { display:flex; justify-content:space-between; font-size:0.85em; color:#666; margin-bottom:20px; }
+        .options a { color:#007bff; text-decoration:none; }
+        button {
+            width:100%; padding:12px; background:#007bff; color:#fff;
+            border:none; border-radius:8px; font-size:1em; cursor:pointer;
+            transition:background 0.3s; box-shadow:0 4px 12px rgba(0,0,0,0.2);
+        }
+        button:hover { background:#0056b3; }
+        button:disabled { background:#93c5fd; cursor:not-allowed; }
+        .msg {
+            font-size:0.85em; margin-bottom:15px;
+            padding:10px; border-radius:6px; display:none;
+        }
+        .msg.error   { color:#dc2626; background:#fee2e2; }
+        .msg.success { color:#059669; background:#ecfdf5; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img src="assets/picture/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+    </div>
+    <h2>Bagares Optical Clinic</h2>
+    <p>Management System</p>
+
+    <div class="msg error"   id="errMsg"></div>
+    <div class="msg success" id="okMsg"></div>
+
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="uname" placeholder="Enter your username" autocomplete="username">
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="pw" placeholder="Enter your password" autocomplete="current-password">
+    </div>
+    <div class="options">
+        <label><input type="checkbox" id="remMe"> Remember me</label>
+        <a href="#">Forgot password?</a>
+    </div>
+    <button onclick="doLogin()" id="loginBtn">Log in</button>
+</div>
+
+<script>
+const SUPA_URL = 'https://wmfalunlgrzbxlcxivit.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndtZmFsdW5sZ3J6YnhsY3hpdml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3ODY1ODQsImV4cCI6MjA4OTM2MjU4NH0.6xWwtAla9COLVJz05YuVuYhl4QkkmULMdlESLse2VUo';
+
+const ROUTES = {
+    'admin':             '/pages/admin.html',
+    'manager':           '/pages/manager.html',
+    'optometrist':       '/pages/optometrist.html',
+    'secretary/cashier': '/pages/receptionist.html',
+    'receptionist':      '/pages/receptionist.html',
+    'secretary':         '/pages/receptionist.html',
+    'cashier':           '/pages/receptionist.html',
+};
+
+function showErr(msg) {
+    const e = document.getElementById('errMsg');
+    e.textContent = msg; e.style.display = 'block';
+    document.getElementById('okMsg').style.display = 'none';
+}
+function showOk(msg) {
+    const e = document.getElementById('okMsg');
+    e.textContent = msg; e.style.display = 'block';
+    document.getElementById('errMsg').style.display = 'none';
+}
+
+function redirect(role) {
+    const r = role.toLowerCase().trim();
+    const dest = ROUTES[r];
+    if (!dest) { showErr('Unknown role: ' + role); return; }
+    showOk('Login successful! Redirecting…');
+    setTimeout(() => window.location.href = dest, 600);
+}
+
+async function doLogin() {
+    const username = document.getElementById('uname').value.trim();
+    const password = document.getElementById('pw').value;
+
+    if (!username || !password) {
+        showErr('Please enter both username and password.');
+        return;
+    }
+
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+
+    try {
+        const res = await fetch(
+            `${SUPA_URL}/rest/v1/user_accounts?username=eq.${encodeURIComponent(username)}&password=eq.${encodeURIComponent(password)}&limit=1`,
+            { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` } }
+        );
+
+        const rows = await res.json();
+        console.log('Login result:', rows);
+
+        if (Array.isArray(rows) && rows.length > 0) {
+            const user = rows[0];
+            localStorage.setItem('bag_staff_user', JSON.stringify({
+                id:        user.id,
+                firstname: user.firstname,
+                lastname:  user.lastname,
+                name:      user.firstname + ' ' + user.lastname,
+                username:  user.username,
+                email:     user.email,
+                role:      user.role
+            }));
+            redirect(user.role);
+        } else {
+            showErr('Incorrect username or password.');
+            btn.disabled = false; btn.textContent = 'Log in';
+        }
+    } catch (err) {
+        console.error('Login error:', err);
+        showErr('Connection error. Check your internet.');
+        btn.disabled = false; btn.textContent = 'Log in';
+    }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+window.addEventListener('load', () => {
+    const saved = localStorage.getItem('bag_remember');
+    if (saved) {
+        try {
+            document.getElementById('uname').value = JSON.parse(saved).username;
+            document.getElementById('remMe').checked = true;
+        } catch {}
+    }
+});
+</script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagares Optical Management System</title>
+    <link rel="icon" type="image/png" href="../bagares/assets/picture/logo.jpg"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .logo img {
+            width: 60px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+        h2 {
+            color: #1a1a1a;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+        p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            color: #333;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .options a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #fee2e2;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="../bagares/assets/picture/logo.jpg" alt="Logo">
+        </div>
+        <h2>Bagares Optical Clinic</h2>
+        <p>Management System</p>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <div class="login-form">
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Enter your password">
+            </div>
+            <div class="options">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#">Forgot password?</a>
+            </div>
+            <button onclick="login()">Log in</button>
+        </div>
+    </div>
+
+    <script>
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        async function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!username || !password) {
+                showError('Please enter both username and password.');
+                return;
+            }
+
+            try {
+                const response = await fetch('../api/login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    switch(data.user.role.toLowerCase()) {
+                        case 'admin':
+                            window.location.href = 'admin.html';
+                            break;
+                        case 'manager':
+                            window.location.href = '../manager.html';
+                            break;
+                        case 'secretary/cashier':
+                            window.location.href = '../receptionist.html';
+                            break;
+                        case 'optometrist':
+                            window.location.href = '../optometrist.html';
+                            break;
+                        default:
+                            showError('Invalid role assigned to user');
+                    }
+                } else {
+                    showError(data.error || 'Login failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Connection error. Please try again.');
+            }
+        }
+
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+    </script>
+</body>
+</html> -->

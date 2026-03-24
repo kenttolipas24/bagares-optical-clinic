@@ -1,0 +1,93 @@
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="addUserModalTitle">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="addUserModalTitle">Add New User</h3>
+            <button class="close-btn" onclick="closeAddUserModal()" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <form id="addUserForm" novalidate>
+            <div class="modal-body-scroll">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="addfirstname">First Name <span class="required">*</span></label>
+                            <input type="text" id="addfirstname" class="form-input" placeholder="Enter first name" required>
+                            <p class="error-text hidden" id="firstnameError">First name is required</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="addmiddlename">Middle Name <span class="required">*</span></label>
+                            <input type="text" id="addmiddlename" class="form-input" placeholder="Enter middle name" required>
+                            <p class="error-text hidden" id="middlenameError">Middle name is required</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="addlastname">Last Name <span class="required">*</span></label>
+                            <input type="text" id="addlastname" class="form-input" placeholder="Enter last name" required>
+                            <p class="error-text hidden" id="lastnameError">Last name is required</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="addSuffix">Suffix</label>
+                            <input type="text" id="addSuffix" class="form-input" placeholder="e.g., Jr., Sr., III">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="addUsername">Username <span class="required">*</span></label>
+                        <input type="text" id="addUsername" class="form-input" placeholder="Enter username" required minlength="4">
+                        <p class="error-text hidden" id="usernameError">Username must be at least 4 characters</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="addEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="addEmail" class="form-input" placeholder="user@example.com" required>
+                        <p class="error-text hidden" id="emailError">Please enter a valid email address</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="addRole">Role <span class="required">*</span></label>
+                        <select id="addRole" class="form-input" required>
+                            <option value="" disabled selected>Select a role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Secretary/Cashier">Secretary/Cashier</option>
+                            <option value="Optometrist">Optometrist</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="addPassword">Password <span class="required">*</span></label>
+                            <input type="password" id="addPassword" class="form-input" required minlength="8" oninput="evaluatePasswordStrength(this.value)">
+                            <p class="error-text hidden" id="passwordError">Password must be at least 8 characters</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="addConfirmPassword">Confirm Password <span class="required">*</span></label>
+                            <input type="password" id="addConfirmPassword" class="form-input" required oninput="checkPasswordMatch()">
+                            <p class="error-text hidden" id="confirmPasswordError">Passwords do not match</p>
+                        </div>
+                    </div>
+
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <p class="info-text" id="strengthText">Use 8+ characters with letters, numbers & symbols</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+                <button type="submit" class="btn-primary" id="addUserBtn">
+                    <span class="btn-text">Add User</span>
+                    <span class="btn-loading hidden">Adding...</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
