@@ -60,7 +60,7 @@ function initializeAddItemModal() {
             sku:          document.getElementById('addSKU').value.trim(),
             category:     document.getElementById('addCategory').value,
             price:        parseFloat(document.getElementById('addUnitPrice').value),
-            stock_quantity: parseInt(document.getElementById('addStockQuantity').value)
+            stock: parseInt(document.getElementById('addStockQuantity').value)
         };
 
         try {

@@ -13,7 +13,6 @@ fetch('../components/manager/reports.html')
   .catch(error => console.error('Error loading reports:', error));
 
 function initializeReports() {
-  setDefaultDate();
   updateReportDate();
   attachFilterListeners();
   fetchReportData();
@@ -22,21 +21,24 @@ function initializeReports() {
 async function fetchReportData() {
   try {
     const res = await fetch(
-      `${_RP_URL}/rest/v1/stock_logs?select=*,inventory(product_name,category,stock_quantity)&order=created_at.desc`,
+      `${_RP_URL}/rest/v1/stock_logs?select=*,inventory(product_name,category,stock)&order=created_at.desc`,
       { headers: _RP_H }
     );
     if (!res.ok) throw new Error(await res.text());
+
     const data = await res.json();
+
     allReportLogs = data.map(log => ({
       product_name:      log.inventory?.product_name || 'Unknown',
       category:          log.inventory?.category || 'N/A',
-      current_inventory: log.inventory?.stock_quantity ?? 0,
+      current_inventory: log.inventory?.stock ?? 0,
       trans_type:        log.type || 'Stock Out',
       trans_date:        log.created_at?.split('T')[0] || '—',
       quantity:          Math.abs(log.quantity || 0),
       reason:            log.reason || '—',
       processed_by:      log.processed_by || 'Staff'
     }));
+
     renderReportTable(allReportLogs);
   } catch (err) {
     console.error('Failed to load reports:', err);
@@ -47,11 +49,13 @@ async function fetchReportData() {
 function renderReportTable(logs) {
   const tbody = document.getElementById('reportTableBody');
   if (!tbody) return;
+
   if (!logs.length) {
     tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;">No logs found.</td></tr>';
     updateFooterCount(0, allReportLogs.length);
     return;
   }
+
   tbody.innerHTML = logs.map(log => {
     const qtyClass = log.trans_type === 'Stock In' ? 'qty-positive' : 'qty-negative';
     const symbol   = log.trans_type === 'Stock In' ? '+' : '-';
@@ -71,6 +75,7 @@ function renderReportTable(logs) {
         </td>
       </tr>`;
   }).join('');
+
   updateFooterCount(logs.length, allReportLogs.length);
 }
 
@@ -86,6 +91,7 @@ function filterReportTable() {
   const category = document.getElementById('inventoryCategory')?.value || 'all';
   const stock    = document.getElementById('inventoryStock')?.value || 'all';
   const date     = document.getElementById('inventoryDate')?.value || '';
+
   const filtered = allReportLogs.filter(log => {
     const matchesSearch   = log.product_name.toLowerCase().includes(search);
     const matchesCategory = category === 'all' || (log.category || '').toLowerCase() === category;
@@ -93,18 +99,15 @@ function filterReportTable() {
     const matchesDate     = !date || log.trans_date.startsWith(date);
     return matchesSearch && matchesCategory && matchesStock && matchesDate;
   });
+
   renderReportTable(filtered);
 }
 
+// Fixed: returns cls, class, and text for all usages
 function getStockStatus(stock) {
-  if (stock > 10) return { class: 'in-stock' };
-  if (stock > 0)  return { class: 'low-stock' };
-  return { class: 'out-of-stock' };
-}
-
-function setDefaultDate() {
-  const dateInput = document.getElementById('inventoryDate');
-  if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+  if (stock > 10) return { cls: 'in-stock',     class: 'in-stock',     text: 'In Stock' };
+  if (stock > 0)  return { cls: 'low-stock',    class: 'low-stock',    text: 'Low Stock' };
+  return                 { cls: 'out-of-stock', class: 'out-of-stock', text: 'Out of Stock' };
 }
 
 function updateReportDate() {
@@ -115,4 +118,7 @@ function updateReportDate() {
 function updateFooterCount(visible, total) {
   const el = document.getElementById('entryCount');
   if (el) el.innerHTML = `Showing <strong>${visible}</strong> of <strong>${total}</strong> entries`;
+
+  const totalEl = document.getElementById('totalItems');
+  if (totalEl) totalEl.textContent = total;
 }

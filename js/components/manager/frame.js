@@ -20,9 +20,9 @@ function formatCurrency(num) {
 
 function getStockStatus(stock) {
     const qty = parseInt(stock);
-    if (isNaN(qty) || qty <= 0) return { class: 'out-of-stock', text: 'Out of Stock' };
-    if (qty <= 10)              return { class: 'low-stock',     text: 'Low Stock' };
-    return                             { class: 'in-stock',      text: 'In Stock' };
+    if (isNaN(qty) || qty <= 0) return { cls: 'out-of-stock', text: 'Out of Stock' };
+    if (qty <= 10)              return { cls: 'low-stock',     text: 'Low Stock' };
+    return                             { cls: 'in-stock',      text: 'In Stock' };
 }
 
 window.fetchInventoryFromDB = async function () {
@@ -31,7 +31,7 @@ window.fetchInventoryFromDB = async function () {
         if (!res.ok) throw new Error(await res.text());
         const data = await res.json();
 
-        // Normalize: always use 'stock' field
+        // Normalize: always use 'stock' field, fallback to stock_quantity
         inventoryData = data.map(item => ({
             ...item,
             stock: parseInt(item.stock ?? item.stock_quantity ?? 0)
@@ -60,15 +60,16 @@ function renderInventoryTable() {
     tbody.innerHTML = '';
 
     inventoryData.forEach(item => {
-        const stock = parseInt(item.stock ?? 0);
+        // Use the already-normalized stock value
+        const stock = parseInt(item.stock ?? item.stock_quantity ?? 0);
         const status = getStockStatus(stock);
         const initials = item.initials || (item.product_name?.substring(0, 2).toUpperCase() || '??');
         const category = item.category || 'none';
 
         const row = document.createElement('tr');
-        row.dataset.category   = category;
-        row.dataset.price      = item.price;
-        row.dataset.stock      = stock;
+        row.dataset.category    = category;
+        row.dataset.price       = item.price;
+        row.dataset.stock       = stock;
         row.dataset.inventoryId = item.id;
 
         row.innerHTML = `
@@ -82,7 +83,7 @@ function renderInventoryTable() {
             <td><span class="category-badge ${category}">${category}</span></td>
             <td>${formatCurrency(item.price || 0)}</td>
             <td>${stock}</td>
-            <td><span class="status-badge ${status.class}">${status.text}</span></td>
+            <td><span class="status-badge ${status.cls}">${status.text}</span></td>
             <td>
                 <div class="action-cell">
                     <details class="action-dropdown">
@@ -183,7 +184,7 @@ window.openViewDetails = function (itemId) {
     fetch(`${_M_URL}/rest/v1/inventory?id=eq.${itemId}&select=*`, { headers: _M_H })
         .then(res => res.json())
         .then(data => {
-            if (data[0]) product.stock = parseInt(data[0].stock ?? 0);
+            if (data[0]) product.stock = parseInt(data[0].stock ?? data[0].stock_quantity ?? 0);
             if (typeof populateViewDetailsModal === 'function') {
                 populateViewDetailsModal(product);
                 const modal = document.getElementById('viewDetailsModal');
