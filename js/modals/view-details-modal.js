@@ -65,8 +65,6 @@ function populateStockHistory(product) {
     const historyBody = document.getElementById('stockHistoryBody');
     if (!historyBody) return;
     historyBody.innerHTML = `<tr class="empty-state"><td colspan="4">No stock history available</td></tr>`;
-    // Stock history requires a separate log table — skipped for now
-    // Wire this up later when you create a stock_logs table in Supabase
 }
 
 function formatCurrency(num) {
